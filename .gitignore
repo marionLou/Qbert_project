@@ -1,0 +1,38 @@
+# Compiled source #
+*.o
+*.d
+*.com
+*.class
+*.ddl
+*.exe
+*.bak
+
+# Packages #
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Log and databases #
+*.cdb
+*.hdb
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ethumbs.db
+Thumbs.db
+
+# User adds #
+*.pdf
+*.mp4

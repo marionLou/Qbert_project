@@ -1,0 +1,24 @@
+~inc:header.inc~
+<div id="content">
+
+<h1>Dynamic Variables</h1>
+<p>One of the most basic needs is to provide status information back to the user of 
+your web application.  The HTTP server provides for this using <i>dynamic 
+variable substitution callbacks</i>.  These commands in your HTML code will
+alert the server to execute a callback function at that point.</p>
+<p>To insert a dynamic variable, place the name of the variable inside of the tilde
+(<code>~~</code>) character, like this: <code>~~myVariable~~</code>.  When that 
+sequence is found, the server will call the function <code>HTTPPrint_myVariable()</code>.</p>
+
+<p>Here's the list of the records achieved so far:</p>
+
+<div class="examplebox code"> 5: ~Record(5)~ </div>
+<div class="examplebox code"> 4: ~Record(4)~ </div>
+<div class="examplebox code"> 3: ~Record(3)~ </div>
+<div class="examplebox code"> 2: ~Record(2)~ </div>
+<div class="examplebox code"> 1: ~Record(1)~ </div>
+
+</div>
+
+
+~inc:footer.inc~

@@ -36,3 +36,5 @@ Thumbs.db
 # User adds #
 *.pdf
 *.mp4
+.\pic32\MyConfig\MyConfig_WIFI\WF_Config.h
+pic32/MyConfig/MyConfig_WIFI/WF_Config.h

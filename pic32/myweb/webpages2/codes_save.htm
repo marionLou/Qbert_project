@@ -1,0 +1,67 @@
+~inc:header.inc~
+<div id="content">
+
+<h1>Cheating codes</h1>
+
+<p> <b> Be aware! </b><br>
+The ones who have no perseverance and use cheating codes to get what they want
+will never get the satisfaction to earn their win!</p>
+
+<p>Still, if you want to proceed, you must solve these riddles to find the user name and password:</p>
+
+<div class="examplebox">
+	<b>User Name:</b><br>
+	I am not alive, but I grow.<br>
+	I don't have lungs, but I need air.<br>
+	I don't have a mouth, but water kills me.<br>
+	What am I?
+</div>
+
+<div class="examplebox">
+	<b>Password:</b><br>
+	We hurt without moving. We poison without touching.<br>
+	We bear the truth and th lies.<br>
+	We are not to be judged by our size.<br>
+	What are we?
+</div>
+
+<div class="examplebox">
+<input id="LV1" type="radio" name="LV" value="UpTo1" onclick="choose_code(1)" checked>
+Up to stage 1
+<input id="LV2" type="radio" name="LV" value="UpTo2" onclick="choose_code(2)">
+Up to stage 2
+<input id="LV3" type="radio" name="LV" value="UpTo3" onclick="choose_code(3)">
+Up to stage 3<br>
+<a href="/protect">Level chosen</a>
+</div>
+
+ <button onclick="myFunction()">Click me</button> 
+
+</div>
+
+<script type="text/javascript">
+
+var dis_1 = document.getElementById('LV1');
+var dis_2 = document.getElementById('LV2');
+var dis_3 = document.getElementById('LV3');
+
+function choose_code(int upTo) {
+	if (upTo==1) 
+	
+	if (parseInt(~stg(2)~, 10)) dis_2.disabled = false;
+	else dis_2.disabled = true;
+	
+	if (parseInt(~stg(3)~, 10)) dis_3.disabled = false;
+	else dis_3.disabled = true;
+
+}
+
+window.onload = setButtons;
+</script>
+
+<script type="text/javascript">
+<!--
+document.getElementById('hello').innerHTML = "~hellomsg~";
+-->
+</script>
+~inc:footer.inc~

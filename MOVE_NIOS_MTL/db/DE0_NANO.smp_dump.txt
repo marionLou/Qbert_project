@@ -1,0 +1,35 @@
+
+State Machine - |DE0_NANO|nios_mtl:u0|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|qbert_layer:Beta|qbert_state
+Name qbert_state.KO qbert_state.IDLE qbert_state.JUMP qbert_state.START 
+qbert_state.START 0 0 0 0 
+qbert_state.JUMP 0 0 1 1 
+qbert_state.IDLE 0 1 0 1 
+qbert_state.KO 1 0 0 1 
+
+State Machine - |DE0_NANO|nios_mtl:u0|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|qbert_layer:Beta|game_state
+Name game_state.RESUME game_state.RESTART game_state.PAUSE 
+game_state.RESUME 0 0 0 
+game_state.PAUSE 1 0 1 
+game_state.RESTART 1 1 0 
+
+State Machine - |DE0_NANO|nios_mtl:u0|nios_mtl_cpu:cpu|nios_mtl_cpu_cpu:cpu|nios_mtl_cpu_cpu_nios2_oci:the_nios_mtl_cpu_cpu_nios2_oci|nios_mtl_cpu_cpu_debug_slave_wrapper:the_nios_mtl_cpu_cpu_debug_slave_wrapper|nios_mtl_cpu_cpu_debug_slave_tck:the_nios_mtl_cpu_cpu_debug_slave_tck|DRsize
+Name DRsize.101 DRsize.100 DRsize.011 DRsize.010 DRsize.001 DRsize.000 
+DRsize.000 0 0 0 0 0 0 
+DRsize.001 0 0 0 0 1 1 
+DRsize.010 0 0 0 1 0 1 
+DRsize.011 0 0 1 0 0 1 
+DRsize.100 0 1 0 0 0 1 
+DRsize.101 1 0 0 0 0 1 
+
+State Machine - |DE0_NANO|LT_SPI:Surf|SPI_state
+Name SPI_state.S_End SPI_state.S_Data_11 SPI_state.S_Data_01 SPI_state.S_Data_00 SPI_state.S_Data SPI_state.S_Addr_11 SPI_state.S_Addr_01 SPI_state.S_Addr_00 SPI_state.S_Addr SPI_state.S_Wait 
+SPI_state.S_Wait 0 0 0 0 0 0 0 0 0 0 
+SPI_state.S_Addr 0 0 0 0 0 0 0 0 1 1 
+SPI_state.S_Addr_00 0 0 0 0 0 0 0 1 0 1 
+SPI_state.S_Addr_01 0 0 0 0 0 0 1 0 0 1 
+SPI_state.S_Addr_11 0 0 0 0 0 1 0 0 0 1 
+SPI_state.S_Data 0 0 0 0 1 0 0 0 0 1 
+SPI_state.S_Data_00 0 0 0 1 0 0 0 0 0 1 
+SPI_state.S_Data_01 0 0 1 0 0 0 0 0 0 1 
+SPI_state.S_Data_11 0 1 0 0 0 0 0 0 0 1 
+SPI_state.S_End 1 0 0 0 0 0 0 0 0 1 

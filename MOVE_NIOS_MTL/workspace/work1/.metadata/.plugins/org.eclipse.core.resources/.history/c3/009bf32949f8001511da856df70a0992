@@ -1,0 +1,45 @@
+/*
+ * test.c
+ *
+ *  Created on: 29 mars 2016
+ *      Author: Stephane
+ */
+
+
+#include <stdio.h>
+#include "io.h"
+#include "system.h"
+
+int main(void)
+{
+
+  int enable = 1;
+  int XLENGTH = 55;
+  int XDIAG_DEMI = 30;
+  int YDIAG_DEMI = 55;
+  int XYDIAG_DEMI = (XDIAG_DEMI << 10) | YDIAG_DEMI;
+  int RANK1_X_OFFSET = 250;
+  int RANK1_Y_OFFSET = 160;
+  int RANK1_XY_OFFSET = (RANK1_X_OFFSET << 10) | RANK1_Y_OFFSET;
+  int QBERT_POSITION_X0 = 250;
+  int QBERT_POSITION_Y0 = 160;
+  int QBERT_POSITION_XY0 = (QBERT_POSITION_X0 << 10) | QBERT_POSITION_Y0;
+  int qbert_passage = 0x1;
+  int qbert_jump = 0;
+
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,0, enable);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,4, XLENGTH);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,8, XYDIAG_DEMI);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,12, RANK1_XY_OFFSET);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,20, QBERT_POSITION_XY0);
+//  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,24, QBERT_POSITION_XY1);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,28, qbert_passage);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 32, qbert_jump);
+
+  lecture = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,24);
+  printf("Move my Qbert!\n");
+  printf("cases allumés: '%d' \n",lecture);
+
+  return 0;
+}
+

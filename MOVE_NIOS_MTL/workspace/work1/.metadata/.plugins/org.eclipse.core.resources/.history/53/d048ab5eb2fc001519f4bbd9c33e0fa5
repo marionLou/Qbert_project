@@ -1,0 +1,18 @@
+int r_size = 6;
+int rows[6] = {1, 2, 4, 7, 11, 16};
+
+int deplacement(int move[2], int init)
+{
+   int end;
+   int k, k2;
+   for(k=r_size; k>0; k--) if (init>=rows[k-1]) break;
+
+   if (move[0]) end = init-(k-move[1]); //UP
+   else end = init+(k+move[1]); //DOWN
+
+   for(k2=r_size; k2>0; k2--) if (end>=rows[k2-1]) break;
+
+   printf("move actual: %d, %d	", init, end);
+   if (abs(k-k2)==1) return end;
+   else return init;
+}

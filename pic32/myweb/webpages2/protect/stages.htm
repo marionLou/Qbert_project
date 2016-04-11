@@ -1,0 +1,44 @@
+~inc:header.inc~
+<div id="content">
+
+<h1>Just kidding, there's nothing here!</h1>
+
+	<form method="get" action="stages.htm">
+	<div class="StartStage">
+		<br>Select your stage! </br>
+		<input id="S1" type="submit" name="Stage" value="1 - earth" />
+		<input id="S2" type="submit" name="Stage" value="2 - ice" />
+		<input id="S3" type="submit" name="Stage" value="3 - fire" />
+	</div>
+	</form>
+
+</div>
+
+<script type="text/javascript">
+
+var dis_1 = document.getElementById('S1');
+var dis_2 = document.getElementById('S2');
+var dis_3 = document.getElementById('S3');
+
+function setButtons() {
+	if (parseInt(~stg(1)~, 10)) dis_1.disabled = false;
+	else dis_1.disabled = true;
+	
+	if (parseInt(~stg(2)~, 10)) dis_2.disabled = false;
+	else dis_2.disabled = true;
+	
+	if (parseInt(~stg(3)~, 10)) dis_3.disabled = false;
+	else dis_3.disabled = true;
+
+}
+
+window.onload = setButtons;
+</script>
+
+<script type="text/javascript">
+<!--
+document.getElementById('hello').innerHTML = "~hellomsg~";
+//-->
+</script>
+
+~inc:footer.inc~

@@ -9,13 +9,12 @@
 
 <body>
 <div id="shadow-one"><div id="shadow-two"><div id="shadow-three"><div id="shadow-four">
-<div id="page">
-
-<!--<div style="padding:0 0 5px 5px"><img src="/mchp.gif" alt="Microchip" /></div>-->
-
 <div id="title">
 	<img src='images/QbertLogo.jpg' alt='logo' style="width:328px;height:120px;"/> 
 </div>
+<div id="page">
+
+<!--<div style="padding:0 0 5px 5px"><img src="/mchp.gif" alt="Microchip" /></div>-->
 
 <div id="menu">
 	<a href="/index.htm">Overview</a>

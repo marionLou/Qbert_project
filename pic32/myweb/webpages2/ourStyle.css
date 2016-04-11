@@ -25,10 +25,10 @@ body {
 }
 
 #page {
-	border: 0px solid #333;
+	border: 15px solid #000;
 	background: #fff;
 	border-top: 0;
-	padding: 20px;
+	padding: 5px;
 	font-size: 10pt;
 }
 
@@ -38,10 +38,9 @@ body {
 
 #title {
 	background: #000;
-	padding: 4px;
+	padding: 15px;
 	font-weight: bold;
 	color: #fff;
-	margin-bottom: 5px;
 	height: 150px;
 }
 
@@ -52,17 +51,17 @@ body {
 }
 
 #menu {
-	float: left;
-	width: 100%;
-	padding-right: 10px;
+	display: table;
+	margin: 0 auto;
 }
 
 #menu a {
-	width: 140px;
+	width: 160px;
+	text-align: center;
 	display: inline-block;
 	background: #000;
 	color: white;
-	padding: 8px;
+	padding: 5px;
 	font-weight: bold;
 	border-bottom: 3px solid #fff;
 	text-decoration: none;
@@ -74,14 +73,15 @@ body {
 }
 
 #content {
-	width: 525px;
-	float: right;
-	padding-right: 10px;
+	width: 100%;
+	display: table;
+	margin: 0 auto;
 }
 
 #content a {
 	color: #c00;
 	text-decoration: none;
+	text-align: center;
 }
 
 #content a:hover {

@@ -19,11 +19,9 @@ extern BYTE curHTTPID;
 
 void HTTPPrint(DWORD callbackID);
 void HTTPPrint_hellomsg(void);
-void HTTPPrint_cookiename(void);
 void HTTPPrint_(void);
 void HTTPPrint_builddate(void);
 void HTTPPrint_led(WORD);
-void HTTPPrint_ledSelected(WORD,WORD);
 void HTTPPrint_version(void);
 void HTTPPrint_btn(WORD);
 void HTTPPrint_pot(void);
@@ -52,6 +50,7 @@ void HTTPPrint_smtps_en(void);
 void HTTPPrint_snmp_en(void);
 void HTTPPrint_MyLevel(void);
 void HTTPPrint_Record(WORD);
+void HTTPPrint_stg(WORD);
 
 void HTTPPrint(DWORD callbackID)
 {
@@ -62,9 +61,6 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x00000002:
 			HTTPIncFile((ROM BYTE*)"footer.inc");
-			break;
-        case 0x00000003:
-			HTTPPrint_cookiename();
 			break;
         case 0x00000004:
 			HTTPPrint_();
@@ -92,30 +88,6 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x0000000c:
 			HTTPPrint_led(1);
-			break;
-        case 0x0000000e:
-			HTTPPrint_ledSelected(4,TRUE);
-			break;
-        case 0x0000000f:
-			HTTPPrint_ledSelected(4,FALSE);
-			break;
-        case 0x00000010:
-			HTTPPrint_ledSelected(3,TRUE);
-			break;
-        case 0x00000011:
-			HTTPPrint_ledSelected(3,FALSE);
-			break;
-        case 0x00000012:
-			HTTPPrint_ledSelected(2,TRUE);
-			break;
-        case 0x00000013:
-			HTTPPrint_ledSelected(2,FALSE);
-			break;
-        case 0x00000014:
-			HTTPPrint_ledSelected(1,TRUE);
-			break;
-        case 0x00000015:
-			HTTPPrint_ledSelected(1,FALSE);
 			break;
         case 0x00000016:
 			HTTPPrint_version();
@@ -245,6 +217,15 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x00000061:
 			HTTPPrint_Record(1);
+			break;
+        case 0x00000065:
+			HTTPPrint_stg(1);
+			break;
+        case 0x00000066:
+			HTTPPrint_stg(2);
+			break;
+        case 0x00000067:
+			HTTPPrint_stg(3);
 			break;
 		default:
 			// Output notification for undefined values

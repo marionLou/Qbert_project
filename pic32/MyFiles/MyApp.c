@@ -93,8 +93,8 @@ int main(void)
     MyWIFI_Start();
     //MyCamera_Start();
     
-    MyMDDFS_loadStartShow();
-    MyMDDFS_Init();
+    //MyMDDFS_loadStartShow();
+    //MyMDDFS_Init();
 
     // Execute forever
     while (1)

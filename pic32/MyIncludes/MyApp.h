@@ -121,7 +121,12 @@ MyAPP_EXT  int      MyMail_Flag MyAPP_INIT;
 MyAPP_EXT  int      MyCyclone_LED;
 MyAPP_EXT  int      MyCyclone_Switch;
 
-MyAPP_EXT  char *   MyDif_Level MyAPP_INIT;
+MyAPP_EXT  int      MyDif_Level MyAPP_INIT;
+
+MyAPP_EXT  int      Stg1 MyAPP_INIT;
+MyAPP_EXT  int      Stg2 MyAPP_INIT;
+MyAPP_EXT  int      Stg3 MyAPP_INIT;
+
 
 
 /*******************************************************************************

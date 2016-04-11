@@ -92,13 +92,11 @@ static BOOL lastFailure = FALSE;
 BYTE HTTPNeedsAuth(BYTE* cFile)
 {
 	// If the filename begins with the folder "protect", then require auth
-	if(memcmppgm2ram(cFile, (ROM void*)"protect", 7) == 0)
+	if(memcmppgm2ram(cFile, (ROM void*)"protect", 7) == 0 ||
+        memcmppgm2ram(cFile, (ROM void*)"snmp", 4) == 0 ||
+        memcmppgm2ram(cFile, (ROM void*)"stages", 6) == 0)
 		return 0x00;		// Authentication will be needed later
-
-	// If the filename begins with the folder "snmp", then require auth
-	if(memcmppgm2ram(cFile, (ROM void*)"snmp", 4) == 0)
-		return 0x00;		// Authentication will be needed later
-
+    
 	#if defined(HTTP_MPFS_UPLOAD_REQUIRES_AUTH)
 	if(memcmppgm2ram(cFile, (ROM void*)"mpfsupload", 10) == 0)
 		return 0x00;
@@ -123,9 +121,26 @@ BYTE HTTPNeedsAuth(BYTE* cFile)
 #if defined(HTTP_USE_AUTHENTICATION)
 BYTE HTTPCheckAuth(BYTE* cUser, BYTE* cPass)
 {
-	if(strcmppgm2ram((char *)cUser,(ROM char *)"fire") == 0
-		&& strcmppgm2ram((char *)cPass, (ROM char *)"words") == 0)
+	if(strcmppgm2ram((char *)cUser,(ROM char *)"LV1") == 0
+		&& strcmppgm2ram((char *)cPass, (ROM char *)"earth") == 0)
+    {
+        Stg1 = 1; Stg2 = 0; Stg3 = 0;
 		return 0x80;		// We accept this combination
+    }
+    
+    else if(strcmppgm2ram((char *)cUser,(ROM char *)"LV2") == 0
+		&& strcmppgm2ram((char *)cPass, (ROM char *)"ice") == 0)
+    {
+        Stg1 = 1; Stg2 = 1; Stg3 = 0;
+		return 0x80;		// We accept this combination
+    }
+    
+    else if(strcmppgm2ram((char *)cUser,(ROM char *)"LV3") == 0
+		&& strcmppgm2ram((char *)cPass, (ROM char *)"fire") == 0)
+    {
+        Stg1 = 1; Stg2 = 1; Stg3 = 1;
+		return 0x80;		// We accept this combination
+    }
 	
 	// You can add additional user/pass combos here.
 	// If you return specific "realm" values above, you can base this 
@@ -175,24 +190,17 @@ HTTP_IO_RESULT HTTPExecuteGet(void)
 	}
     
 	// If its the forms.htm page
-	else if(!memcmppgm2ram(filename, "forms.htm", 9))
+	else if(!memcmppgm2ram(filename, "stages.htm", 10))
 	{
 		// Seek out each of the four LED strings, and if it exists set the LED states
-		ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *)"led4");
+		ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *)"Stage");
 		if(ptr)
-			LED4_IO = (*ptr == '1');
-
-		ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *)"led3");
-		if(ptr)
-			LED3_IO = (*ptr == '1');
-
-		ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *)"led2");
-		if(ptr)
-			LED2_IO = (*ptr == '1');
-
-		ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *)"led1");
-		if(ptr)
-			LED1_IO = (*ptr == '1');
+        {
+            if (*ptr == "1+-+earth") MyConsole_SendMsg("First stage\n");
+            else if (*ptr == "2+-+ice") MyConsole_SendMsg("Second stage\n");
+            else if (*ptr == "3+-+fire") MyConsole_SendMsg("Third stage\n");
+            else MyConsole_SendMsg("Special carachters do not work\n>");
+        }
 	}
 	
 	// If it's the LED updater file
@@ -1944,4 +1952,23 @@ void HTTPPrint_Record(WORD num)
 	// Print the output
 	TCPPutString(sktHTTP, recDef);
 	return;
+}
+
+
+void HTTPPrint_stg(WORD num)
+{    
+    BYTE stgDis[44];
+    switch(num)
+    {
+        case 1:
+            sprintf(stgDis, "%d", Stg1);
+            break;
+        case 2:
+            sprintf(stgDis, "%d", Stg2);
+            break;
+        case 3:
+            sprintf(stgDis, "%d", Stg3);
+            break;
+    }
+    TCPPutString(sktHTTP,stgDis);
 }

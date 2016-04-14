@@ -1,0 +1,148 @@
+# Reading C:/altera/15.0/modelsim_ase/tcl/vsim/pref.tcl
+# do DE0_NANO_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim PE vmap 10.3d Lib Mapping Utility 2014.10 Oct  7 2014
+# vmap -modelsim_quiet work rtl_work 
+# Copying C:/altera/15.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:/altera/15.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_WR_FIFO.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:02:58 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_WR_FIFO.v 
+# -- Compiling module Sdram_WR_FIFO
+# 
+# Top level modules:
+# 	Sdram_WR_FIFO
+# End time: 12:02:58 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_RD_FIFO.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:02:58 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_RD_FIFO.v 
+# -- Compiling module Sdram_RD_FIFO
+# 
+# Top level modules:
+# 	Sdram_RD_FIFO
+# End time: 12:02:58 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/MTL_PLL.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:02:58 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/MTL_PLL.v 
+# -- Compiling module MTL_PLL
+# 
+# Top level modules:
+# 	MTL_PLL
+# End time: 12:02:59 on Mar 15,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/RAM_PLL.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:02:59 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/RAM_PLL.v 
+# -- Compiling module RAM_PLL
+# 
+# Top level modules:
+# 	RAM_PLL
+# End time: 12:02:59 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/mtl_pll_altpll.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:02:59 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/mtl_pll_altpll.v 
+# -- Compiling module MTL_PLL_altpll
+# 
+# Top level modules:
+# 	MTL_PLL_altpll
+# End time: 12:02:59 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/ram_pll_altpll.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:02:59 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/ram_pll_altpll.v 
+# -- Compiling module RAM_PLL_altpll
+# 
+# Top level modules:
+# 	RAM_PLL_altpll
+# End time: 12:03:00 on Mar 15,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_control.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:03:00 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_control.v 
+# -- Compiling module sdram_control
+# ** Warning: C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_control.v(322): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+# 
+# 
+# Top level modules:
+# 	sdram_control
+# End time: 12:03:00 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdr_data_path.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:03:00 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdr_data_path.v 
+# -- Compiling module sdr_data_path
+# 
+# Top level modules:
+# 	sdr_data_path
+# End time: 12:03:00 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/control_interface.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:03:01 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/control_interface.v 
+# -- Compiling module control_interface
+# 
+# Top level modules:
+# 	control_interface
+# End time: 12:03:01 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/command.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:03:01 on Mar 15,2016
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/command.v 
+# -- Compiling module command
+# 
+# Top level modules:
+# 	command
+# End time: 12:03:01 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/LT_SPI.sv}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:03:01 on Mar 15,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/LT_SPI.sv 
+# -- Compiling module LT_SPI
+# 
+# Top level modules:
+# 	LT_SPI
+# End time: 12:03:02 on Mar 15,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 12:03:02 on Mar 15,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL" C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv 
+# -- Compiling module DE0_NANO
+# ** Error: C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv(364): (vlog-2730) Undefined variable: 'pulse_e'.
+# 
+# ** Error: C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv(369): (vlog-2730) Undefined variable: 'pulse_w'.
+# 
+# ** Error: C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv(391): (vlog-2730) Undefined variable: 'endFrame'.
+# 
+# ** Error: C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv(399): (vlog-2730) Undefined variable: 'newFrame'.
+# 
+# -- Compiling module touch_buffer
+# -- Compiling module reset_delay
+# End time: 12:03:02 on Mar 15,2016, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+# ** Error: C:/altera/15.0/modelsim_ase/win32aloem/vlog failed.
+# Error in macro ./DE0_NANO_run_msim_rtl_verilog.do line 19
+# C:/altera/15.0/modelsim_ase/win32aloem/vlog failed.
+#     while executing
+# "vlog -sv -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL {C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv}"

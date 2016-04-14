@@ -1,0 +1,303 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/simulation/modelsim
+vcommand
+Z1 !s110 1458039781
+!i10b 1
+!s100 NgnC[j0<4O1;;M_=eZ6`J2
+ICiGX9Ea[1K?0FA`E`^i9m0
+Z2 V`JN@9S9cnhjKRR_L]QIcM3
+R0
+Z3 w1457635730
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/command.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/command.v
+Z4 FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_Params.h
+L0 47
+Z5 OV;L;10.3d;59
+r1
+!s85 0
+31
+!s108 1458039781.441000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_Params.h|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/command.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/command.v|
+!i113 1
+Z6 o-vlog01compat -work work
+Z7 !s92 -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control
+vcontrol_interface
+R1
+!i10b 1
+!s100 d63gz=^gD21Bkb4kQ7T:k2
+ILjfPdRESahDDYMLn]:6`60
+R2
+R0
+R3
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/control_interface.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/control_interface.v
+R4
+Z8 L0 43
+R5
+r1
+!s85 0
+31
+!s108 1458039781.071000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_Params.h|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/control_interface.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/control_interface.v|
+!i113 1
+R6
+R7
+vLT_SPI
+Z9 DXx6 sv_std 3 std 0 22 <EOTafDcUY:cQeO^ICn]m3
+Z10 !s110 1458039782
+!i10b 1
+!s100 z63STTmlXUoaOjN7n5K`a1
+IEUbmLBB4Pa`9nDo87]IJZ2
+R2
+!s105 LT_SPI_sv_unit
+S1
+R0
+w1457635718
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/LT_SPI.sv
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/LT_SPI.sv
+L0 6
+R5
+r1
+!s85 0
+31
+!s108 1458039781.780000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/LT_SPI.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/LT_SPI.sv|
+!i113 1
+Z11 o-sv -work work
+Z12 !s92 -sv -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL
+n@l@t_@s@p@i
+vMTL_PLL
+Z13 !s110 1458039779
+!i10b 1
+!s100 1eF6n]2;6hXVnANA[CeA60
+I7H:gFHLbTTbW812k05Q_T2
+R2
+R0
+Z14 w1457635726
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/MTL_PLL.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/MTL_PLL.v
+Z15 L0 39
+R5
+r1
+!s85 0
+31
+!s108 1458039779.036000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/MTL_PLL.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/MTL_PLL.v|
+!i113 1
+R6
+Z16 !s92 -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL
+n@m@t@l_@p@l@l
+vMTL_PLL_altpll
+R13
+!i10b 1
+!s100 1df_CaSnbQ=IK:O]D0XUk1
+I_kcz<d9R4`5Z7Gj`^l2L40
+R2
+R0
+Z17 w1457635729
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/mtl_pll_altpll.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/mtl_pll_altpll.v
+Z18 L0 30
+R5
+r1
+!s85 0
+31
+!s108 1458039779.685000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/mtl_pll_altpll.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/mtl_pll_altpll.v|
+!i113 1
+R6
+Z19 !s92 -vlog01compat -work work +incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db
+n@m@t@l_@p@l@l_altpll
+vRAM_PLL
+R13
+!i10b 1
+!s100 8PfD?5THg=m0`lLe1PMQg1
+I9iTf6YoF3?Xg0eLK:HY=D3
+R2
+R0
+R14
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/RAM_PLL.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/RAM_PLL.v
+R15
+R5
+r1
+!s85 0
+31
+!s108 1458039779.366000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/RAM_PLL.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/RAM_PLL.v|
+!i113 1
+R6
+R16
+n@r@a@m_@p@l@l
+vRAM_PLL_altpll
+Z20 !s110 1458039780
+!i10b 1
+!s100 PK<YfH4eUbl=Mc_:f6>]I1
+I9fZdf8bXVB_0E?C]SFBVM2
+R2
+R0
+R17
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/ram_pll_altpll.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/ram_pll_altpll.v
+R18
+R5
+r1
+!s85 0
+31
+!s108 1458039780.055000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/ram_pll_altpll.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/db/ram_pll_altpll.v|
+!i113 1
+R6
+R19
+n@r@a@m_@p@l@l_altpll
+vreset_delay
+R9
+R10
+!i10b 1
+!s100 H4g2jJ4HgL_8kkW_C0K^Z3
+I0QN?Sf8WZl8cQ7I`Gh@cD1
+R2
+Z21 !s105 DE0_NANO_sv_unit
+S1
+R0
+Z22 w1458039782
+Z23 8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv
+Z24 FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv
+L0 585
+R5
+r1
+!s85 0
+31
+Z25 !s108 1458039782.355000
+Z26 !s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv|
+Z27 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/DE0_NANO.sv|
+!i113 1
+R11
+R12
+vsdr_data_path
+R20
+!i10b 1
+!s100 8]c<526MCOe]>MaRXJD2h0
+I702cSSzdCPJD3HHoo56Cc1
+R2
+R0
+R3
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdr_data_path.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdr_data_path.v
+R4
+R8
+R5
+r1
+!s85 0
+31
+!s108 1458039780.746000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_Params.h|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdr_data_path.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdr_data_path.v|
+!i113 1
+R6
+R7
+vsdram_control
+R20
+!i10b 1
+!s100 V4LkURGBH?l>A88UkKiRj3
+ID]:8Q9GgU]>VkE]f:Dc6Q1
+R2
+R0
+R3
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_control.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_control.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_params.h
+L0 50
+R5
+r1
+!s85 0
+31
+!s108 1458039780.408000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_params.h|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_control.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/sdram_control.v|
+!i113 1
+R6
+R7
+vSdram_RD_FIFO
+Z28 !s110 1458039778
+!i10b 1
+!s100 C`z[R:K2VlTbcVRGE]c3M3
+I[ULi8@9>;h?`>LI=<5P4;3
+R2
+R0
+R3
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_RD_FIFO.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_RD_FIFO.v
+R15
+R5
+r1
+!s85 0
+31
+!s108 1458039778.730000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_RD_FIFO.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_RD_FIFO.v|
+!i113 1
+R6
+R7
+n@sdram_@r@d_@f@i@f@o
+vSdram_WR_FIFO
+R28
+!i10b 1
+!s100 I4RYlm9BT;6LeKOQk7D1^2
+I6?5XROAzT65]gV3knl6XG0
+R2
+R0
+R3
+8C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_WR_FIFO.v
+FC:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_WR_FIFO.v
+R15
+R5
+r1
+!s85 0
+31
+!s108 1458039778.333000
+!s107 C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_WR_FIFO.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control|C:/Users/Stephane/Documents/GitHub/M1_PELEC/Test_MTL/sdram_control/Sdram_WR_FIFO.v|
+!i113 1
+R6
+R7
+n@sdram_@w@r_@f@i@f@o
+vtouch_buffer
+R9
+R10
+!i10b 1
+!s100 2?OOD_oB9<Yd10mZHYO2R1
+IR]DW?5EIHA9XcZ85TcO7R1
+R2
+R21
+S1
+R0
+R22
+R23
+R24
+L0 547
+R5
+r1
+!s85 0
+31
+R25
+R26
+R27
+!i113 1
+R11
+R12

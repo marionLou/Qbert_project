@@ -1,0 +1,150 @@
+/*
+ * test.c
+ *
+ *  Created on: 29 mars 2016
+ *      Author: Stephane
+ */
+/*
+ *
+
+ */
+
+#include <stdio.h>
+#include "io.h"
+#include "system.h"
+
+int main(void)
+{
+
+  int enable = 1;
+  int XLENGTH = 22;
+  int XDIAG_DEMI = 15;
+  int YDIAG_DEMI = 22;
+  int XYDIAG_DEMI = (XDIAG_DEMI << 10) | YDIAG_DEMI;
+  int RANK1_X_OFFSET = 250;
+  int RANK1_Y_OFFSET = 190;
+  int RANK1_XY_OFFSET = (RANK1_X_OFFSET << 10) | RANK1_Y_OFFSET;
+  int QBERT_POSITION_X0 = 250;
+  int QBERT_POSITION_Y0 = 190;
+  int QBERT_POSITION_XY0 = (QBERT_POSITION_X0 << 10) | QBERT_POSITION_Y0;
+  int sc_x = RANK1_X_OFFSET ;
+  int sc_y = RANK1_Y_OFFSET - 2*YDIAG_DEMI;
+  int sc_xy = (sc_x << 10) | sc_y;
+  int qbert_passage = 0xFFF;
+  int qbert_jump = 1;
+  int next_qbert = 1 << 1;
+  int bad_j = 1;
+
+  int done = 1;
+  int pause = 0;
+  int resume = 0;
+  int restart = 1;
+  int speed = 300000; // 1 : 100000
+  int test_cnt;
+  int tilt_acc = 0;
+  test_cnt = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 80);
+  printf("start_speed: %d \n", test_cnt);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 76, speed);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 40, restart);
+  //usleep(100000);
+  //IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 40, !restart);
+
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,0, enable);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,8, XLENGTH);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,12, XYDIAG_DEMI);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,16, RANK1_XY_OFFSET);
+
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,24, QBERT_POSITION_XY0);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 28, qbert_jump);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,20, qbert_passage);
+
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 32, next_qbert);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 44, resume);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 48, pause);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 52, bad_j);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 56, done);
+
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 84, sc_xy);
+  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 100, tilt_acc);
+ //int count;
+ int soucoup;
+ int qbert;
+ int done_sc;
+ int saucer_qb;
+/*  while(1){
+	 saucer_qb = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 104);
+ 	 soucoup = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 108);
+ 	 qbert = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 68);
+ 	 done_sc = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 92);
+ 	 printf("ou est la soucoupe: %d \n", soucoup);
+ 	 printf("saucer_qb: %d \n", saucer_qb);
+ 	 printf("qbert: %d \n", qbert);
+ 	 printf("done soucoupe: %d \n", done_sc);
+ 	  usleep(10000);
+  }*/
+ /*
+   * Code pour gérer le coloriage des cases
+   */
+  int cmd;
+  int dir, etc;
+  int next;
+  int move[2];
+  int result;
+  int elems, painted, pos;
+  elems = 1; painted = 0;
+  pos = 1;
+
+/*
+ // while(1){
+	  dir = 0x2;
+	  pos = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 36);
+	  //cmd = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,28);
+	  //dir = cmd-32;
+//	  if (dir>0 && dir<5) {
+		  move[0] = (dir > 2); // dir=3,4: UP
+		  move[1] = ((dir % 2)==0); // dir=2,4: LEFT
+		  result = mvmt(move, pos);
+		  //printf("//	Result of %dth test: %d\n", i, result);
+		  painted = 1<<(result-1);
+		  elems = elems | painted;
+		  //printf("This turn: %d;	Elems so far: %d\n", painted, elems);
+//		  painted = 0; pos = result;
+		  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 32, painted); // next position qbert
+		  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 28, dir);
+		  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,20, elems); // case à colorier
+		//  while (!IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE,40)) usleep(10); // ADD address for done
+//		}
+ // }
+
+*/
+
+  printf("Move my Qbert!\n");
+
+
+  return 0;
+}
+
+int r_size = 6;
+int rows[6] = {1, 2, 4, 7, 11, 16};
+
+int mvmt(int move[2], int init)
+{
+
+   int n = 1;
+   while(init != (1 << (n-1))){
+	   n++;
+   }
+   int end;
+   int k, k2;
+   for(k=r_size; k>0; k--) if (n>=rows[k-1]) break;
+
+   if (move[0]) end = n-(k-move[1]); //UP
+   else end = n+(k+move[1]); //DOWN
+
+   for(k2=r_size; k2>0; k2--) if (end>=rows[k2-1]) break;
+
+   printf("move actual: %d, %d	", n, end);
+   if (abs(k-k2)==1) return end;
+   else return init;
+}
+

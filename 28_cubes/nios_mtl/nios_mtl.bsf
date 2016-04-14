@@ -1,0 +1,200 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus II License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 640 496)
+	(text "nios_mtl" (rect 296 -1 329 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 480 20 492)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "button_external_connection_export" (rect 0 0 138 12)(font "Arial" (font_size 8)))
+		(text "button_external_connection_export" (rect 4 61 202 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 272 72)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "clk_clk" (rect 0 0 27 12)(font "Arial" (font_size 8)))
+		(text "clk_clk" (rect 4 101 46 112)(font "Arial" (font_size 8)))
+		(line (pt 0 112)(pt 272 112)(line_width 1))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "nios_mtl_controller_0_mtl_controller_spi[7..0]" (rect 0 0 180 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_spi[7..0]" (rect 4 181 280 192)(font "Arial" (font_size 8)))
+		(line (pt 0 192)(pt 272 192)(line_width 3))
+	)
+	(port
+		(pt 0 208)
+		(input)
+		(text "nios_mtl_controller_0_mtl_controller_clk" (rect 0 0 160 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_clk" (rect 4 197 244 208)(font "Arial" (font_size 8)))
+		(line (pt 0 208)(pt 272 208)(line_width 1))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "nios_mtl_controller_0_mtl_controller_reset_n" (rect 0 0 180 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_reset_n" (rect 4 213 268 224)(font "Arial" (font_size 8)))
+		(line (pt 0 224)(pt 272 224)(line_width 1))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "nios_mtl_controller_0_mtl_controller_loading" (rect 0 0 175 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_loading" (rect 4 229 268 240)(font "Arial" (font_size 8)))
+		(line (pt 0 240)(pt 272 240)(line_width 1))
+	)
+	(port
+		(pt 0 288)
+		(input)
+		(text "nios_mtl_controller_0_mtl_controller_read_data[31..0]" (rect 0 0 213 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_read_data[31..0]" (rect 4 277 322 288)(font "Arial" (font_size 8)))
+		(line (pt 0 288)(pt 272 288)(line_width 3))
+	)
+	(port
+		(pt 0 424)
+		(input)
+		(text "reset_reset_n" (rect 0 0 56 12)(font "Arial" (font_size 8)))
+		(text "reset_reset_n" (rect 4 413 82 424)(font "Arial" (font_size 8)))
+		(line (pt 0 424)(pt 272 424)(line_width 1))
+	)
+	(port
+		(pt 0 464)
+		(input)
+		(text "switch_external_connection_export[3..0]" (rect 0 0 158 12)(font "Arial" (font_size 8)))
+		(text "switch_external_connection_export[3..0]" (rect 4 453 238 464)(font "Arial" (font_size 8)))
+		(line (pt 0 464)(pt 272 464)(line_width 3))
+	)
+	(port
+		(pt 0 152)
+		(output)
+		(text "leds_external_connection_export[7..0]" (rect 0 0 149 12)(font "Arial" (font_size 8)))
+		(text "leds_external_connection_export[7..0]" (rect 4 141 226 152)(font "Arial" (font_size 8)))
+		(line (pt 0 152)(pt 272 152)(line_width 3))
+	)
+	(port
+		(pt 0 256)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_newframe" (rect 0 0 189 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_newframe" (rect 4 245 274 256)(font "Arial" (font_size 8)))
+		(line (pt 0 256)(pt 272 256)(line_width 1))
+	)
+	(port
+		(pt 0 272)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_endframe" (rect 0 0 188 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_endframe" (rect 4 261 274 272)(font "Arial" (font_size 8)))
+		(line (pt 0 272)(pt 272 272)(line_width 1))
+	)
+	(port
+		(pt 0 304)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_read_sdram_en" (rect 0 0 214 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_read_sdram_en" (rect 4 293 304 304)(font "Arial" (font_size 8)))
+		(line (pt 0 304)(pt 272 304)(line_width 1))
+	)
+	(port
+		(pt 0 320)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_hd" (rect 0 0 159 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_hd" (rect 4 309 238 320)(font "Arial" (font_size 8)))
+		(line (pt 0 320)(pt 272 320)(line_width 1))
+	)
+	(port
+		(pt 0 336)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_vd" (rect 0 0 160 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_vd" (rect 4 325 238 336)(font "Arial" (font_size 8)))
+		(line (pt 0 336)(pt 272 336)(line_width 1))
+	)
+	(port
+		(pt 0 352)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_lcd_r[7..0]" (rect 0 0 189 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_lcd_r[7..0]" (rect 4 341 292 352)(font "Arial" (font_size 8)))
+		(line (pt 0 352)(pt 272 352)(line_width 3))
+	)
+	(port
+		(pt 0 368)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_lcd_g[7..0]" (rect 0 0 191 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_lcd_g[7..0]" (rect 4 357 292 368)(font "Arial" (font_size 8)))
+		(line (pt 0 368)(pt 272 368)(line_width 3))
+	)
+	(port
+		(pt 0 384)
+		(output)
+		(text "nios_mtl_controller_0_mtl_controller_lcd_b[7..0]" (rect 0 0 191 12)(font "Arial" (font_size 8)))
+		(text "nios_mtl_controller_0_mtl_controller_lcd_b[7..0]" (rect 4 373 292 384)(font "Arial" (font_size 8)))
+		(line (pt 0 384)(pt 272 384)(line_width 3))
+	)
+	(drawing
+		(text "button_external_connection" (rect 114 43 384 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 277 67 590 144)(font "Arial" (color 0 0 0)))
+		(text "clk" (rect 257 83 532 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 277 107 572 224)(font "Arial" (color 0 0 0)))
+		(text "leds_external_connection" (rect 126 123 396 259)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 277 147 590 304)(font "Arial" (color 0 0 0)))
+		(text "nios_mtl_controller_0_mtl_controller" (rect 58 163 332 339)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "spi" (rect 277 187 572 384)(font "Arial" (color 0 0 0)))
+		(text "clk" (rect 277 203 572 416)(font "Arial" (color 0 0 0)))
+		(text "reset_n" (rect 277 219 596 448)(font "Arial" (color 0 0 0)))
+		(text "loading" (rect 277 235 596 480)(font "Arial" (color 0 0 0)))
+		(text "newframe" (rect 277 251 602 512)(font "Arial" (color 0 0 0)))
+		(text "endframe" (rect 277 267 602 544)(font "Arial" (color 0 0 0)))
+		(text "read_data" (rect 277 283 608 576)(font "Arial" (color 0 0 0)))
+		(text "read_sdram_en" (rect 277 299 632 608)(font "Arial" (color 0 0 0)))
+		(text "hd" (rect 277 315 566 640)(font "Arial" (color 0 0 0)))
+		(text "vd" (rect 277 331 566 672)(font "Arial" (color 0 0 0)))
+		(text "lcd_r" (rect 277 347 584 704)(font "Arial" (color 0 0 0)))
+		(text "lcd_g" (rect 277 363 584 736)(font "Arial" (color 0 0 0)))
+		(text "lcd_b" (rect 277 379 584 768)(font "Arial" (color 0 0 0)))
+		(text "reset" (rect 243 395 516 803)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset_n" (rect 277 419 596 848)(font "Arial" (color 0 0 0)))
+		(text "switch_external_connection" (rect 113 435 382 883)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "export" (rect 277 459 590 928)(font "Arial" (color 0 0 0)))
+		(text " nios_mtl " (rect 601 480 1262 970)(font "Arial" ))
+		(line (pt 272 32)(pt 368 32)(line_width 1))
+		(line (pt 368 32)(pt 368 480)(line_width 1))
+		(line (pt 272 480)(pt 368 480)(line_width 1))
+		(line (pt 272 32)(pt 272 480)(line_width 1))
+		(line (pt 273 52)(pt 273 76)(line_width 1))
+		(line (pt 274 52)(pt 274 76)(line_width 1))
+		(line (pt 273 92)(pt 273 116)(line_width 1))
+		(line (pt 274 92)(pt 274 116)(line_width 1))
+		(line (pt 273 132)(pt 273 156)(line_width 1))
+		(line (pt 274 132)(pt 274 156)(line_width 1))
+		(line (pt 273 172)(pt 273 388)(line_width 1))
+		(line (pt 274 172)(pt 274 388)(line_width 1))
+		(line (pt 273 404)(pt 273 428)(line_width 1))
+		(line (pt 274 404)(pt 274 428)(line_width 1))
+		(line (pt 273 444)(pt 273 468)(line_width 1))
+		(line (pt 274 444)(pt 274 468)(line_width 1))
+		(line (pt 0 0)(pt 640 0)(line_width 1))
+		(line (pt 640 0)(pt 640 496)(line_width 1))
+		(line (pt 0 496)(pt 640 496)(line_width 1))
+		(line (pt 0 0)(pt 0 496)(line_width 1))
+	)
+)

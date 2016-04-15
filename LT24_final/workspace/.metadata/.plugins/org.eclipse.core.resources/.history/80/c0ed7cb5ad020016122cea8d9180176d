@@ -1,0 +1,347 @@
+
+#include <stdio.h>
+#include "includes.h"
+#include "system.h"
+#include "io.h"
+#include "terasic_lib/accelerometer_adxl345_spi.h"
+#include "terasic_lib/terasic_includes.h"
+#include "terasic_lib/touch_spi.h"
+#include "graphic_lib/alt_video_display.h"
+#include "graphic_lib/ILI9341.h"
+#include "demo/gui.h"
+
+
+/* Definition of Task Stacks */
+#define   TASK_STACKSIZE       4096
+OS_STK    task1_stk[TASK_STACKSIZE];
+OS_STK    task2_stk[TASK_STACKSIZE];
+OS_STK    task3_stk[TASK_STACKSIZE];
+OS_EVENT *S_Mutex;
+OS_EVENT *CommMbox;
+
+
+
+/* Definition of Task Priorities */
+
+#define TASK1_PRIORITY      7
+#define TASK2_PRIORITY      9
+#define TASK3_PRIORITY      1
+
+#define BTN_UR		0
+#define BTN_UL	1
+#define BTN_DL	2
+#define BTN_DR	3
+#define BTN_NONE	4
+
+#define BTN_BREAK		0
+#define BTN_CMD		1
+
+INT8U MU_1, MU_2;
+alt_video_display Display;
+TOUCH_HANDLE *pTouch;
+DESK_INFO DeskInfo;
+int Idle;
+
+
+/* Blinks at 5Hz */
+void task1(void* pdata)
+{
+
+	INT8U MB_err1, SM_err1, SM_val1, post_err1;
+    void  *msg_1;
+    pdata = pdata;
+
+    int X, Y;
+    POINT Pt;
+    RECT rcTouch;
+    int ButtonId;
+    int DirMsg=32;
+
+    GUI_CMD_Init(&Display, &DeskInfo);
+
+    while (1) {
+		//If we receive a message from the mailbox, we keep going
+    	msg_1 = OSMboxPend(CommMbox, 10, &MB_err1);
+    	if (MB_err1==OS_NO_ERR)
+    		{
+				// If we have pressed KEY[1] and this task owns the mutex (MU_1==1),
+				// we release the mutex with "OSMutexPost" and wait 3 seconds
+				// to let some time to Task 2 to take the mutex
+    			if (!(((int *) msg_1)[0]) && MU_1==1)
+    			{
+    				post_err1 = OSMutexPost(S_Mutex);
+    				printf("Task 1, post error: %d\n", post_err1);
+    				MU_1=0;
+    				OSTimeDlyHMSM(0, 0, 3, 0);
+    			}
+    			else
+    			{
+					// We use a boolean to make the mutex "re-entrant",
+					// Once a task has taken the mutex, it sets its boolean MU_ to 1,
+					// so that it can keep working without trying to take the mutex again
+    				if (MU_1==0)
+    				{
+						// The Task that can't take the mutex gets stuck here
+    					//printf("T1 wants mutex\n");
+    					OSMutexPend(S_Mutex, 0, &SM_err1);
+    					printf("Message d'erreur T1: %d\n", SM_err1);
+    					GUI_CMD_Draw(&Display, &DeskInfo);
+    				}
+					// We write our parameters in the PWM
+    				if (SM_err1==OS_NO_ERR) {
+    					MU_1=1;
+    					X = ((int *) msg_1)[1]; Y = ((int *) msg_1)[2];
+    					if (X>-1 && Y>80){
+    						printf("x=%d, y=%d\r\n", X,Y);
+    						PtSet(&Pt, X, Y);
+    						ButtonId = GUI_CheckCMD(&DeskInfo, &Pt);
+    						printf("Actual button: %d\n",ButtonId);
+    						if (ButtonId != BTN_NONE ) {
+    							switch (ButtonId) {
+    								case BTN_DR: DirMsg = DirMsg+1; printf("Down right!"); break;
+    								case BTN_DL: DirMsg = DirMsg+2; printf("Down left!"); break;
+    								case BTN_UR: DirMsg = DirMsg+3; printf("Up right!"); break;
+    								case BTN_UL: DirMsg = DirMsg+4; printf("Up left!"); break;
+    								default: printf("Out of bounds!");
+    							}
+    							IOWR_8DIRECT(LT_AVALON_BASE, 0, DirMsg);
+    							OSTimeDlyHMSM(0, 0, 0, 100);
+    							DirMsg = 32;
+    						}
+    					} // if touch */
+    				}
+    			}
+    		}
+
+    }
+
+}
+
+/* Blinking at 5Hz */
+void task2(void* pdata)
+{
+    INT8U MB_err2, SM_err2, SM_val2, post_err2;
+    pdata = pdata;
+    void  *msg_2;
+
+	// definition of some parameters
+	int oldX_val = 0;
+	int Actual;
+//	int change = 0;
+	//int steps[5] = {-150, -75, -25, 50, 125};
+
+	printf("Welcome to INGI2315 !\n");
+
+	// comes from the demo of accelerometer
+	bool bSuccess;
+	alt_16 szXYZ[3];
+	alt_u8 id;
+	const int mg_per_digi = 4;
+
+    // configure accelerometer as +-2g and start measure
+    bSuccess = ADXL345_SPI_Init(GSENSOR_SPI_BASE);
+
+    if (bSuccess){
+        // dump chip id
+        bSuccess = ADXL345_SPI_IdRead(GSENSOR_SPI_BASE, &id);
+        if (bSuccess) printf("id from accelerometer=%02Xh\r\n", id);
+    }
+
+    if (!bSuccess) printf("Failed to access accelerometer\r\n");
+
+    while(1) {
+		//If we receive a message from the mailbox, we keep going
+		msg_2 = OSMboxPend(CommMbox, 10, &MB_err2);
+		if (MB_err2==OS_NO_ERR)
+		{
+			// If we have pressed KEY[1] and this task owns the mutex (MU_2==1),
+			// we release the mutex with "OSMutexPost" and wait 3 seconds
+			// to let some time to Task 1 to take the mutex
+			if (!(((int *) msg_2)[0]) && MU_2==1)
+			{
+				post_err2 = OSMutexPost(S_Mutex);
+				printf("Task 2, post error: %d\n", post_err2);
+				OSTimeDlyHMSM(0, 0, 3, 0);
+				MU_2=0;
+			}
+			else
+			{
+				// We use a boolean to make the mutex "re-entrant",
+				// Once a task has taken the mutex, it sets its boolean MU_ to 1,
+				// so that it can keep working without trying to take the mutex again
+				if (MU_2==0)
+				{
+					// The Task that can't take the mutex gets stuck here
+					//printf("T2 wants mutex\n");
+					OSMutexPend(S_Mutex, 0, &SM_err2);
+					printf("Message d'erreur T2: %d\n", SM_err2);
+					GUI_Jump_DrawBG(&Display, &DeskInfo);
+				}
+				//if(MU_2==0) change=1;
+				if (SM_err2==OS_NO_ERR) {
+					MU_2 = 1;
+					if (ADXL345_SPI_IsDataReady(GSENSOR_SPI_BASE)){
+						bSuccess = ADXL345_SPI_XYZ_Read(GSENSOR_SPI_BASE, szXYZ);
+						if (bSuccess){
+							if (szXYZ[0]<-254 || szXYZ[0]>254) szXYZ[0]=oldX_val;
+							else oldX_val = szXYZ[0];
+							if(szXYZ[0] < -128) {Actual = 2; Idle = 0;}
+							else if (szXYZ[0] < 128) Actual = 1;
+							else {Actual = 0;  Idle = 0;}
+							GUI_Jump_DrawStep(&Display, Actual);
+
+							printf("Accel en x: %d; y: %d\n", szXYZ[0], szXYZ[1]);
+							OSTimeDlyHMSM(0, 0, 0, 100);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+void task3(void* pdata)
+{
+	Clr_BUFFER_FLAG();
+
+	// Write 0x3C on LED[6:0] through the dedicated custom IP
+	IOWR(LED_CTRL_BASE, 0x0, 0x3C);
+
+	// TOUCH INITIALIZATION
+	pTouch = Touch_Init(LT24_TOUCH_SPI_BASE,  LT24_TOUCH_PENIRQ_N_BASE, LT24_TOUCH_PENIRQ_N_IRQ);
+	if (!pTouch) printf("Failed to init touch\r\n");
+	else printf("Init touch successfully\r\n");
+
+	// LCD INITIALIZATION
+	LCD_Init();
+
+	Display.interlace = 0;
+	Display.bytes_per_pixel = 2;
+	Display.color_depth = 16;
+	Display.height = SCREEN_HEIGHT;
+	Display.width = SCREEN_WIDTH;
+
+	// clean screen
+	GUI_InitDraw(&Display, &DeskInfo);
+
+    int X, Y;
+    POINT Pt;
+    RECT rcTouch;
+    int ButtonId;
+    int Pause = 0;
+    Idle = 1;
+
+	volatile int * button   = (int*) KEY_BASE;
+
+	INT8U  err;
+	INT8U  p_err;
+	int send_data[3];
+	pdata = pdata;
+
+  while (1)
+  {
+	  while (!Pause)
+	  {
+		  send_data[0] = 1;
+		  while (Idle)
+		  {
+			  OSMboxPost(CommMbox, (void *)&send_data);
+			  OSTimeDlyHMSM(0, 0, 0, 3);
+			  send_data[1] = -1; send_data[2] = -1;
+			  if (Touch_GetXY(pTouch, &X, &Y)){
+				  //printf("x=%d, y=%d\r\n", X,Y);
+				  send_data[1] = X; send_data[2] = Y;
+				  PtSet(&Pt, X, Y);
+				  ButtonId = GUI_CheckGen(&DeskInfo, &Pt);
+				  // printf("Actual button: %d\n",ButtonId);
+				  if (ButtonId == BTN_CMD) {
+					  Idle = 0;
+					  printf("Switch button!\n");
+				  }
+				  else if (ButtonId == BTN_BREAK) {
+					  Pause = 1;
+					  printf("Break, command do not answer anymore\n");
+					  OSTimeDlyHMSM(0, 0, 2, 0);
+					  break;
+				  }
+			  } // if touch */
+		  }
+		  if (!Pause)
+		  {
+			  send_data[0] = 0;
+			  //vid_clean_screen(&Display, 0x00FF00);
+			  OSTimeDlyHMSM(0, 0, 0, 100);
+			  OSMboxPost(CommMbox, (void *)&send_data);
+		  }
+		  else Touch_EmptyFifo(pTouch);
+		  while(!Idle)
+		  {
+			  if (Touch_GetXY(pTouch, &X, &Y)){
+				  printf("x=%d, y=%d\r\n", X,Y);
+				  PtSet(&Pt, X, Y);
+				  ButtonId = GUI_CheckGen(&DeskInfo, &Pt);
+				  printf("Actual button: %d\n",ButtonId);
+				  if (ButtonId != BTN_NONE ) {
+					  //DeskInfo.Direction_Index = ButtonId;
+					  if (ButtonId != BTN_CMD) Idle=1;
+				  }
+				  else Idle=1;
+			  } // if touch */
+			  else Idle=1;
+			  printf("Button pressed\n");
+			  OSTimeDlyHMSM(0, 0, 0, 200);
+		  }
+	  }
+	  while (Pause)
+	  {
+		  OSTimeDlyHMSM(0, 0, 0, 100);
+		  if (Touch_GetXY(pTouch, &X, &Y)){
+			  //printf("x=%d, y=%d\r\n", X,Y);
+			  PtSet(&Pt, X, Y);
+			  ButtonId = GUI_CheckGen(&DeskInfo, &Pt);
+			  // printf("Actual button: %d\n",ButtonId);
+			  if (ButtonId == BTN_BREAK) {
+		  		Pause = 0;
+		  		printf("Back from break\n");
+			  }
+		  } // if touch */
+	  }
+	  OSTimeDlyHMSM(0, 0, 2, 0);
+	  Touch_EmptyFifo(pTouch);
+  }
+}
+
+
+/* The main function creates two task and starts multi-tasking */
+int main(void)
+{
+
+	INT8U err;
+	MU_1 = 0; MU_2 = 0;
+	S_Mutex = OSMutexCreate(3, &err); // create mutex
+	CommMbox = OSMboxCreate((void *)0); // create mailbox
+
+	OSTaskCreateExt(task1, NULL,
+                  (void *)&task1_stk[TASK_STACKSIZE-1],
+                  TASK1_PRIORITY, TASK1_PRIORITY,
+                  task1_stk, TASK_STACKSIZE,
+                  NULL, 0);
+
+
+	OSTaskCreateExt(task2, NULL,
+                  (void *)&task2_stk[TASK_STACKSIZE-1],
+                  TASK2_PRIORITY, TASK2_PRIORITY,
+                  task2_stk, TASK_STACKSIZE,
+                  NULL, 0);
+
+	OSTaskCreateExt(task3, NULL,
+                  (void *)&task3_stk[TASK_STACKSIZE-1],
+                  TASK3_PRIORITY, TASK3_PRIORITY,
+                  task3_stk, TASK_STACKSIZE,
+                  NULL, 0);
+
+  OSStart();
+  return 0;
+}

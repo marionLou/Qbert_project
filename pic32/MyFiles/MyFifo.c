@@ -40,8 +40,10 @@ void fifo_add(fifo_t *f, char *data)
 {
 	fifonode_t *fn = malloc(sizeof (fifonode_t));
     
-    	char * split;
-    	int id = strtol(data, &split, 10);
+        char *split; char *useless;
+        split = strtok(data,"-");
+        split = strtok(NULL,":");
+    	int id = strtol(split, &useless, 10);
     	fn->fn_id = id;
         fn->fn_data = data;
         fn->fn_next = NULL;

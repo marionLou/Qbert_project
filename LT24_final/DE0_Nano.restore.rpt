@@ -1,0 +1,167 @@
+Restore Archived Project report for DE0_Nano
+Tue Jan 19 14:35:42 2016
+Quartus II 64-Bit Version 14.1.0 Build 186 12/03/2014 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Restore Archived Project Summary
+  3. Restore Archived Project Messages
+  4. Files Restored
+  5. Files Not Restored
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2014 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus II License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++-------------------------------------------------------------------------+
+; Restore Archived Project Summary                                        ;
++---------------------------------+---------------------------------------+
+; Restore Archived Project Status ; Successful - Tue Jan 19 14:35:42 2016 ;
+; Revision Name                   ; DE0_Nano                              ;
+; Top-level Entity Name           ; DE0_Nano                              ;
+; Family                          ; Cyclone IV E                          ;
++---------------------------------+---------------------------------------+
+
+
++-----------------------------------+
+; Restore Archived Project Messages ;
++-----------------------------------+
+Info: Successfully restored 'D:/Documents/charges_didactiques/LELEC2103/LT24_DE0/LT24_DE0_Nano.qar' into the 'D:/Documents/charges_didactiques/LELEC2103/LT24_DE0/LT24_DE0_Nano_restored/' directory
+Info: Generated report 'DE0_Nano.restore.rpt'
+Info (23030): Evaluation of Tcl script c:/altera/14.1/quartus/common/tcl/apps/qpm/qar.tcl was successful
+Info: Quartus II 64-Bit Shell was successful. 0 errors, 2 warnings
+    Info: Peak virtual memory: 352 megabytes
+    Info: Processing ended: Tue Jan 19 14:35:42 2016
+    Info: Elapsed time: 00:00:04
+    Info: Total CPU time (on all processors): 00:00:03
+
+
++-------------------------------------------------------------------------------------+
+; Files Restored                                                                      ;
++-------------------------------------------------------------------------------------+
+; File Name                                                                           ;
++-------------------------------------------------------------------------------------+
+; qar_info.json                                                                       ;
+; DE0_LT24_SOPC.qsys                                                                  ;
+; DE0_LT24_SOPC.sopcinfo                                                              ;
+; DE0_LT24_SOPC/DE0_LT24_SOPC.cmp                                                     ;
+; DE0_LT24_SOPC/synthesis/DE0_LT24_SOPC.debuginfo                                     ;
+; DE0_LT24_SOPC/synthesis/DE0_LT24_SOPC.qip                                           ;
+; DE0_LT24_SOPC/synthesis/DE0_LT24_SOPC.regmap                                        ;
+; DE0_LT24_SOPC/synthesis/DE0_LT24_SOPC.v                                             ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_ALT_PLL.v                          ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU.ocp                            ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU.sdc                            ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU.v                              ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_bht_ram.mif                    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_dc_tag_ram.mif                 ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_ic_tag_ram.mif                 ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_jtag_debug_module_sysclk.v     ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_jtag_debug_module_tck.v        ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_jtag_debug_module_wrapper.v    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_mult_cell.v                    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_oci_test_bench.v               ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_ociram_default_contents.mif    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_rf_ram_a.mif                   ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_rf_ram_b.mif                   ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_CPU_test_bench.v                   ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_JTAG_UART.v                        ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_KEY.v                              ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_LT24_LCD_RSTN.v                    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_LT24_TOUCH_BUSY.v                  ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_LT24_TOUCH_PENIRQ_N.v              ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_LT24_TOUCH_SPI.v                   ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_SDRAM.v                            ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_TIMER.v                            ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_background_mem.v                   ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_irq_mapper.sv                      ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0.v                ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_cmd_demux.sv     ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_cmd_demux_001.sv ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_cmd_mux.sv       ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_cmd_mux_003.sv   ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_router.sv        ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_router_001.sv    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_router_002.sv    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_router_005.sv    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_router_007.sv    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_router_013.sv    ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_rsp_demux.sv     ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_rsp_demux_002.sv ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_rsp_demux_003.sv ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_rsp_mux.sv       ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_mm_interconnect_0_rsp_mux_001.sv   ;
+; DE0_LT24_SOPC/synthesis/submodules/DE0_LT24_SOPC_pic_mem.v                          ;
+; DE0_LT24_SOPC/synthesis/submodules/LED_Controller.v                                 ;
+; DE0_LT24_SOPC/synthesis/submodules/LT24_Controller.v                                ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_avalon_sc_fifo.v                          ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_avalon_st_clock_crosser.v                 ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_avalon_st_handshake_clock_crosser.v       ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_avalon_st_pipeline_base.v                 ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_avalon_st_pipeline_stage.sv               ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_default_burst_converter.sv                ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_incr_burst_converter.sv                   ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_irq_clock_crosser.sv                      ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_address_alignment.sv               ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv                      ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_burst_adapter.sv                   ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_burst_adapter_13_1.sv              ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_burst_adapter_new.sv               ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_burst_adapter_uncmpr.sv            ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_burst_uncompressor.sv              ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_master_agent.sv                    ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_master_translator.sv               ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_reorder_memory.sv                  ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_slave_agent.sv                     ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_slave_translator.sv                ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_traffic_limiter.sv                 ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_merlin_width_adapter.sv                   ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_reset_controller.sdc                      ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_reset_controller.v                        ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_reset_synchronizer.v                      ;
+; DE0_LT24_SOPC/synthesis/submodules/altera_wrap_burst_converter.sv                   ;
+; DE0_Nano.SDC                                                                        ;
+; DE0_Nano.qpf                                                                        ;
+; DE0_Nano.qsf                                                                        ;
+; DE0_Nano.v                                                                          ;
+; DE0_Nano_assignment_defaults.qdf                                                    ;
+; LT24_buffer.v                                                                       ;
+; ip/LED_Controller/LED_Controller.v                                                  ;
+; ip/LED_Controller/LED_Controller_hw.tcl                                             ;
+; ip/LT24_Controller/LT24_Controller.v                                                ;
+; ip/LT24_Controller/LT24_Controller_hw.tcl                                           ;
+; myBackground.hex                                                                    ;
+; myCharac.hex                                                                        ;
++-------------------------------------------------------------------------------------+
+
+
++--------------------+
+; Files Not Restored ;
++--------------------+
+; File Name          ;
++--------------------+
+; DE0_Nano.sdc       ;
++--------------------+
+
+

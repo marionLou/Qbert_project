@@ -1,0 +1,60 @@
+#ifndef GUI_H_
+#define GUI_H_
+
+#include "../graphic_lib/alt_video_display.h"
+#include "../terasic_lib/touch_spi.h"
+#include "../graphic_lib/geometry.h"
+
+#define BTN_NUM		4
+#define BTN_GEN		2
+
+/*typedef enum BI BUTTON_ID;
+
+typedef enum BG BUTTON_GEN;
+
+typedef struct PI PALETTE_INFO;
+
+typedef struct DI DESK_INFO;*/
+
+typedef enum BI{
+    BTN_UP,
+    BTN_DOWN,
+    BTN_LEFT,
+    BTN_RIGHT,
+
+    BTN_NONE
+}BUTTON_ID;
+
+typedef enum BG {
+    BTN_STH,
+    BTN_CMD,
+
+    BTN_OUT
+}BUTTON_GEN;
+
+typedef struct PI {
+    RECT rc;
+    int  color;
+}PALETTE_INFO;
+
+typedef struct DI {
+    //int Direction_Index;
+    RECT rcCMD[BTN_NUM];
+    RECT rcGen[2]
+}DESK_INFO;
+
+
+void GUI_InitDraw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
+void GUI_CMD_Lightning(alt_video_display *pDisplay, int choice, int color){
+void GUI_CMD_Init(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
+void GUI_CMD_Draw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
+void GUI_Jump_DrawBG(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
+void GUI_Jump_DrawStep(alt_video_display *pDisplay, int next);
+
+int GUI_CheckCMD(DESK_INFO *pDeskInfo, POINT *pt);
+int GUI_CheckGen(DESK_INFO *pDeskInfo, POINT *pt);
+
+//void GUI(alt_video_display *pDisplay, TOUCH_HANDLE *pTouch);
+
+
+#endif /*GUI_H_*/

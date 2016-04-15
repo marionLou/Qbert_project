@@ -66,7 +66,7 @@ void MyMIWI_Init(void) {
 	// "limit" and "lim_max" are there to prevent sending the same message
 	// too many times if we don't receive any ack.
     limit = 0;
-    lim_max = 10;
+    lim_max = 5;
 	
 	// Creates a tab to record acks you receives,
 	// not used anymore (but I kepp it there just in case)
@@ -309,7 +309,7 @@ void MyMIWI_InsertMsg(char *theMsg){
 	// Add message to the fifo (id, followed by the text)
     fifo_add(fifo_buf, TxtMsg);
     MyConsole_SendMsg("Send MIWI Broadcast Msg: ");
-    MyConsole_SendMsg(theMsg); MyConsole_SendMsg("\n>");
+    MyConsole_SendMsg(TxtMsg); MyConsole_SendMsg("\n>");
     if (MIWI_Counter<32) MIWI_Counter = MIWI_Counter + 1;
     else MIWI_Counter = 1;
 }
@@ -338,7 +338,7 @@ void MyMIWI_Task(void) {
         sprintf(debug, "Second (4th?) element of messsage: %c\n",theData[0]);
         MyConsole_SendMsg(debug);*/
         char *starter; char *theRest;
-        starter = strtok (theData,"-");
+        starter = strtok(theData,"-");
         if(strcmp(starter, "G5")==0)
         {
             // We separate the ID from the rest of the message we received
@@ -353,7 +353,7 @@ void MyMIWI_Task(void) {
             if (strcmp(starter, "AckMIWI") == 0) {
                 char State[64];
                 fifo_remove(fifo_buf);
-                sprintf(State,"\nThere has been %d tries for message with id %d\n", limit, id);
+                sprintf(State,"\nThere has been %d tries for message with id %d (was to send:%d)\n", limit, id, future_send);
                 MyConsole_SendMsg(State);
                 limit = 0;
                 acquis = 1;
@@ -406,7 +406,7 @@ void MyMIWI_Task(void) {
         else {
             fifo_remove(fifo_buf);
             char Info[64];
-            sprintf(Info, "\nThe message #%d was never received: failed 10 times in a row\n", id_tmp);
+            sprintf(Info, "\nThe message #%d was never received: failed 5 times in a row\n", id_tmp);
             MyConsole_SendMsg(Info);
             limit=0;
         }

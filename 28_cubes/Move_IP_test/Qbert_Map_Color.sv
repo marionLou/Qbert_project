@@ -121,6 +121,7 @@ end
 					.XYDIAG_DEMI, 
 					.box(position_qb[0]) 
 	);
+
  
 // --- Rank 2 --------------------------------------------------//
 	
@@ -229,6 +230,8 @@ end
 					.XYDIAG_DEMI, 
 					.box(position_qb[14:10]) 
 	);
+	
+
 
 // --- Rank 6 --------------------------------------------------//
 	
@@ -336,7 +339,7 @@ always_ff @(posedge CLK_33) begin
 //		if(e_pause_qb) decolor <= 8'd50;
 //		else decolor <= 8'd0;
 if(e_pause_qb) begin 
-		if(hb_qb & le_qbert) begin
+		if(hb_qb & (position_qb != 0)) begin
 				red <= 8'd255;
 				green <= 8'd145;
 				blue <= 8'd52;
@@ -346,7 +349,12 @@ if(e_pause_qb) begin
 				green <= 8'd78;
 				blue <= 8'd86;	
 		end
-		else if(left_face !=0) begin
+		else if(hb_top !=0) begin
+			red 	<= 8'd136;
+			green <= 8'd219;
+			blue 	<= 8'd202;
+		end
+/*		else if(left_face !=0) begin
 			red 	<= 8'd136;
 			green <= 8'd219;
 			blue 	<= 8'd202;
@@ -367,7 +375,7 @@ if(e_pause_qb) begin
 				green <= 8'd255;
 				blue <= 8'd50;
 			end
-		end
+		end*/
 		else begin
 		red 	<= 8'd50;
 		green <= 8'd50;
@@ -375,7 +383,7 @@ if(e_pause_qb) begin
 		end
 end
 else begin		
-		if(hb_qb & le_qbert) begin
+		if(hb_qb & (position_qb != 0)) begin
 				red <= 8'd216;
 				green <= 8'd95;
 				blue <= 8'd2;
@@ -384,8 +392,8 @@ else begin
 				red <= 8'd237;
 				green <= 8'd28;
 				blue <= 8'd36;	
-		end		
-		else if(left_face !=0) begin
+		end	
+/*		else if(left_face !=0) begin
 			red 	<= 8'd86;
 			green <= 8'd169;
 			blue 	<= 8'd152;
@@ -406,6 +414,11 @@ else begin
 				green <= 8'd222;
 				blue <= 8'd0;
 			end
+		end */
+		else if(hb_top !=0) begin
+			red 	<= 8'd136;
+			green <= 8'd219;
+			blue 	<= 8'd202;
 		end
 		else begin
 		red 	<= 8'd0;
@@ -517,8 +530,8 @@ module rank_offset_generator (
 	input logic [9:0] shift,
 	output logic [20:0] rank_xy_offset
 	);
-assign rank_xy_offset = {RANK1_XY_OFFSET[20:10] + shift*(XYDIAG_DEMI[20:10]+XLENGTH+ 11'd1),
-						RANK1_XY_OFFSET[9:0] - shift*(XYDIAG_DEMI[9:0]+10'd1)};	
+assign rank_xy_offset = {RANK1_XY_OFFSET[20:10] + shift*(XYDIAG_DEMI[20:10]+XLENGTH),
+						RANK1_XY_OFFSET[9:0] - shift*(XYDIAG_DEMI[9:0])};	
 endmodule
 
 //-----------------------------------------------
@@ -528,7 +541,7 @@ module rank_n_generator (
 	input logic [9:0] ydiag,
 	output logic [20:0] point_n
 	);
-assign point_n = {rank_offset[20:10], rank_offset[9:0] + shift*(ydiag + 10'd1)};
+assign point_n = {rank_offset[20:10], rank_offset[9:0] + shift*(ydiag)};
 endmodule
 
 //-----------------------------------------------
@@ -563,11 +576,11 @@ module monster_position (
 	reg x_max, y_max;
 	
 	always_ff @(posedge CLK_33) begin
-	x_min <= { qbert_xy[20:10] >= xy[20:10] - (XYDIAG_DEMI[20:10]/11'd4) };
-	y_min <= { qbert_xy[9:0] >= (xy[9:0] + XYDIAG_DEMI[9:0]) - (XYDIAG_DEMI[9:0]/10'd4) };
+	x_min <= { qbert_xy[20:10] >= xy[20:10] - (XYDIAG_DEMI[20:10]/11'd2) };
+	y_min <= { qbert_xy[9:0] >= (xy[9:0] + XYDIAG_DEMI[9:0]) - (XYDIAG_DEMI[9:0]/10'd2) };
 	
-	x_max <= { qbert_xy[20:10] <= xy[20:10] + (XYDIAG_DEMI[20:10]/11'd4) };
-	y_max <= { qbert_xy[9:0] <= (xy[9:0] + XYDIAG_DEMI[9:0]) + (XYDIAG_DEMI[9:0]/10'd4) };
+	x_max <= { qbert_xy[20:10] <= xy[20:10] + (XYDIAG_DEMI[20:10]/11'd2) };
+	y_max <= { qbert_xy[9:0] <= (xy[9:0] + XYDIAG_DEMI[9:0]) + (XYDIAG_DEMI[9:0]/10'd2) };
 	
 	box <= { (x_min &&  x_max)  && (y_min &&  y_max) }; 
 				

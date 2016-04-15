@@ -101,10 +101,13 @@ void MyConsole_Task(void)
         
     } else if (strcmp(theCmd, "Ecriture") == 0 || Write_bool){
         if (Write_bool) {
-            char missed[10];
-            int write_test = strtol(theCmd, &missed, 10);
-            MyCyclone_Write(1, write_test);
-            sprintf(theSuper, "Value %d was written on the SPI\n", write_test );
+            char missed[10]; char *token;
+            token = strtok(theCmd,":");
+            int write_reg = strtol(token, &missed, 10);
+            token = strtok(NULL,"");
+            int write_data = strtol(token, &missed, 10);
+            MyCyclone_Write(write_reg, write_data);
+            sprintf(theSuper, "Value %d was written on reg %d of the SPI\n", write_data, write_reg);
             MyConsole_SendMsg(theSuper);
             Write_bool = 0;
         }

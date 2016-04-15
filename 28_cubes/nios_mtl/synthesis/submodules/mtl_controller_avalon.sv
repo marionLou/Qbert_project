@@ -20,7 +20,9 @@ module mtl_controller_avalon(
 	input  wire [31:0] Avalon_writedata, //             .writedata
 	
 	// SPI Side
-	input	wire	[7:0] iSPI,
+	input	wire	[7:0] iSPI_game_status,
+	input	wire	[7:0]	iSPI_jump,
+	input	wire	[7:0]	iSPI_acc,
 	// Host Side
 	input wire		  iCLK, 				// Input LCD control clock
 	input wire        iRST_n, 				// Input system reset
@@ -105,7 +107,6 @@ logic e_start_qb;
 logic e_pause_qb;
 logic e_resume_qb;
 logic e_bad_jump;
-logic e_done_move;
 logic done_move; 
 logic [3:0] KO_qb;
 logic [2:0] state_qb;
@@ -125,7 +126,9 @@ logic [20:0] soucoupe_xy;
 
 typedef enum logic [5:0] 
 {	A_enable,  // 0
-	A_iSPI, // 4 
+	A_iSPI_game_status, // 4 
+	A_iSPI_jump, // 4
+	A_iSPI_acc, // 4 
 	A_XLENGTH, // 8
 	A_XYDIAG_DEMI, // 12
 	A_RANK1_XY_OFFSET, // 16
@@ -138,7 +141,6 @@ typedef enum logic [5:0]
 	A_e_resume_qb, // 44
 	A_e_pause_qb, // 48
 	A_e_bad_jump, // 52
-	A_e_done_move, // 56
 	A_KO_qb, // 60
 	A_done_move, // 64
 	A_state_qb,	// 68
@@ -177,7 +179,6 @@ begin
 		e_jump_qb <= 3'd0;
 		e_bad_jump <= 1'd0;
 		e_next_qb <= 1'd0;
-		e_done_move <= 1'd0;
 		e_resume_qb <= 1'b0;
 		
 		e_XY0_sc <= 21'd0;
@@ -200,7 +201,6 @@ begin
 				A_e_resume_qb : e_resume_qb <= Avalon_writedata[0];
 				A_e_pause_qb : e_pause_qb <= Avalon_writedata[0];
 				A_e_bad_jump : e_bad_jump <= Avalon_writedata[0];
-				A_e_done_move : e_done_move <= Avalon_writedata[0];
 				A_e_speed_qb : e_speed_qb <= Avalon_writedata;
 				
 				A_e_XY0_sc : e_XY0_sc <= Avalon_writedata[20:0];
@@ -212,22 +212,15 @@ begin
 	 	if (Avalon_read) begin 
 			case(Avalon_address)
 				A_enable : reg_readdata <= enable;
-				A_iSPI : reg_readdata <= iSPI;
+				A_iSPI_game_status : reg_readdata <= iSPI_game_status;
+				A_iSPI_jump : reg_readdata <= iSPI_jump;
+				A_iSPI_acc : reg_readdata <= iSPI_acc;
 				
-				A_XLENGTH : reg_readdata <= XLENGTH;  
-				A_XYDIAG_DEMI : reg_readdata <= XYDIAG_DEMI;
-				A_RANK1_XY_OFFSET : reg_readdata <= RANK1_XY_OFFSET;
-				
-				
-				A_e_XY0_qb : reg_readdata <= e_XY0_qb;
-				A_e_color_state : reg_readdata <= e_color_state;
 				A_position_qb : reg_readdata <= position_qb;
-				A_e_jump_qb : reg_readdata <= e_jump_qb;
 				A_KO_qb : reg_readdata <= KO_qb;
 				A_done_move : reg_readdata <= done_move;
 				A_state_qb : reg_readdata <= state_qb;
 				A_game_qb : reg_readdata <= game_qb;
-				A_test_count : reg_readdata <= test_count;
 				A_saucer_qb_state : reg_readdata <= saucer_qb_state;
 				
 			
@@ -263,7 +256,6 @@ Qbert_Map_Color #(.N_cube(k), .N_rank(i)) Beta(
 	.e_XY0_qb,
 	.position_qb,
 	.e_next_qb,
-	.e_done_move,
 	.done_move,
 	.KO_qb,
 	.state_qb, 

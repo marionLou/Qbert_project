@@ -130,7 +130,7 @@ void MyMDDFS_loadSlideshow(char* theCmd) {
 
 void MyMDDFS_loadStartShow(void) {
 
-    char base_name[16] = "SLIDE1.bmp";
+    char base_name[16] = "BGMENU.bmp";
     int start = 1;
 
     //Sends to the FPGA the number of images that will be loaded.

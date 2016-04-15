@@ -21,8 +21,8 @@ module mtl_controller_avalon(
 	
 	// SPI Side
 	input	wire	[7:0] iSPI_game_status,
-							iSPI_jump,
-							iSPI_acc,
+	input	wire	[7:0]	iSPI_jump,
+	input	wire	[7:0]	iSPI_acc,
 	// Host Side
 	input wire		  iCLK, 				// Input LCD control clock
 	input wire        iRST_n, 				// Input system reset
@@ -127,33 +127,33 @@ logic [20:0] soucoupe_xy;
 typedef enum logic [5:0] 
 {	A_enable,  // 0
 	A_iSPI_game_status, // 4 
-	A_iSPI_jump, // 4
-	A_iSPI_acc, // 4 
-	A_XLENGTH, // 8
-	A_XYDIAG_DEMI, // 12
-	A_RANK1_XY_OFFSET, // 16
-	A_e_color_state, // 20
-	A_e_XY0_qb, // 24
-	A_e_jump_qb, // 28
-	A_e_next_qb, // 32
-	A_position_qb, // 36
-	A_e_start_qb, // 40 
-	A_e_resume_qb, // 44
-	A_e_pause_qb, // 48
-	A_e_bad_jump, // 52
-	A_KO_qb, // 60
-	A_done_move, // 64
-	A_state_qb,	// 68
-	A_game_qb, // 72 
-	A_e_speed_qb, // 76
-	A_test_count, // 80
-	A_e_XY0_sc, // 84
-	A_state_sc, // 88
-	A_done_move_sc, // 92
-	A_qb_on_sc, // 96
-	A_e_tilt_acc, // 100
-	A_saucer_qb_state, // 104
-	A_soucoupe_xy // 108
+	A_iSPI_jump, // 8
+	A_iSPI_acc, // 12 
+	A_XLENGTH, // 16
+	A_XYDIAG_DEMI, // 20
+	A_RANK1_XY_OFFSET, // 24
+	A_e_color_state, // 28
+	A_e_XY0_qb, // 32
+	A_e_jump_qb, // 36
+	A_e_next_qb, // 40
+	A_position_qb, // 44
+	A_e_start_qb, // 48 
+	A_e_resume_qb, // 52
+	A_e_pause_qb, // 56
+	A_e_bad_jump, // 60
+	A_KO_qb, // 64
+	A_done_move, // 68
+	A_state_qb,	// 72
+	A_game_qb, // 76 
+	A_e_speed_qb, // 80
+	A_test_count, // 84
+	A_e_XY0_sc, // 88
+	A_state_sc, // 92
+	A_done_move_sc, // 96
+	A_qb_on_sc, // 100
+	A_e_tilt_acc, // 104
+	A_saucer_qb_state, // 108
+	A_soucoupe_xy // 112
 	} 
 A_register;
 
@@ -179,7 +179,6 @@ begin
 		e_jump_qb <= 3'd0;
 		e_bad_jump <= 1'd0;
 		e_next_qb <= 1'd0;
-		e_done_move <= 1'd0;
 		e_resume_qb <= 1'b0;
 		
 		e_XY0_sc <= 21'd0;
@@ -229,6 +228,23 @@ begin
 				A_done_move_sc : reg_readdata <= done_move_sc;
 				A_qb_on_sc : reg_readdata <= qb_on_sc;
 				A_soucoupe_xy : reg_readdata <= soucoupe_xy;
+				
+				A_XLENGTH : reg_readdata <= XLENGTH;
+				A_XYDIAG_DEMI : reg_readdata <= XYDIAG_DEMI;
+				A_RANK1_XY_OFFSET : reg_readdata <= RANK1_XY_OFFSET;
+				A_e_color_state : reg_readdata <= e_color_state;
+				
+				A_e_XY0_qb : reg_readdata <= e_XY0_qb;
+				A_e_jump_qb : reg_readdata <= e_jump_qb;
+				A_e_next_qb : reg_readdata <= e_next_qb;
+				A_e_start_qb : reg_readdata <= e_start_qb;
+				A_e_resume_qb : reg_readdata <= e_resume_qb;
+				A_e_pause_qb : reg_readdata <= e_pause_qb;
+				A_e_bad_jump : reg_readdata <= e_bad_jump ;
+				A_e_speed_qb : reg_readdata <= e_speed_qb;
+				
+				A_e_XY0_sc : reg_readdata <= e_XY0_sc;
+				A_e_tilt_acc : reg_readdata <= e_tilt_acc;
 				default;
 			endcase
 		end				 
@@ -257,7 +273,6 @@ Qbert_Map_Color #(.N_cube(k), .N_rank(i)) Beta(
 	.e_XY0_qb,
 	.position_qb,
 	.e_next_qb,
-	.e_done_move,
 	.done_move,
 	.KO_qb,
 	.state_qb, 

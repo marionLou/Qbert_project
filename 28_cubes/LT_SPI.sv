@@ -7,13 +7,19 @@ module LT_SPI (
 	input  logic		 theClock, theReset,
 	input  logic       MySPI_clk, MySPI_cs, MySPI_sdi,
 	output logic  		 MySPI_sdo,
-	input  logic [7:0] Data_In,
-	output logic [7:0] Data_Out
+	input  logic [7:0] Data_ToPic,
+	output logic [7:0] Data_Jump,
+	output logic [7:0] Data_Acc,
+	output logic [7:0] Data_Status
+	
 );
 
 //--- Registers Address ---------------------------------
 
-parameter A_Data  			= 2'b01;
+parameter A_ToPic  			= 2'd0;
+parameter A_Jump  			= 2'd1;
+parameter A_Acc   			= 2'd2;
+parameter A_Status   		= 2'd3;
 
 //--- FSM States ----------------------------------------
 
@@ -95,12 +101,19 @@ begin
 	if (SPI_data_shift) SPI_data <= { SPI_data[6:0], MySPI_sdi };
 		else if (SPI_data_load)
 			case (SPI_address[6:0])
-				A_Data   : SPI_data <= Data_In;
+				A_ToPic   : SPI_data <= Data_ToPic;
 			endcase
 		
 
-	if (theReset) Data_Out <= 8'h00;
-		else if ((SPI_data_update) & (SPI_address[6:0] == A_Data)) Data_Out <= SPI_data;	
+	if (theReset) begin
+		Data_Jump <= 8'h00;
+		Data_Acc <= 8'h00;
+		Data_Status <= 8'h00;
+	end
+	else if ((SPI_data_update) & (SPI_address[6:0] == A_Jump)) Data_Jump <= SPI_data;
+	else if ((SPI_data_update) & (SPI_address[6:0] == A_Acc)) Data_Acc <= SPI_data;
+	else if ((SPI_data_update) & (SPI_address[6:0] == A_Status)) Data_Status <= SPI_data;
+		
 	
 end
 

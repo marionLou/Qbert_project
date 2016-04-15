@@ -1,5 +1,5 @@
 Assembler report for DE0_NANO
-Thu Apr 14 04:34:27 2016
+Fri Apr 15 12:52:56 2016
 Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
 
 
@@ -11,7 +11,7 @@ Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
   3. Assembler Settings
   4. Assembler Encrypted IP Cores Summary
   5. Assembler Generated Files
-  6. Assembler Device Options: C:/Users/Stephane/Documents/GitHub/M1_PELEC/MTL/28_cubes/DE0_NANO.sof
+  6. Assembler Device Options: C:/UCL/Qbert_project/28_cubes/DE0_NANO.sof
   7. Assembler Messages
 
 
@@ -39,7 +39,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Thu Apr 14 04:34:27 2016 ;
+; Assembler Status      ; Successful - Fri Apr 15 12:52:56 2016 ;
 ; Revision Name         ; DE0_NANO                              ;
 ; Top-level Entity Name ; DE0_NANO                              ;
 ; Family                ; Cyclone IV E                          ;
@@ -64,24 +64,24 @@ agreement for further details.
 +--------+------------------------+--------------+
 
 
-+-----------------------------------------------------------------------+
-; Assembler Generated Files                                             ;
-+-----------------------------------------------------------------------+
-; File Name                                                             ;
-+-----------------------------------------------------------------------+
-; C:/Users/Stephane/Documents/GitHub/M1_PELEC/MTL/28_cubes/DE0_NANO.sof ;
-+-----------------------------------------------------------------------+
++--------------------------------------------+
+; Assembler Generated Files                  ;
++--------------------------------------------+
+; File Name                                  ;
++--------------------------------------------+
+; C:/UCL/Qbert_project/28_cubes/DE0_NANO.sof ;
++--------------------------------------------+
 
 
-+-------------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Users/Stephane/Documents/GitHub/M1_PELEC/MTL/28_cubes/DE0_NANO.sof ;
-+----------------+--------------------------------------------------------------------------------+
-; Option         ; Setting                                                                        ;
-+----------------+--------------------------------------------------------------------------------+
-; Device         ; EP4CE22F17C6                                                                   ;
-; JTAG usercode  ; 0x00CE4002                                                                     ;
-; Checksum       ; 0x00CE4002                                                                     ;
-+----------------+--------------------------------------------------------------------------------+
++----------------------------------------------------------------------+
+; Assembler Device Options: C:/UCL/Qbert_project/28_cubes/DE0_NANO.sof ;
++----------------+-----------------------------------------------------+
+; Option         ; Setting                                             ;
++----------------+-----------------------------------------------------+
+; Device         ; EP4CE22F17C6                                        ;
+; JTAG usercode  ; 0x00CACD56                                          ;
+; Checksum       ; 0x00CACD56                                          ;
++----------------+-----------------------------------------------------+
 
 
 +--------------------+
@@ -90,16 +90,16 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Assembler
     Info: Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
-    Info: Processing started: Thu Apr 14 04:34:19 2016
+    Info: Processing started: Fri Apr 15 12:52:51 2016
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off DE0_NANO -c DE0_NANO
 Warning (125092): Tcl Script File sdram_control/Sdram_RD_RAM.qip not found
     Info (125063): set_global_assignment -name QIP_FILE sdram_control/Sdram_RD_RAM.qip
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus II 64-Bit Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 697 megabytes
-    Info: Processing ended: Thu Apr 14 04:34:28 2016
-    Info: Elapsed time: 00:00:09
-    Info: Total CPU time (on all processors): 00:00:09
+    Info: Peak virtual memory: 688 megabytes
+    Info: Processing ended: Fri Apr 15 12:52:56 2016
+    Info: Elapsed time: 00:00:05
+    Info: Total CPU time (on all processors): 00:00:05
 
 

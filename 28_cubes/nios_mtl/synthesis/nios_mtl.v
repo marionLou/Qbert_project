@@ -7,8 +7,7 @@ module nios_mtl (
 		input  wire        button_external_connection_export,                  //           button_external_connection.export
 		input  wire        clk_clk,                                            //                                  clk.clk
 		output wire [7:0]  leds_external_connection_export,                    //             leds_external_connection.export
-		input  wire [7:0]  nios_mtl_controller_0_mtl_controller_spi,           // nios_mtl_controller_0_mtl_controller.spi
-		input  wire        nios_mtl_controller_0_mtl_controller_clk,           //                                     .clk
+		input  wire        nios_mtl_controller_0_mtl_controller_clk,           // nios_mtl_controller_0_mtl_controller.clk
 		input  wire        nios_mtl_controller_0_mtl_controller_reset_n,       //                                     .reset_n
 		input  wire        nios_mtl_controller_0_mtl_controller_loading,       //                                     .loading
 		output wire        nios_mtl_controller_0_mtl_controller_newframe,      //                                     .newframe
@@ -20,6 +19,9 @@ module nios_mtl (
 		output wire [7:0]  nios_mtl_controller_0_mtl_controller_lcd_r,         //                                     .lcd_r
 		output wire [7:0]  nios_mtl_controller_0_mtl_controller_lcd_g,         //                                     .lcd_g
 		output wire [7:0]  nios_mtl_controller_0_mtl_controller_lcd_b,         //                                     .lcd_b
+		input  wire [7:0]  nios_mtl_controller_0_mtl_controller_game_status,   //                                     .game_status
+		input  wire [7:0]  nios_mtl_controller_0_mtl_controller_jump,          //                                     .jump
+		input  wire [7:0]  nios_mtl_controller_0_mtl_controller_acc,           //                                     .acc
 		input  wire        reset_reset_n,                                      //                                reset.reset_n
 		input  wire [3:0]  switch_external_connection_export                   //           switch_external_connection.export
 	);
@@ -164,13 +166,12 @@ module nios_mtl (
 		.k                      (27),
 		.i                      (6)
 	) nios_mtl_controller_0 (
-		.Avalon_address   (mm_interconnect_0_nios_mtl_controller_0_avalon_address),   //         avalon.address
-		.Avalon_read      (mm_interconnect_0_nios_mtl_controller_0_avalon_read),      //               .read
+		.Avalon_read      (mm_interconnect_0_nios_mtl_controller_0_avalon_read),      //         avalon.read
 		.Avalon_readdata  (mm_interconnect_0_nios_mtl_controller_0_avalon_readdata),  //               .readdata
 		.Avalon_write     (mm_interconnect_0_nios_mtl_controller_0_avalon_write),     //               .write
 		.Avalon_writedata (mm_interconnect_0_nios_mtl_controller_0_avalon_writedata), //               .writedata
-		.iSPI             (nios_mtl_controller_0_mtl_controller_spi),                 // mtl_controller.spi
-		.iCLK             (nios_mtl_controller_0_mtl_controller_clk),                 //               .clk
+		.Avalon_address   (mm_interconnect_0_nios_mtl_controller_0_avalon_address),   //               .address
+		.iCLK             (nios_mtl_controller_0_mtl_controller_clk),                 // mtl_controller.clk
 		.iRST_n           (nios_mtl_controller_0_mtl_controller_reset_n),             //               .reset_n
 		.iLoading         (nios_mtl_controller_0_mtl_controller_loading),             //               .loading
 		.oNewFrame        (nios_mtl_controller_0_mtl_controller_newframe),            //               .newframe
@@ -182,6 +183,9 @@ module nios_mtl (
 		.oLCD_R           (nios_mtl_controller_0_mtl_controller_lcd_r),               //               .lcd_r
 		.oLCD_G           (nios_mtl_controller_0_mtl_controller_lcd_g),               //               .lcd_g
 		.oLCD_B           (nios_mtl_controller_0_mtl_controller_lcd_b),               //               .lcd_b
+		.iSPI_game_status (nios_mtl_controller_0_mtl_controller_game_status),         //               .game_status
+		.iSPI_jump        (nios_mtl_controller_0_mtl_controller_jump),                //               .jump
+		.iSPI_acc         (nios_mtl_controller_0_mtl_controller_acc),                 //               .acc
 		.Avalon_CLK_50    (clk_clk),                                                  //            clk.clk
 		.Avalon_reset     (rst_controller_reset_out_reset)                            //          reset.reset
 	);

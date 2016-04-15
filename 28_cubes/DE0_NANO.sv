@@ -178,9 +178,8 @@ logic [7:0] Blue;
 logic [7:0] ImgNum;
 logic			Trigger; 
 
-logic [7:0] IO_A_Data_In, IO_B_Data_In, IO_C_Data_In, IO_D_Data_In;
-logic [7:0] IO_A_Data_Out, IO_B_Data_Out, IO_C_Data_Out, IO_D_Data_Out;
-logic [7:0] IO_A_Enable_Out, IO_B_Enable_Out, IO_C_Enable_Out, IO_D_Enable_Out;
+logic [7:0] IO_Data_ToPic;
+logic [7:0] IO_Data_Jump, IO_Data_Acc, IO_Data_Status;
 
 //---- Assign GPIO_2 Header (connected to PIC32) -------
 
@@ -221,10 +220,14 @@ always @ (posedge CLOCK_50)
  */
 
 LT_SPI Surf (
-	.theClock(CLOCK_50), .theReset(PIC32_RESET),
-	.MySPI_clk(PIC32_SCK1A), .MySPI_cs(PIC32_CS_FPGA), .MySPI_sdi(PIC32_SDO1A), .MySPI_sdo(PIC32_SDI1A),
-	.Data_In(IO_A_Data_In),
-	.Data_Out(IO_A_Data_Out)
+	.theClock(CLOCK_50),
+	.theReset(PIC32_RESET),
+	.MySPI_clk(PIC32_SCK1A), .MySPI_cs(PIC32_CS_FPGA),
+	.MySPI_sdi(PIC32_SDO1A), .MySPI_sdo(PIC32_SDI1A),
+	.Data_ToPic(IO_Data_ToPic),
+	.Data_Jump(IO_Data_Jump),
+	.Data_Acc(IO_Data_Acc),
+	.Data_Status(IO_Data_Status)
 );
 
 
@@ -449,7 +452,6 @@ end
 		.leds_external_connection_export                    (LED),                    //             leds_external_connection.export
 		.reset_reset_n                                      (KEY[0]),                                      //                                reset.reset_n
 		.switch_external_connection_export                  (SW),                  //           switch_external_connection.export
-		.nios_mtl_controller_0_mtl_controller_spi           (IO_A_Data_Out),           // nios_mtl_controller_0_mtl_controller.spi
 		.nios_mtl_controller_0_mtl_controller_clk           (CLOCK_33),           //                                     .clk
 		.nios_mtl_controller_0_mtl_controller_reset_n       (~dly_rst),       //                                     .reset_n
 		.nios_mtl_controller_0_mtl_controller_loading       (loading),       //                                     .loading
@@ -461,9 +463,12 @@ end
 		.nios_mtl_controller_0_mtl_controller_vd            (MTL_VSD),            //                                     .vd
 		.nios_mtl_controller_0_mtl_controller_lcd_r         (MTL_R),         //                                     .lcd_r
 		.nios_mtl_controller_0_mtl_controller_lcd_g         (MTL_G),         //                                     .lcd_g
-		.nios_mtl_controller_0_mtl_controller_lcd_b         (MTL_B)          //                                     .lcd_b
+		.nios_mtl_controller_0_mtl_controller_lcd_b         (MTL_B),          //                                     .lcd_b
+		.nios_mtl_controller_0_mtl_controller_jump          (IO_Data_Jump),          //                                     .jump
+		.nios_mtl_controller_0_mtl_controller_acc           (IO_Data_Acc),           //                                   
+		.nios_mtl_controller_0_mtl_controller_game_status   (IO_Data_Status)   //                                     .game_status
 	);
-
+	
 assign MTL_DCLK = iCLOCK_33;
 
 // The loading signal tells the LCD controller where it should

@@ -369,9 +369,15 @@ void MyMIWI_Task(void) {
 			
     			if (!done)
     			{
+                    char *NoInt;
+                    int info = strtol(starter, &NoInt, 10);
+                    if (NoInt == NULL){
+                        if (starter<32) MyCyclone_Write(1, starter); //Directions command
+                        else if (starter<64) MyCyclone_Write(2,starter); // accelerometre
+                        else MyCyclone_Write(3, starter); // Status
+                    }
                     // We set OldID to id, so we know the instruction of
                     // the message with this ID has already been executed
-                    GetActions(starter);
     				OldID = id;
     			}
             }

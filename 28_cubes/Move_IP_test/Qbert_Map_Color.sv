@@ -339,7 +339,7 @@ always_ff @(posedge CLK_33) begin
 //		if(e_pause_qb) decolor <= 8'd50;
 //		else decolor <= 8'd0;
 if(e_pause_qb) begin 
-		if(hb_qb & (position_qb != 0)) begin
+		if(hb_qb & le_qbert) begin
 				red <= 8'd255;
 				green <= 8'd145;
 				blue <= 8'd52;
@@ -349,12 +349,7 @@ if(e_pause_qb) begin
 				green <= 8'd78;
 				blue <= 8'd86;	
 		end
-		else if(hb_top !=0) begin
-			red 	<= 8'd136;
-			green <= 8'd219;
-			blue 	<= 8'd202;
-		end
-/*		else if(left_face !=0) begin
+		else if(left_face !=0) begin
 			red 	<= 8'd136;
 			green <= 8'd219;
 			blue 	<= 8'd202;
@@ -375,7 +370,7 @@ if(e_pause_qb) begin
 				green <= 8'd255;
 				blue <= 8'd50;
 			end
-		end*/
+		end
 		else begin
 		red 	<= 8'd50;
 		green <= 8'd50;
@@ -383,7 +378,7 @@ if(e_pause_qb) begin
 		end
 end
 else begin		
-		if(hb_qb & (position_qb != 0)) begin
+		if(hb_qb & le_qbert) begin
 				red <= 8'd216;
 				green <= 8'd95;
 				blue <= 8'd2;
@@ -393,7 +388,7 @@ else begin
 				green <= 8'd28;
 				blue <= 8'd36;	
 		end	
-/*		else if(left_face !=0) begin
+		else if(left_face !=0) begin
 			red 	<= 8'd86;
 			green <= 8'd169;
 			blue 	<= 8'd152;
@@ -414,12 +409,7 @@ else begin
 				green <= 8'd222;
 				blue <= 8'd0;
 			end
-		end */
-		else if(hb_top !=0) begin
-			red 	<= 8'd136;
-			green <= 8'd219;
-			blue 	<= 8'd202;
-		end
+		end 
 		else begin
 		red 	<= 8'd0;
 		green <= 8'd0;

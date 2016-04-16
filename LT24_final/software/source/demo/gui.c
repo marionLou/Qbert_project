@@ -76,21 +76,35 @@ void GUI_InitDraw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo){
 
 //----------------------------------------------------------------------------------------------------
 
+void GUI_Buttons_Draw(alt_video_display *pDisplay, int status){
+	vid_clean_buttons(pDisplay, 0x000000);
+	if (status){
+		vid_print_string_alpha(33,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Pause"); // pause button
+		vid_print_string_alpha(155,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Accel"); // accel button
+	}
+	else {
+		vid_print_string_alpha(20,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Resume"); // pause button
+		vid_print_string_alpha(145,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Restart"); // accel button
+	}
+}
+
+//----------------------------------------------------------------------------------------------------
+
 void GUI_CMD_Init(alt_video_display *pDisplay, DESK_INFO *pDeskInfo){
 	RECT *rc_test;
 	int i=0;
 
 	// RectSet args: (RECT *rc, left, right, top, bottom)
-	// Upper arrow
+	// Upper right arrow
 	RectSet(rc_test, 0, 120, 80, 200);
     RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
-	// Lower arrow
+	// Upper left arrow
 	RectOffset(rc_test, 0, 120);
 	RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
-	// Left arrow
+	// Lower left arrow
 	RectOffset(rc_test, 120, 0);
 	RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
-	// Right arrow
+	// Lower right arrow
 	RectOffset(rc_test, 0, -120);
 	RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
 
@@ -104,16 +118,23 @@ void GUI_CMD_Draw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo){
 	vid_draw_line(0, 200, 240, 200, 2, 0xFF6600,pDisplay);
 	vid_draw_line(120, 80, 120, 320, 2, 0xFF6600,pDisplay);
 
+	vid_draw_DR(pDisplay); vid_draw_DL(pDisplay);
+	vid_draw_UR(pDisplay); vid_draw_UL(pDisplay);
 
-	vid_draw_horiz_line(40, 80, 120, 0xFF6600, pDisplay);
-	vid_draw_line(40, 120, 40, 160, 2, 0xFF6600, pDisplay); // Up right arrow
-	vid_draw_horiz_line(40, 80, 280, 0xFF6600, pDisplay);
-	vid_draw_line(40, 240, 40, 280, 2, 0xFF6600, pDisplay); // Up left arrow
-	vid_draw_horiz_line(160, 200, 120, 0xFF6600, pDisplay);
-	vid_draw_line(200, 120, 200, 160, 2, 0xFF6600, pDisplay); // Down right arrow
-	vid_draw_horiz_line(160, 200, 280, 0xFF6600, pDisplay);
-	vid_draw_line(200, 240, 200, 280, 2, 0xFF6600, pDisplay); // Down left arrow
+}
 
+//----------------------------------------------------------------------------------------------------
+void GUI_CMD_Lightning(alt_video_display *pDisplay, int choice, int color){
+	if (choice==1){
+		vid_paint_block(121 , 81, pDisplay->width, 199, color, pDisplay); vid_draw_DR(pDisplay);
+	}
+	else if (choice==2){
+		vid_paint_block(121, 201, pDisplay->width, pDisplay->height, color, pDisplay); vid_draw_DL(pDisplay);
+	}
+	else if (choice==3){
+		vid_paint_block(0, 81, 119, 199, color, pDisplay); vid_draw_UR(pDisplay);
+	}
+	else vid_paint_block(0, 201, 119, pDisplay->height, color, pDisplay); vid_draw_UL(pDisplay);
 }
 
 //----------------------------------------------------------------------------------------------------

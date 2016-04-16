@@ -47,13 +47,15 @@ module boule_rouge_layer(
 	input logic KO_qb,
 	
 	input logic done_move_sc,
+	
+	input logic freeze_power,
 
 //------OUTPUT-------------------//
 
 	output logic [20:0] boule_rouge_xy,  
 	output logic boule_rouge_hitbox,
 	output logic br_state,
-	output logic boule_rouge_end,
+	output logic br_end,
 	output logic [4:0] br_mvt_cnt,
 	output logic done_move_br,
 	output logic la_boule_rouge
@@ -109,6 +111,7 @@ case(game_state)
 											if(e_enable_br) begin
 												{x0,y0} <= {e_XY0_br[20:10] - (XLENGTH) + start_x, e_XY0_br[9:0]};
 												{XC,YC} <= {e_XY0_br[20:10] - (XLENGTH) + start_x, e_XY0_br[9:0] + YDIAG_DEMI};
+												boule_rouge_end <= 1'b0;
 												boule_rouge_state <= START;
 											end 
 										end
@@ -228,7 +231,7 @@ end
 
 assign br_mvt_cnt = mvt_cnt;
 assign br_state = boule_rouge_state;
-assign boule_rouge_end = br_end;
+assign br_end = boule_rouge_end;
 assign done_move_br = done_move_reg;	
 assign la_boule_rouge = is_boule_rouge;
 assign boule_rouge_xy = {XC,YC};

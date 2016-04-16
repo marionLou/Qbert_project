@@ -156,7 +156,7 @@ case(game_state)
 															{XC,YC} <= {XC + 11'd1, YC};
 														else begin
 															done_move_reg <= 1'b1;
-															if (mvt_cnt == 5'6) begin
+															if (mvt_cnt == 5'd6) begin
 																mvt_cnt <= 1'b0;
 																boule_rouge_state <= END;
 															end
@@ -173,7 +173,7 @@ case(game_state)
 															{XC,YC} <= {XC + 11'd1, YC}; 
 														else begin
 															done_move_reg <= 1'b1;
-															if (mvt_cnt == 5'6) begin
+															if (mvt_cnt == 5'd6) begin
 																mvt_cnt <= 1'b0;
 																boule_rouge_state <= END;
 															end

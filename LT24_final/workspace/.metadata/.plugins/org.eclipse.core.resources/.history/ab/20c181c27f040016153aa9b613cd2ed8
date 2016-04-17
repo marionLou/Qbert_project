@@ -196,10 +196,7 @@ void task2(void* pdata)
 								Actual = 0;
 							}
 							GUI_Jump_DrawStep(&Display, Actual);
-							if (Actual!=1){
-								OSTimeDlyHMSM(0, 0, 0, 500);
-								Idle = 0;
-							}
+							if (Actual!=1)OSTimeDlyHMSM(0, 0, 0, 500);
 
 							printf("Accel en x: %d; y: %d\n", szXYZ[0], szXYZ[1]);
 							OSTimeDlyHMSM(0, 0, 0, 100);

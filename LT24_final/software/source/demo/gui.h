@@ -47,6 +47,7 @@ typedef struct DI {
 void GUI_InitDraw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
 void GUI_CMD_Init(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
 void GUI_CMD_Draw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
+void GUI_CMD_Lightning(alt_video_display *pDisplay, int choice, int color);
 void GUI_Jump_DrawBG(alt_video_display *pDisplay, DESK_INFO *pDeskInfo);
 void GUI_Jump_DrawStep(alt_video_display *pDisplay, int next);
 

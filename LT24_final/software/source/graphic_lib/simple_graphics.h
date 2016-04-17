@@ -60,6 +60,8 @@ void vid_clean_screen(alt_video_display* display, int color);
 
 void vid_clean_usefull(alt_video_display* display, int color);
 
+void vid_clean_buttons(alt_video_display* display, int color);
+
 /* color conversion macro */
 #define vid_color_convert24_16_m( x ) (unsigned short)(((*(x + 2) & 0xF8) >> 3) | ((*(x + 1) & 0xFC) << 3) | ((*(x + 0) & 0xF8) << 8))
 
@@ -87,6 +89,11 @@ int vid_move_block(int xbegin, int ybegin, int xend, int yend, int x_distance, i
 int vid_print_char (int horiz_offset, int vert_offset, int color, char character, char *font, alt_video_display* display);
 
 void vid_draw_line(int horiz_start, int vert_start, int horiz_end, int vert_end, int width, int color, alt_video_display* display);
+
+void vid_draw_DR(alt_video_display* display);
+void vid_draw_DL(alt_video_display* display);
+void vid_draw_UR(alt_video_display* display);
+void vid_draw_UL(alt_video_display* display);
 
 void vid_set_pixel(int horiz, int vert, unsigned int color, alt_video_display* display);
 

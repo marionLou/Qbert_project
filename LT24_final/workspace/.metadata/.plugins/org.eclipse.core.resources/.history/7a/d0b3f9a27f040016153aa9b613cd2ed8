@@ -188,18 +188,14 @@ void task2(void* pdata)
 							else oldX_val = szXYZ[0];
 							if(szXYZ[0] < -128) {
 								IOWR_8DIRECT(LT_AVALON_BASE, 0, AccVal+2); //right
-								Actual = 2;
+								Actual = 2; Idle = 0;
 							}
 							else if (szXYZ[0] < 128) Actual = 1;
 							else {
 								IOWR_8DIRECT(LT_AVALON_BASE, 0, AccVal+1); //left
-								Actual = 0;
+								Actual = 0;  Idle = 0;
 							}
 							GUI_Jump_DrawStep(&Display, Actual);
-							if (Actual!=1){
-								OSTimeDlyHMSM(0, 0, 0, 500);
-								Idle = 0;
-							}
 
 							printf("Accel en x: %d; y: %d\n", szXYZ[0], szXYZ[1]);
 							OSTimeDlyHMSM(0, 0, 0, 100);

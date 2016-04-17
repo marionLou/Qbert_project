@@ -34,7 +34,7 @@ module boule_rouge_layer(
 	input logic [9:0] YDIAG_DEMI,
 	
 	input logic e_enable_br, //  apparition de la boule rouge
-	input logic [6:0] e_move_br, // déplacement de la boule rouge
+	input logic [5:0] e_move_br, // déplacement de la boule rouge 
 	input logic [20:0] e_XY0_br,
 	
 	input logic e_start_qb, // état du jeux
@@ -44,25 +44,20 @@ module boule_rouge_layer(
 	input logic e_bad_jump,
 	input logic [31:0] e_speed_qb,
 	input logic qbert_hitbox,
+	input logic KO_qb,
 	
 	input logic done_move_sc,
-	// input logic [27:0] position_qb,
-	// input logic [27:0] e_next_qb,
-	// input logic [2:0] mvt_reg,
-	// input logic [10:0] x_offset,  
-	// input logic [9:0]  y_offset,
-	// input logic [20:0] soucoupe_xy,
-	// input logic [1:0] e_tilt_acc,
-	// input logic qb_on_sc,
+	
+	input logic freeze_power,
 
 //------OUTPUT-------------------//
-	output logic [20:0] boule_rouge_xy,
-	output logic [3:0] KO_qb, 
-	output logic [2:0] state_qb, 
-	output logic [2:0] game_qb, 
-	
+
+	output logic [20:0] boule_rouge_xy,  
 	output logic boule_rouge_hitbox,
-	output logic done_move,
+	output logic br_state,
+	output logic br_end,
+	output logic [4:0] br_mvt_cnt,
+	output logic done_move_br,
 	output logic la_boule_rouge
 
 	);
@@ -91,12 +86,9 @@ logic [10:0] start_x = 11'd0;
 
 
 
-reg ko_anim, start_anim;
-reg [1:0] end_anim; 
-reg [1:0] saucer_anim;
 
-typedef enum logic [2:0] {START, MOVE, END} brstate_t;
-brstate_t br_state;
+typedef enum logic [2:0] {INIT, START, IDLE, MOVE, END} brstate_t;
+brstate_t boule_rouge_state;
 
 typedef enum logic [1:0] {RESUME, PAUSE, RESTART} state_t;
 state_t game_state;
@@ -106,100 +98,107 @@ always_ff @(posedge clk) begin
 
 speed <= (e_speed_qb != 1'b0) ? e_speed_qb : df_speed;	
 
-if (mvt_cnt = 5'd1) mvt_reg <= e_move_br[0];
-else (mvt_cnt = 5'd2) mvt_reg <= e_move_br[1];
-else (mvt_cnt = 5'd3) mvt_reg <= e_move_br[2];
-else (mvt_cnt = 5'd4) mvt_reg <= e_move_br[3];
-else (mvt_cnt = 5'd5) mvt_reg <= e_move_br[4];
-else (mvt_cnt = 5'd6) mvt_reg <= e_move_br[5];
-else mvt_reg <= 1'b0;
-
 
 case(game_state)
 	RESUME :	begin 
 					if(e_pause_qb)	game_state <= PAUSE;
 					else begin
-						if (e_enable_br & !done_move_sc) br_state <= START;
-						else if (done_move_sc) br_state <= END;
-						case(br_state)
-								START : begin 
+						if (done_move_sc) boule_rouge_state <= END;
+						else if (freeze_power) boule_rouge_state <= IDLE;
+						else if (KO_qb) boule_rouge_state <= END;
+						case(boule_rouge_state)
+								INIT : 	begin 
+											if(e_enable_br) begin
 												{x0,y0} <= {e_XY0_br[20:10] - (XLENGTH) + start_x, e_XY0_br[9:0]};
 												{XC,YC} <= {e_XY0_br[20:10] - (XLENGTH) + start_x, e_XY0_br[9:0] + YDIAG_DEMI};
-												case(start_anim)
-													1'b0 : if( count[16] == 1'b1 ) begin
-																if (start_x < XLENGTH)
-																	start_x <= start_x + 11'd1;
-																else begin
-																			count <= 32'b0;
-																			mvt_cnt <= 4'd1;
-																			done_move_reg <= 1'b1;
-																			start_x <= 11'd0;
-																			br_state <= MOVE;
-																		end
-																start_anim <= 1'b1;
-															end
-															else count <= count + 1'b1;
-													1'b1 : if(count[16] == 1'b0) start_anim <= 1'b0;
-												endcase 												
+												boule_rouge_end <= 1'b0;
+												boule_rouge_state <= START;
+											end 
+										end
+								START : begin
+											{XC,x0} <= {XC,x0} + {start_x,start_x};
+											if( count[16] == 1'b1 ) begin
+												count <= 1'b0;
+												if (start_x < XLENGTH)
+													start_x <= start_x + 11'd1;
+												else begin
+													mvt_cnt <= 4'd1;
+													mvt_reg <= e_move_br[0];
+													done_move_reg <= 1'b1;
+													start_x <= 11'd0;
+													boule_rouge_state <= IDLE;
+												end				
 											end
+											else count <= count + 1'b1;
+										end
+								IDLE : 	begin
+											if(!freeze_power) begin
+												done_move_reg <= 1'b0;
+												if(count[19]==1'b1) begin 
+													count <= 1'b0;
+													boule_rouge_state <= MOVE;
+													if (mvt_cnt = 5'd2) mvt_reg <= e_move_br[1];
+													else (mvt_cnt = 5'd3) mvt_reg <= e_move_br[2];
+													else (mvt_cnt = 5'd4) mvt_reg <= e_move_br[3];
+													else (mvt_cnt = 5'd5) mvt_reg <= e_move_br[4];
+													else (mvt_cnt = 5'd6) mvt_reg <= e_move_br[5];
+												end
+												else count <= count + 1'b1;
+											end
+										end
 								MOVE : begin 
-												count <= count + 32'd1;
-												case(move_anim)
-														if( count == speed ) begin
-																if (mvt_reg == 1'b0) begin
-																	if (YC > y0) 
-																		{XC,YC} <= {XC , YC - 10'd1}; 
-																	else if (XC < x0 + XDIAG_DEMI + XLENGTH) 
-																		{XC,YC} <= {XC + 11'd1, YC};
-																	else begin
-																		done_move_reg <= 1'b1;
-																		if (mvt_cnt == 5'd7) begin
-																			mvt_cnt <= 1'b0;
-																			br_state <= END;
-																		end
-																		else  mvt_cnt <= mvt_cnt + 1;								
-																	end
-																	count <= 1'b0;
-																	move_anim <= ZERO;
-																end
-																else if (mvt_reg == 1'b1) begin
-																	if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
-																		{XC,YC} <= {XC , YC + 10'd1}; 
-																	else if (XC < x0 + XDIAG_DEMI + XLENGTH) 
-																		{XC,YC} <= {XC + 11'd1, YC}; 
-																	else begin
-																		done_move_reg <= 1'b1;
-																		if (mvt_cnt == 5'd7) begin
-																			mvt_cnt <= 1'b0;
-																			br_state <= END;
-																		end
-																		else mvt_cnt <= mvt_cnt + 1;
-																	end
-																	count <= 1'b0;
-																	move_anim <= ZERO;
-																end
+											if( count == speed ) begin
+												count <= 1'b0;
+													if (mvt_reg == 1'b0) begin
+														if (YC > y0) 
+															{XC,YC} <= {XC , YC - 10'd1}; 
+														else if (XC < x0 + XDIAG_DEMI + XLENGTH) 
+															{XC,YC} <= {XC + 11'd1, YC};
+														else begin
+															done_move_reg <= 1'b1;
+															if (mvt_cnt == 5'd6) begin
+																mvt_cnt <= 1'b0;
+																boule_rouge_state <= END;
 															end
-														else begin count <= count + 1'b1;
-																	done_move_reg <= 1'b0;
+															else begin 
+																mvt_cnt <= mvt_cnt + 1;
+																boule_rouge_state <= IDLE;
+															end																
 														end
-												endcase
+													end
+													else if (mvt_reg == 1'b1) begin
+														if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
+															{XC,YC} <= {XC , YC + 10'd1}; 
+														else if (XC < x0 + XDIAG_DEMI + XLENGTH) 
+															{XC,YC} <= {XC + 11'd1, YC}; 
+														else begin
+															done_move_reg <= 1'b1;
+															if (mvt_cnt == 5'd6) begin
+																mvt_cnt <= 1'b0;
+																boule_rouge_state <= END;
+															end
+															else begin 
+																mvt_cnt <= mvt_cnt + 1;
+																boule_rouge_state <= IDLE;
+															end
+														end
+													end
+											end
+											else count <= count + 1'b1;
 										end
 								END : 	begin
-												case(end_anim)
-													2'b00 : if( count[17] == 1'b1 ) begin
-																if (shade_x < ( XDIAG_DEMI >> 1 )) /// MODIFICATION
-																	shade_x <= shade_x + 11'd1;
-																else begin
-																		count <= 32'b0;
-																		shade_x <= 11'd0;
-																		end_anim <= 2'b10;
-																	end
-																end_anim <= 2'b1;
-															 end
-															 else count <= count + 1'b1;
-													2'b01 : if(count[17] == 1'b0) end_anim <= 2'b0;
-													2'b10 : if(e_enable_br) br_state <= START;
-												endcase 
+											if( count[17] == 1'b1 ) begin
+												count <= 1'b0;
+												if (shade_x < (YDIAG_DEMI>>1)) /// MODIFICATION
+													shade_x <= shade_x + 11'd1;
+												else begin
+													count <= 32'b0;
+													shade_x <= 11'd0;
+													boule_rouge_end <= 1'b1;
+													boule_rouge_state <= INIT;
+												end
+											end
+											else count <= count + 1'b1;
 										end
 						endcase
 					end	
@@ -209,82 +208,32 @@ case(game_state)
 					else if (e_start_qb) game_state <= RESTART;
 				end
 	RESTART : begin
-						qbert_state <= START;
+						boule_rouge_state <= INIT;
 						start_x <= 11'd0;
 						shade_x <= 11'd0;
-						KO_qb <= 1'b0;
 						{XC,YC} <= 21'b0;
-						mode_saucer <= 1'b0;
-						saucer_anim <= 2'b0;
 						game_state <= RESUME;
 				 end
 	endcase
-	
-	state_qb <= qbert_state;
-	game_qb <= game_state;
 end	
 
 
-//---------LeQbert------------------------//
+//---------LaBouleRouge------------------------//
 	
 always_ff @(posedge clk) begin	
-
-if (mvt_reg == 3'd1 || mvt_reg == 3'd3) begin
-	pied_gauche <= { (y_cnt <= YC + YDIAG_DEMI/10'd6  && y_cnt >= YC - YDIAG_DEMI/10'd6)	
-						&& (x_cnt >= XC + XDIAG_DEMI/11'd2 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
-						
-	pied_droit <= { (y_cnt <= YC - YDIAG_DEMI/10'd12  && y_cnt >= YC - 10'd5*YDIAG_DEMI/10'd12)
-						&& (x_cnt >= XC + XDIAG_DEMI/11'd2 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
 	
-	jambe_droite <= {	(y_cnt <= YC - YDIAG_DEMI/10'd12 && y_cnt >= YC - YDIAG_DEMI/10'd6)
-							&& (x_cnt >= XC + XDIAG_DEMI/11'd3 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
-							
-	jambe_gauche <= {	(y_cnt <= YC + YDIAG_DEMI/10'd6 && y_cnt >= YC + YDIAG_DEMI/10'd12)
-							&& (x_cnt >= XC + XDIAG_DEMI/11'd3 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
+	is_boule_rouge <= (x_cnt - XC)*(x_cnt - XC)+(y_cnt - XC)*(y_cnt - XC) <= (YDIAG_DEMI*YDIAG_DEMI >> 2);
 	
-	tete <= {(y_cnt >= YC - YDIAG_DEMI/10'd4 && y_cnt <= YC + YDIAG_DEMI/10'd4) 
-			&& (x_cnt <= XC + XDIAG_DEMI/11'd3 && x_cnt >= XC - XDIAG_DEMI/11'd2)};
-			
-	museau <= {(y_cnt <= YC - YDIAG_DEMI/10'd4 && y_cnt >= YC - 11'd2*YDIAG_DEMI/10'd3) 
-			&& (x_cnt <= XC + XDIAG_DEMI/11'd3 && x_cnt >= XC - XDIAG_DEMI/11'd4)};
-			
-	qbert_hitbox <= {( y_cnt <= YC + YDIAG_DEMI/10'd4 &&  y_cnt >= YC - 11'd2*YDIAG_DEMI/10'd3)
-			&& (x_cnt >= XC - XDIAG_DEMI/11'd2 + shade_x && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3 )};
-			
-end
-else begin 
-
-	pied_gauche <= { (y_cnt >= YC + YDIAG_DEMI/10'd6  && y_cnt <= YC + YDIAG_DEMI/10'd2)	
-						&& (x_cnt >= XC + XDIAG_DEMI/11'd2 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
-						
-	pied_droit <= { (y_cnt >= YC - YDIAG_DEMI/10'd6 && y_cnt < YC + YDIAG_DEMI/10'd6)
-						&& (x_cnt >= XC + XDIAG_DEMI/11'd2 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
-	
-	jambe_droite <= {	(y_cnt >= YC - YDIAG_DEMI/10'd6 && y_cnt <= YC - YDIAG_DEMI/10'd12)
-							&& (x_cnt >= XC + XDIAG_DEMI/11'd3 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
-							
-	jambe_gauche <= {	(y_cnt >= YC + YDIAG_DEMI/10'd12 && y_cnt <= YC + YDIAG_DEMI/10'd6)
-							&& (x_cnt >= XC + XDIAG_DEMI/11'd3 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
-	
-	tete <= {(y_cnt >= YC - YDIAG_DEMI/10'd4 && y_cnt <= YC + YDIAG_DEMI/10'd4) 
-			&& (x_cnt <= XC + XDIAG_DEMI/11'd3 && x_cnt >= XC - XDIAG_DEMI/11'd2)};
-			
-	museau <= {(y_cnt >= YC + YDIAG_DEMI/10'd4 && y_cnt <= YC + 11'd2*YDIAG_DEMI/10'd3) 
-			&& (x_cnt <= XC + XDIAG_DEMI/11'd3 && x_cnt >= XC - XDIAG_DEMI/11'd4)};
-			
-	qbert_hitbox <= {( y_cnt >= YC - YDIAG_DEMI/10'd4 &&  y_cnt <= YC + 11'd2*YDIAG_DEMI/10'd3)
-			&& (x_cnt >= XC - XDIAG_DEMI/11'd2 + shade_x && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
-			
-end
-	
-	is_qbert <= {pied_gauche, jambe_gauche, pied_droit, jambe_droite, tete, museau};
-	
+	boule_rouge_hitbox <= {(x_cnt <= e_XY0_br[20:10] + (YDIAG_DEMI>>2) && x_cnt >= e_XY0_br[20:10] - (YDIAG_DEMI>>2) + shade_x)
+							&& (y_cnt <= (e_XY0_br[20:10]+YDIAG_DEMI) + (YDIAG_DEMI>>2) && y_cnt >= (e_XY0_br[20:10]+YDIAG_DEMI) - (YDIAG_DEMI>>2))};
 
 end
 
-assign saucer_qb_state = saucer_anim;
-assign done_move = done_move_reg;	
-assign le_qbert = (is_qbert != 6'b0);
-assign qbert_xy = {XC,YC};
+assign br_mvt_cnt = mvt_cnt;
+assign br_state = boule_rouge_state;
+assign br_end = boule_rouge_end;
+assign done_move_br = done_move_reg;	
+assign la_boule_rouge = is_boule_rouge;
+assign boule_rouge_xy = {XC,YC};
 
 endmodule

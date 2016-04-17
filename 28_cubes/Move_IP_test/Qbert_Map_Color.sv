@@ -74,8 +74,14 @@ module Qbert_Map_Color(
 						.shift(shift),
 						.rank_xy_offset( RANK_XY_OFFSET )
 						);
-	// couleur
-//	logic [7:0] decolor;
+						
+	// couleur de pause
+	logic [7:0] col_pause = 8'd0;
+	logic [7:0]	col_pause_16 = 8'd0;
+	logic [7:0]	col_pause_18 = 8'd0;
+	logic [7:0]	col_pause_33 = 8'd0;
+	logic [7:0]	col_pause_39 = 8'd0;
+	
 	// curseur pour tracer les cubes
 	logic [20:0] xy_offset [6:0];
 	

@@ -35,6 +35,11 @@ void vid_clean_usefull(alt_video_display* display, int color){
     vid_paint_block(0 , 81,display->width, display->height, color, display);
 }
 
+void vid_clean_buttons(alt_video_display* display, int color){
+    vid_paint_block(0 , 0, 119, 74, color, display);
+    vid_paint_block(121 , 0, 240, 74, color, display);
+}
+
 /******************************************************************
 *  Function: vid_draw_line
 *
@@ -73,6 +78,22 @@ __inline__ void vid_draw_line(int horiz_start, int vert_start, int horiz_end, in
   }
 }
 
+void vid_draw_DR(alt_video_display* display){
+	vid_draw_horiz_line(160, 200, 120, 0xFF6600, display);
+	vid_draw_line(200, 120, 200, 160, 2, 0xFF6600, display); // Down right arrow
+}
+void vid_draw_DL(alt_video_display* display){
+	vid_draw_horiz_line(160, 200, 280, 0xFF6600, display);
+	vid_draw_line(200, 240, 200, 280, 2, 0xFF6600, display); // Down left arrow
+}
+void vid_draw_UR(alt_video_display* display){
+	vid_draw_horiz_line(40, 80, 120, 0xFF6600, display);
+	vid_draw_line(40, 120, 40, 160, 2, 0xFF6600, display); // Up right arrow
+}
+void vid_draw_UL(alt_video_display* display){
+	vid_draw_horiz_line(40, 80, 280, 0xFF6600, display);
+	vid_draw_line(40, 240, 40, 280, 2, 0xFF6600, display); // Up left arrow
+}
 
 
 void vid_scroll_string_quit(vid_text_scroll_struct* scroll)

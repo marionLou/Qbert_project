@@ -1,0 +1,199 @@
+// ============================================================================
+// Copyright (c) 2014 by Terasic Technologies Inc.
+// ============================================================================
+
+#include "../terasic_lib/terasic_includes.h"
+#include "gui.h"
+#include "../graphic_lib/alt_video_display.h"
+#include "../terasic_lib/touch_spi.h"
+#include "../graphic_lib/simple_graphics.h"
+
+
+#define DOT_SIZE    5
+#define BTN_NUM		4
+#define BTN_GEN		2
+
+void GUI_ShowInfo(alt_video_display *pDisplay, char *pText);
+void GUI_ShowWelcome(alt_video_display *pDisplay);
+void GUI_ShowTouchPoint(alt_video_display *pDisplay, int X1, int Y1, int color);
+
+
+alt_u32 szPallete[] = {
+    WHITE_24,
+    0xFFFFFF,
+    0x0000FF,
+    0x00FF00,
+    0xFF0000
+};
+
+void GUI_ShowWelcome(alt_video_display *pDisplay){
+	int x, y;
+
+
+	x = pDisplay->width / 2 - 60;
+	y = pDisplay->height / 2 - 10;
+
+	vid_print_string_alpha(x, y, BLUE_24, BLACK_24, tahomabold_20, pDisplay, "Terasic");
+	vid_print_string_alpha(x, y+22, BLUE_24, BLACK_24, tahomabold_20, pDisplay, "Touch Demo");
+}
+
+void GUI_ShowInfo(alt_video_display *pDisplay, char *pText){
+    static int x=0,y=100;
+   // vid_clean_screen(pReader, BLACK_24);
+    vid_print_string_alpha(x, y, BLUE_24, BLACK_24, tahomabold_20, pDisplay, pText);
+ //   VIPFR_ActiveDrawFrame(pReader);
+}
+
+void GUI_ShowTouchPoint(alt_video_display *pDisplay, int X, int Y, int color){
+    vid_draw_circle(X, Y, 10, color, DO_FILL, pDisplay);
+   // VIPFR_ActiveDrawFrame(pReader);
+}
+
+
+//----------------------------------------------------------------------------------------------------
+void GUI_InitDraw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo){
+	vid_clean_screen(pDisplay, 0x000000);
+	RECT *rc_set;
+	int k=0;
+
+	// Lines for buttons
+	vid_draw_horiz_line (0, 240, 80, 0xFF6600, pDisplay);
+	vid_draw_horiz_line (0, 240, 75, 0xFF6600, pDisplay);
+	vid_draw_line(120, 0, 120, 75, 2, 0xFF6600,pDisplay);
+
+	// Switch button
+	RectSet(rc_set, 0, 120, 0, 50);
+	RectCopy(&pDeskInfo->rcGen[k], rc_set); k++;
+	RectOffset(rc_set, 120, 0);
+	RectCopy(&pDeskInfo->rcGen[k], rc_set);
+
+	/*  vid_print_string_alpha(60,80,BLACK_24,WHITE_24, tahomabold_20 ,pDisplay, "Blue");
+    vid_print_string_alpha(180,80,BLACK_24,WHITE_24, tahomabold_20 ,pDisplay, "Green"); // ajoute des strings
+    vid_print_string_alpha(60,240,BLACK_24,WHITE_24, tahomabold_20 ,pDisplay, "Red");
+    vid_print_string_alpha(180,240,BLACK_24,WHITE_24, tahomabold_20 ,pDisplay, "White");
+*/
+}
+
+//----------------------------------------------------------------------------------------------------
+
+void GUI_Buttons_Draw(alt_video_display *pDisplay, int status){
+	vid_clean_buttons(pDisplay, 0x000000);
+	if (status){
+		vid_print_string_alpha(33,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Pause"); // pause button
+		vid_print_string_alpha(155,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Accel"); // accel button
+	}
+	else {
+		vid_print_string_alpha(20,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Resume"); // pause button
+		vid_print_string_alpha(145,20,0xFF6600,0x000000, tahomabold_20 ,pDisplay, "Restart"); // accel button
+	}
+}
+
+//----------------------------------------------------------------------------------------------------
+
+void GUI_CMD_Init(alt_video_display *pDisplay, DESK_INFO *pDeskInfo){
+	RECT *rc_test;
+	int i=0;
+
+	// RectSet args: (RECT *rc, left, right, top, bottom)
+	// Upper right arrow
+	RectSet(rc_test, 0, 120, 80, 200);
+    RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
+	// Upper left arrow
+	RectOffset(rc_test, 0, 120);
+	RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
+	// Lower left arrow
+	RectOffset(rc_test, 120, 0);
+	RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
+	// Lower right arrow
+	RectOffset(rc_test, 0, -120);
+	RectCopy(&pDeskInfo->rcCMD[i], rc_test); i++;
+
+}
+
+//----------------------------------------------------------------------------------------------------
+void GUI_CMD_Draw(alt_video_display *pDisplay, DESK_INFO *pDeskInfo){
+	vid_clean_usefull(pDisplay, 0x000000);
+
+	// Lines between arrows
+	vid_draw_line(0, 200, 240, 200, 2, 0xFF6600,pDisplay);
+	vid_draw_line(120, 80, 120, 320, 2, 0xFF6600,pDisplay);
+
+	vid_draw_DR(pDisplay); vid_draw_DL(pDisplay);
+	vid_draw_UR(pDisplay); vid_draw_UL(pDisplay);
+
+}
+
+//----------------------------------------------------------------------------------------------------
+void GUI_CMD_Lightning(alt_video_display *pDisplay, int choice, int color){
+	if (choice==1){
+		vid_paint_block(121 , 81, pDisplay->width, 199, color, pDisplay); vid_draw_DR(pDisplay);
+	}
+	else if (choice==2){
+		vid_paint_block(121, 201, pDisplay->width, pDisplay->height, color, pDisplay); vid_draw_DL(pDisplay);
+	}
+	else if (choice==3){
+		vid_paint_block(0, 81, 119, 199, color, pDisplay); vid_draw_UR(pDisplay);
+	}
+	else vid_paint_block(0, 201, 119, pDisplay->height, color, pDisplay); vid_draw_UL(pDisplay);
+}
+
+//----------------------------------------------------------------------------------------------------
+void GUI_Jump_DrawBG(alt_video_display *pDisplay, DESK_INFO *pDeskInfo){
+	vid_clean_usefull(pDisplay, 0x000000);
+	int k, step, next;
+	step = (pDisplay->height-80)/3;
+
+	for (k=1; k<3; k++)
+	{
+		next = 80+(k*step);
+		vid_draw_horiz_line(0, pDisplay->width, next, 0xFF6600, pDisplay);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------
+void GUI_Jump_DrawStep(alt_video_display *pDisplay, int side){
+	// next must be between 0 and 4
+	// vid_clean_usefull(pDisplay, 0x000000);
+	int step = 240/3;
+	int start = 80+(step*side);
+	vid_paint_block(0, start, 240, start+step, 0xFF6600, pDisplay);
+}
+//----------------------------------------------------------------------------------------------------
+int GUI_CheckCMD(DESK_INFO *pDeskInfo, POINT *pt){
+    int ButtonId = BTN_NONE;
+    int i;
+    
+    for(i=0;i<BTN_NUM && (ButtonId == BTN_NONE);i++){
+        if (IsPtInRect(pt, &pDeskInfo->rcCMD[i]))
+            ButtonId = i;
+    }
+    return ButtonId;
+}
+
+int GUI_CheckGen(DESK_INFO *pDeskInfo, POINT *pt){
+    int ButtonId = BTN_OUT;
+    int i;
+
+    for(i=0;i<BTN_GEN && (ButtonId == BTN_OUT);i++){
+        if (IsPtInRect(pt, &pDeskInfo->rcGen[i]))
+            ButtonId = i;
+    }
+    return ButtonId;
+}
+
+//----------------------------------------------------------------------------------------------------
+/*
+bool IsContinuedPoint(POINT *ptPre, POINT *ptNew){
+    bool bYes = TRUE;
+    const int nMax = 50;
+    if (abs(ptPre->x - ptNew->x) > nMax)
+        bYes = FALSE;
+    else if (abs(ptPre->y - ptNew->y) > nMax)
+        bYes = FALSE;
+        
+    return bYes;
+}
+*/
+
+
+

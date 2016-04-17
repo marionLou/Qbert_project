@@ -27,37 +27,55 @@ module qbert_layer(
 //------INPUT--------------------//	
 	input logic clk,
 	input logic reset,
+	input logic [10:0] x_cnt, x_offset,  
+	input logic [9:0] y_cnt, y_offset,
+	
+	input mode arcade,
+	input mode fun,
+	input win_qb,
+	
 	input logic e_start_qb,
 	input logic e_resume_qb,
 	input logic e_pause_qb,
+	
+	input logic [10:0] XDIAG_DEMI, XLENGTH,
+	input logic [9:0] YDIAG_DEMI,
+
 	input logic e_bad_jump,
+	
 	input logic [31:0] e_speed_qb,
 	input logic [27:0] position_qb,
 	input logic [27:0] e_next_qb,
 	input logic [2:0] e_jump_qb,
-	input logic [10:0] x_cnt, x_offset,  
-	input logic [9:0] y_cnt, y_offset,
-	input logic [10:0] XDIAG_DEMI, XLENGTH,
-	input logic [9:0] YDIAG_DEMI,
+
 	input logic [20:0] soucoupe_xy,
 	input logic [1:0] e_tilt_acc,
 	input logic qb_on_sc,
 	input logic done_move_sc,
+	
+	input logic e_freeze_acc,
+	input logic e_timer_freeze,
+	
+	input logic KO_serpent,
+	input logic [3:0] KO_boule_rouge,
+	input logic [3:0] KO_cochon,
+	input logic KO_fantome,
+	
+	input e_piece, 
 
 //------OUTPUT-------------------//
 	output logic [20:0] qbert_xy,
-	output logic [3:0] KO_qb, 
+	output logic [3:0] LIFE_qb, 
 	output logic [2:0] state_qb, 
 	output logic [2:0] game_qb, // variable pour tester dans 
 													// quel état se trouve qbert
 													// dans le nios
-	output logic [31:0] test_count, // checker le nombre de clock qu'il 
-												// faut pour accrémenter d'un bit
-												// l'animation du démarrage
+								
+	output logic freeze_power,
 	output logic mode_saucer,
 	output logic qbert_hitbox,
-	output logic done_move,
-	output logic [1:0] saucer_qb_state,
+	output logic done_move_qb,
+	output logic [1:0] saucer_qb_state, // test pour savoir dans quel state se trouve le qbert dans l'anim du saucer
 	output logic le_qbert
 
 	);
@@ -67,38 +85,24 @@ logic [10:0] x0;
 logic [9:0]  y0; 
 logic [10:0] XC = 11'd100;
 logic [9:0] YC = 10'd180;
-//{XC,YC} = {11'd100,10'd180}
 reg done_move_reg;
 
-//--------- zone qbert----------
-logic pied_gauche;
-logic pied_droit;
-logic jambe_gauche;
-logic jambe_droite;
-logic tete;
-logic museau;
-logic [5:0] is_qbert;
 
 logic [31:0] count = 32'b0;
-logic [31:0] move_count = 32'b0;
-logic [31:0] ko_count = 32'b0;
 logic [31:0] start_count = 32'b0;
-logic [31:0] sc_count = 32'b0;
 logic [31:0] df_speed = 32'd100000; 
 logic [31:0] speed;
 logic [10:0] shade_x = 11'd0;
 logic [10:0] start_x = 11'd0;
 
-// typedef enum logic {PLUS, ZERO} anim_t;
-// anim_t move_anim;
 
-reg ko_anim, start_anim;
 reg [1:0] saucer_anim;
+logic bad_jump;
 
-typedef enum logic [2:0] {INIT, START, JUMP, IDLE, SAUCER, FREEZE, KO} qstate_t;
+typedef enum logic [3:0] {INIT, START, JUMP, IDLE, SAUCER, FREEZE, END} qstate_t;
 qstate_t qbert_state;
 
-typedef enum logic [1:0] {RESUME, PAUSE, RESTART} state_t;
+typedef enum logic [2:0] {MENU, RESUME, PAUSE, RESTART, GAMEOVER, WIN} state_t;
 state_t game_state;
 
 logic [2:0] jump_reg;
@@ -115,8 +119,13 @@ speed <= (e_speed_qb != 1'b0) ? e_speed_qb : df_speed;
 					 100 : UP_LEFT
 */
 case(game_state)
+	MENU : 	if (e_resume_qb) begin
+				qbert_state <= INIT;
+				game_state <= RESUME;
+			end
 	RESUME :	begin 
 					if(e_pause_qb)	game_state <= PAUSE;
+					else if(KO_serpent|KO_boule_rouge) qbert_state <= END;
 					else begin
 						case(qbert_state)
 								INIT : 	begin
@@ -124,11 +133,15 @@ case(game_state)
 											{XC,YC} <= {x_offset - (XLENGTH) + start_x, y_offset + YDIAG_DEMI};
 											start_x <= 11'd0;
 											shade_x <= 11'd0;
-											KO_qb <= 1'b0;
+											KO_count <= 1'b0;
+										end
+								START : begin
+											{x0,y0} <= {x_offset - (XLENGTH) + start_x, y_offset};
+											{XC,YC} <= {x_offset - (XLENGTH) + start_x, y_offset + YDIAG_DEMI};
+											start_x <= 11'd0;
+											shade_x <= 11'd0;
 											mode_saucer <= 1'b0;
 											saucer_anim <= 2'b0;
-										end
-								START : begin 
 											if( count[17] == 1'b1 ) begin
 												count <= 1'b0; 
 												if (start_x < XLENGTH)
@@ -200,6 +213,7 @@ case(game_state)
 													qbert_state <= JUMP;
 												end
 												else if(e_tilt_acc == 2'd1) begin
+													done_move_reg <= 1'b0;
 													tilt_acc_reg <= e_tilt_acc; 
 													mode_saucer <= 1'b1;
 													if(position_qb == `TOP) qbert_state <= SAUCER;
@@ -211,6 +225,7 @@ case(game_state)
 													else if(position_qb == `R22) qbert_state <= SAUCER;
 												end
 												else if(e_tilt_acc == 2'd2) begin
+													done_move_reg <= 1'b0;
 													tilt_acc_reg <= e_tilt_acc;
 													mode_saucer <= 1'b1;
 													if(position_qb == `TOP) qbert_state <= SAUCER;
@@ -221,49 +236,52 @@ case(game_state)
 													else if(position_qb == `L21) qbert_state <= SAUCER;
 													else if(position_qb == `L28) qbert_state <= SAUCER;
 												end
-												else if (e_freeze_power) begin
+												else if (e_freeze_acc) begin
 													freeze_reg <= 1'b1;
 													qbert_state <= FREEZE;
 												end
 										end
+								FREEZE : 	begin 	// L'état freeze empêche le joueur d'avancer quand il active le pouvoir 
+													// freeze (juste le temp de la manip avec l'acceleromètre)
+												if(count[20] == 1'b1) begin
+													count <= 1'b0;
+													qbert_state <= IDLE;
+												end
+												else count <= count + 1'b1;
+											end 
 								SAUCER :	begin
-												sc_count <= sc_count + 32'd1;
-												case(saucer_anim)
-													2'b00 : if( sc_count == speed ) begin
-																	if (e_tilt_acc == 2'd1) begin
+													case(saucer_anim)
+													2'b00 : if( count == speed ) begin
+																count <= 1'b0;
+																	if (tilt_acc_reg == 2'd1) begin
 																		if (YC > y0-YDIAG_DEMI) begin
 																			{XC,YC} <= {XC , YC - 10'd1};
-																			sc_count <= 1'b0;
-																			saucer_anim <= 2'b01;
 																		end
 																		else begin
 																			done_move_reg <= 1'b1;
-																			sc_count <= 1'b0;
-																			if (!qb_on_sc) qbert_state <= KO;
-																			else saucer_anim <= 2'b10; 																			
+																			if (!qb_on_sc) begin
+																				bad_jump <= 1'b1;
+																				qbert_state <= END;
+																			end
+																			else saucer_anim <= 2'b01; 																			
 																		end
 																	end
-																	else if (e_tilt_acc == 2'd2) begin
+																	else if (tilt_acc_reg == 2'd2) begin
 																		if (YC < y0+YDIAG_DEMI+YDIAG_DEMI+YDIAG_DEMI) begin 
 																			{XC,YC} <= {XC , YC + 10'd1};
-																			sc_count <= 1'b0;
-																			saucer_anim <= 2'b01;
 																		end
 																		else begin
 																			done_move_reg <= 1'b1;
-																			sc_count <= 1'b0;
-																			if (!qb_on_sc) qbert_state <= KO;
-																			else saucer_anim <= 2'b10;
+																			if (!qb_on_sc) begin
+																				bad_jump <= 1'b1;
+																				qbert_state <= END;
+																			end
+																			else saucer_anim <= 2'b01;
 																		end
-																		sc_count <= 1'b0;
-																		saucer_anim <= 2'b01;
 																	end
 																end
-													2'b01 : begin 
-																done_move_reg <= 1'b0;
-																saucer_anim <= 2'b0; 
-															end
-													2'b10 : begin
+															else count <= count + 1'b1;
+													2'b01 : begin
 																if(done_move_sc) begin 
 																	mode_saucer <= 1'b0;
 																	saucer_anim <= 2'b0;
@@ -271,31 +289,26 @@ case(game_state)
 																end
 																else {XC,YC} <= soucoupe_xy;
 															end
-												endcase
-											end
-								KO : 	begin
-//												if(!e_bad_jump)
-//													qbert_state <= IDLE;
-//												else
-//													qbert_state <= START;
-												ko_count <= ko_count + 1'b1;
-												case(ko_anim)
-													1'b0 : if( ko_count[17] == 1'b1 ) begin
-																if (shade_x < ( XDIAG_DEMI/11'd2 + 11'd2*XDIAG_DEMI/11'd3))
-																	shade_x <= shade_x + 11'd1;
-																else begin
-																			KO_qb <= KO_qb + 1'b1;
-																			ko_count <= 32'b0;
-																			shade_x <= 11'd0;
-																			if(!e_bad_jump)
-																				qbert_state <= IDLE;
-																			else
-																				qbert_state <= START;
-																		end
-																ko_anim <= 1'b1;
-															 end
-													1'b1 : if(ko_count[17] == 1'b0) ko_anim <= 1'b0;
-												endcase 
+													endcase
+											end 
+								END : 	begin
+													if( count[17] == 1'b1 ) begin
+														count <= 1'b0;
+														if (shade_x < ( XDIAG_DEMI/11'd2 + 11'd2*XDIAG_DEMI/11'd3))
+															shade_x <= shade_x + 11'd1;
+														else begin
+															LIFE_qb <= LIFE_qb - 1'b1;
+															shade_x <= 11'd0;
+															if(position_qb == 1'b0)
+																qbert_state <= INIT;
+															else if (LIFE_qb == 1'b0)
+																game_state <= GAMEOVER;
+																gameover_piece <= 1'b1;
+															else
+																qbert_state <= IDLE;
+														end
+													end	
+													else count <= count + 1'b1;
 										end
 						endcase
 					end	
@@ -303,23 +316,52 @@ case(game_state)
 	PAUSE : 	begin 
 					if(e_resume_qb) game_state <= RESUME;
 					else if (e_start_qb) game_state <= RESTART;
+					else if (e_menu_qb) game_state <= MENU;
 				end
-	RESTART : begin
+	RESTART : 	begin
 						qbert_state <= INIT;
 						game_state <= RESUME;
-				 end
+				end
+	GAMEOVER :	begin
+					if (mode_arcade) begin
+						gameover_piece <= 1'b0;
+						if (coin > 1'b0 & e_restart_qb)
+							game_state <= RESTART;
+						else if (e_menu_qb)
+							game_state <= MENU;
+					end
+					else if (e_start_qb) game_state <= RESTART;
+					else if (e_menu_qb) game_state <= MENU;
+				end 
+	WIN : 	if(!win_qb) game_state <= PAUSE;
 	endcase
 	
-	state_qb <= qbert_state;
-	game_qb <= game_state;
 end	
+//---- Timer pour l'action freeze --------//
 
+always_ff @(posedge clk) begin 
+	if(freeze_reg) begin 
+		if(freeze_count == e_timer_freeze) begin
+			freezz_count <= 1'b0;
+			freeze <= 1'b0;
+		end	
+		else freeze_count <= freeze_count + 1'b1; 
+	end
+end
 
-//---------LeQbert------------------------//
+//---------Affichage du Qbert------------------------//
+
+logic pied_gauche;
+logic pied_droit;
+logic jambe_gauche;
+logic jambe_droite;
+logic tete;
+logic museau;
+logic [5:0] is_qbert;
 	
 always_ff @(posedge clk) begin	
 
-if (e_jump_qb == 3'd1 || e_jump_qb == 3'd3) begin
+if (jump_reg == 3'd1 || jump_reg == 3'd3) begin
 	pied_gauche <= { (y_cnt <= YC + YDIAG_DEMI/10'd6  && y_cnt >= YC - YDIAG_DEMI/10'd6)	
 						&& (x_cnt >= XC + XDIAG_DEMI/11'd2 && x_cnt <= XC + 11'd2*XDIAG_DEMI/11'd3)};
 						
@@ -368,13 +410,77 @@ else begin
 end
 	
 	is_qbert <= {pied_gauche, jambe_gauche, pied_droit, jambe_droite, tete, museau};
-	
 
 end
 
+assign freeze_power = freeze_reg;  
 assign saucer_qb_state = saucer_anim;
-assign done_move = done_move_reg;	
+assign done_move_qb = done_move_reg;	
 assign le_qbert = (is_qbert != 6'b0);
 assign qbert_xy = {XC,YC};
+assign state_qb = qbert_state;
+assign game_qb = game_state;
+
+//-------Gestion des piece --------------
+// Petit module pour le fun qui compte
+// le nombre de pieces introduits
+// pendant le mode arcade.
+
+logic gameover_piece;
+logic [6:0] coin;
+
+coin_game Beta (
+	.clk,
+	.e_piece,
+	.gameover_piece,
+	.mode_arcade,
+	.coin
+);
+
+endmodule
+
+//-------------------------------
+
+module coin_game (
+	input clk,
+	input e_piece,
+	input gameover_piece,
+	input mode_arcade,
+	output [6:0] coin
+);
+
+parameter logic [6:0] max = 7'd99;
+
+typedef enum logic [1:0] {INIT, IDLE, UPDATE} state_t;
+state_t coin_state;
+
+logic signed up;
+
+always_ff @(posedge clk) begin
+
+if(mode_arcade)
+	case(coin_state)
+	INIT : 	begin 
+				coin <= 1'b0;
+				up <= 1'b0;
+				coin_state <= IDLE;
+			end
+	IDLE :	begin
+				if(e_piece & (coin < max)) begin
+					up <= 1'd1;
+					coin_state <= UPDATE;
+				end
+				else if (gameover_piece) begin
+					up <= -1'd1;
+					coin_statue <= UPDATE;
+				end
+			end
+	UPDATE:	begin
+				coin <= coin  + up;
+				coin_state <= IDLE;
+			end				
+	endcase
+end
+else coin <= 1'd0;
 
 endmodule

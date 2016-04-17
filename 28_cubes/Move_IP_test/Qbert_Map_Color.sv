@@ -338,7 +338,7 @@ always_ff @(posedge CLK_33) begin
 // Donne les couleurs
 //		if(e_pause_qb) decolor <= 8'd50;
 //		else decolor <= 8'd0;
-if(e_pause_qb) begin 
+/*	if(e_pause_qb) begin 
 		if(hb_qb & le_qbert) begin
 				red <= 8'd255;
 				green <= 8'd145;
@@ -376,45 +376,59 @@ if(e_pause_qb) begin
 		green <= 8'd50;
 		blue 	<= 8'd50;
 		end
-end
-else begin		
-		if(hb_qb & le_qbert) begin
-				red <= 8'd216;
-				green <= 8'd95;
-				blue <= 8'd2;
+	end
+	else begin		*/
+	
+	// Pour ne pas tout repeter deux fois, je pense que
+	// c'est un peu ca que tu voulais faire au debut
+	if(e_pause_qb) begin
+		col_pause <= 8'd50;
+		col_pause_16 <= 8'd16; col_pause_18 <= 8'd18;
+		col_pause_33 <= 8'd33; col_pause_39 <= 8'd39;
+	end else begin
+		col_pause <= 8'd0;
+		col_pause_16 <= 8'd0; col_pause_18 <= 8'd0;
+		col_pause_33 <= 8'd0; col_pause_39 <= 8'd0;
+	end
+	
+	if(hb_qb & le_qbert) begin
+		red <= 8'd216 + col_pause_39;
+		green <= 8'd95 + col_pause;
+		blue <= 8'd2 + col_pause;
+	end
+	else if (hb_sc & la_soucoupe) begin
+		red <= 8'd237 + col_pause_18;
+		green <= 8'd28 + col_pause;
+		blue <= 8'd36 + col_pause;	
+	end	
+	else if(left_face !=0) begin
+		red 	<= 8'd86 + col_pause;
+		green <= 8'd169 + col_pause;
+		blue 	<= 8'd152 + col_pause;
+	end
+	else if(right_face != 0) begin
+		red <= 8'd49 + col_pause;
+		green <= 8'd70 + col_pause;
+		blue <= 8'd70 + col_pause;
+	end 
+	else if( top_face != 0) begin
+		if ( top_color != 0) begin
+			red <= 8'd86 + col_pause;
+			green <= 8'd70 + col_pause;
+			blue <= 8'd239 + col_pause_16;
 		end
-		else if (hb_sc & la_soucoupe) begin
-				red <= 8'd237;
-				green <= 8'd28;
-				blue <= 8'd36;	
-		end	
-		else if(left_face !=0) begin
-			red 	<= 8'd86;
-			green <= 8'd169;
-			blue 	<= 8'd152;
+		else begin 
+			red <= 8'd222 + col_pause_33;
+			green <= 8'd222 + col_pause_33;
+			blue <= 8'd0 + col_pause;
 		end
-		else if(right_face != 0) begin
-			red <= 8'd49;
-			green <= 8'd70;
-			blue <= 8'd70;
-		end 
-		else if( top_face != 0) begin
-			if ( top_color != 0) begin
-				red <= 8'd86; 
-				green <= 8'd70;
-				blue <= 8'd239;
-			end
-			else begin 
-				red <= 8'd222;
-				green <= 8'd222;
-				blue <= 8'd0;
-			end
-		end 
-		else begin
-		red 	<= 8'd0;
-		green <= 8'd0;
-		blue 	<= 8'd0;
-		end
+	end 
+	else begin
+	red 	<= 8'd0 + col_pause;
+	green <= 8'd0 + col_pause;
+	blue 	<= 8'd0 + col_pause;
+	end
+	// Je ne vois pas a quoi sert ce end
 	end
 end
 

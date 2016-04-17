@@ -23,8 +23,8 @@ OS_EVENT *CommMbox;
 
 /* Definition of Task Priorities */
 
-#define TASK1_PRIORITY      7
-#define TASK2_PRIORITY      9
+#define TASK1_PRIORITY      5
+#define TASK2_PRIORITY      6
 #define TASK3_PRIORITY      1
 
 #define BTN_UR		0
@@ -296,11 +296,7 @@ void task3(void* pdata)
 				  PtSet(&Pt, X, Y);
 				  ButtonId = GUI_CheckGen(&DeskInfo, &Pt);
 				  printf("Actual button: %d\n",ButtonId);
-				  if (ButtonId != BTN_NONE ) {
-					  //DeskInfo.Direction_Index = ButtonId;
-					  if (ButtonId != BTN_CMD) Idle=1;
-				  }
-				  else Idle=1;
+				  if (ButtonId != BTN_CMD) Idle=1;
 			  } // if touch */
 			  else Idle=1;
 			  printf("Button pressed\n");

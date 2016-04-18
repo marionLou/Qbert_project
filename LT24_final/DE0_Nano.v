@@ -230,17 +230,19 @@ DE0_LT24_SOPC DE0_LT24_SOPC_inst(
 		
 		// LT24 - TOUCH
 		.lt24_touch_spi_MISO(LT24_ADC_DOUT_bus),        		//      lt24_touch_spi.MISO
-		.lt24_touch_spi_MOSI(LT24_ADC_DIN_bus),        		//                    .MOSI
+		.lt24_touch_spi_MOSI(LT24_ADC_DIN_bus),        			//                    .MOSI
 		.lt24_touch_spi_SCLK(LT24_ADC_DCLK_bus),        		//                    .SCLK
-		.lt24_touch_spi_SS_n(LT24_ADC_CS_N_bus),       		//                    .SS_n
-		.lt24_touch_penirq_n_export(LT24_ADC_PENIRQ_N_bus), // lt24_touch_penirq_n.export
-		.lt24_touch_busy_export(LT24_ADC_BUSY_bus),         //           lt24_touch_busy.export
+		.lt24_touch_spi_SS_n(LT24_ADC_CS_N_bus),       			//                    .SS_n
+		.lt24_touch_penirq_n_export(LT24_ADC_PENIRQ_N_bus),	// lt24_touch_penirq_n.export
+		.lt24_touch_busy_export(LT24_ADC_BUSY_bus),         	//           lt24_touch_busy.export
 		
-		.lt_avalon_out_cs(Avalon_CS),    //lt_avalon_out.cs
-		.lt_avalon_out_sdi(Avalon_SDO),  //             .sdi
-		.lt_avalon_out_sdo(Avalon_SDI),  //             .sdo
-		.lt_avalon_out_sclk(Avalon_SCK), //             .sclk
+		.lt_avalon_out_cs(Avalon_CS),			//lt_avalon_out.cs
+		.lt_avalon_out_sdi(Avalon_SDO),		//             .sdi
+		.lt_avalon_out_sdo(Avalon_SDI),		//             .sdo
+		.lt_avalon_out_sclk(Avalon_SCK),		//             .sclk
 		.lt_avalon_out_sint(Avalon_SINT),
+
+		.irq_tocyclo_out_export(Avalon_CS),	//irq_tocyclo_out.export
 		
 		// PLL
 		.alt_pll_c4_conduit_export(),        				//        alt_pll_c4_conduit.export
@@ -250,13 +252,13 @@ DE0_LT24_SOPC DE0_LT24_SOPC_inst(
 		.alt_pll_phasedone_conduit_export(),  				// alt_pll_phasedone_conduit.export
 		.alt_pll_c1_clk(DRAM_CLK),                      //                alt_pll_c1.clk  
 		
-		.pic_mem_s2_address(pic_mem_s2_address),               //                pic_mem_s2.address
-		.pic_mem_s2_chipselect(pic_mem_s2_chipselect),            //                          .chipselect
-		.pic_mem_s2_clken(pic_mem_s2_clken),                 //                          .clken
-		.pic_mem_s2_write(pic_mem_s2_write),                 //                          .write
-		.pic_mem_s2_readdata(pic_mem_s2_readdata),              //                          .readdata
-		.pic_mem_s2_writedata(pic_mem_s2_writedata),             //                          .writedata
-		.pic_mem_s2_byteenable(pic_mem_s2_byteenable),            //                          .byteenable
+		.pic_mem_s2_address(pic_mem_s2_address),			//                pic_mem_s2.address
+		.pic_mem_s2_chipselect(pic_mem_s2_chipselect),	//                          .chipselect
+		.pic_mem_s2_clken(pic_mem_s2_clken),				//                          .clken
+		.pic_mem_s2_write(pic_mem_s2_write),				//                          .write
+		.pic_mem_s2_readdata(pic_mem_s2_readdata),		//                          .readdata
+		.pic_mem_s2_writedata(pic_mem_s2_writedata),		//                          .writedata
+		.pic_mem_s2_byteenable(pic_mem_s2_byteenable),	//                          .byteenable
 		
 		.lt24_buffer_flag_external_connection_export(lt24_buffer_flag),
 		
@@ -270,8 +272,8 @@ DE0_LT24_SOPC DE0_LT24_SOPC_inst(
 		
 		.gsensor_spi_out_SDIO(I2C_SDAT),                        //                      gsensor_spi_out.SDIO
 		.gsensor_spi_out_SCLK(I2C_SCLK),                        //                                     .SCLK
-		.gsensor_spi_out_CS_n(G_SENSOR_CS_N),                        //                                     .CS_n
-		.gsensor_int_out_export(G_SENSOR_INT)                       //                      gsensor_int_out.export
+		.gsensor_spi_out_CS_n(G_SENSOR_CS_N),                   //                                     .CS_n
+		.gsensor_int_out_export(G_SENSOR_INT)                   //                      gsensor_int_out.export
 	);
 	
 	LT24_buffer lt24_buf(

@@ -39,6 +39,7 @@ module qbert_layer(
 	input logic e_start_qb,
 	input logic e_resume_qb,
 	input logic e_pause_qb,
+	input logic e_win_qb,
 	input logic e_bad_jump,
 	input logic [31:0] e_speed_qb,
 	input logic [27:0] position_qb,
@@ -155,7 +156,8 @@ case(game_state)
 																{XC,YC} <= {XC + 11'd1, YC};
 															else begin
 																done_move_reg <= 1'b1;
-																if (!e_bad_jump) qbert_state <= IDLE;
+																if (e_win_qb) game_state <= WIN;
+																else if (!e_bad_jump) qbert_state <= IDLE;
 																else  qbert_state <= KO;								
 															end
 														end
@@ -166,7 +168,8 @@ case(game_state)
 																{XC,YC} <= {XC + 11'd1, YC}; 
 															else begin
 																done_move_reg <= 1'b1;
-																if (!e_bad_jump) qbert_state <= IDLE;
+																if (e_win_qb) game_state <= WIN;
+																else if (!e_bad_jump) qbert_state <= IDLE;
 																else qbert_state <= KO;								
 															end
 														end
@@ -177,7 +180,8 @@ case(game_state)
 																{XC,YC} <= {XC , YC - 10'd1} ; 
 															else begin
 																done_move_reg <= 1'b1;
-																if (!e_bad_jump) qbert_state <= IDLE;
+																if (e_win_qb) game_state <= WIN;
+																else if (!e_bad_jump) qbert_state <= IDLE;
 																else qbert_state <= KO;								
 															end
 														end
@@ -188,7 +192,8 @@ case(game_state)
 																{XC,YC} <= {XC , YC + 10'd1} ; 
 															else begin
 																done_move_reg <= 1'b1;
-																if (!e_bad_jump) qbert_state <= IDLE;
+																if (e_win_qb) game_state <= WIN;
+																else if (!e_bad_jump) qbert_state <= IDLE;
 																else qbert_state <= KO;								
 															end
 														end
@@ -305,6 +310,8 @@ case(game_state)
 					if(e_resume_qb) game_state <= RESUME;
 					else if (e_start_qb) game_state <= RESTART;
 				end
+	WIN: 		if (e_start_qb) game_state <= RESTART;
+				// + set a variable to have the brightness of pause menu
 	RESTART : begin
 						qbert_state <= START;
 						start_x <= 11'd0;

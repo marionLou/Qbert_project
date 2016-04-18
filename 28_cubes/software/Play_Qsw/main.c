@@ -7,6 +7,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "io.h"
 #include "system.h"
 
@@ -57,75 +58,108 @@ int main(void)
   int tilt_acc = 0;
   IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 104, tilt_acc);
 
-  int spi_game_status;
-  int spi_jump;
-  int spi_acc;
+  int game_level = 2;
+
+  int spi_game_status, spi_jump, spi_acc;
+  int up_game_status = 0;
+  int up_jump = 0;
+  int up_acc = 0;
+  int old_game_status = 0;
+  int old_jump = 0;
+  int old_acc = 0;
 
   // instantiation éléments pour gérer le coloriage
   int dir, etc;
   int next;
   int move[2];
   int result = 1;
-  int elems, painted, pos;
+  int elems, painted;
   elems = 1; painted = 0;
   int count_q = 0;
-  int state_qb;
-  int pos_qb;
+  int state_qb, pos_qb;
   int write = 1;
+
+  int q;
+  int red[2+game_level][4];
+  int old_move[2+game_level];
+  int curr_move[2+game_level];
+  for (q=1; q<2+game_level; q++){
+	  red[q][0] = rand()%1; red[q][1] = rand()%1;
+	  red[q][2] = rand()%1; red[q][3] = rand()%1;
+  }
+  
+  // write the first move on the redball
+  /* In while:
+	 curr_move is assign to the actual done_move_reg and
+	 old_move is assigned to the previous value of done_move_reg.
+	 Once curr_move is equal to 1 and old_move to 0, this means
+	 a jump has been executed and we can write the next move.
+  */
 
 
   while(1){
-	  //printf("debut de boucle");
-	  spi_game_status = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 4);
-	  spi_jump = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 8);
-	  spi_acc = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 12);
-	  pos_qb = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 44);
+	
+	
+	
+	pos_qb = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 44);
+	spi_game_status = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 4);
+	spi_jump = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 8);
+	spi_acc = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 12);
+	up_game_status = (spi_game_status > 64);
+	up_jump = (spi_jump > 16);
+	up_acc = (spi_acc > 32);
 
-	  if(spi_game_status > 64){
-		  switch(spi_game_status){
-		  case 65 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 56, write); break; //pause
-		  case 66 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 56, !write); break; //pause
-		  case 67 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 52, write); break; //resume
-		  case 68 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 52, !write); break; //resume
-		  case 69 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 48, write); break; //restart
-		  case 70 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 48, !write); break; //restart
-		  }
-	  }
-	  //printf("probleme de switch?");
-	  // gestion du déplacement du qbert + coloriage des cases
+	if(up_game_status != old_game_status){
+		old_game_status = !old_game_status;
+		if (up_game_status) spi_game_status = spi_game_status - 64;
+		switch(spi_game_status){
+		case 1 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 56, write); break; //pause
+		case 2 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 56, !write); break; //pause
+		case 3 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 52, write); break; //resume
+		case 4 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 52, !write); break; //resume
+		case 5 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 48, write); break; //restart
+		case 6 : IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 48, !write); break; //restart
+		}
+	}
+	//printf("probleme de switch?");
+	// gestion du déplacement du qbert + coloriage des cases
 
-	  if(spi_jump > 16 && pos_qb){
-		  dir = spi_jump-16;
-		  if (dir>0 && dir<5) {
-		  		  move[0] = (dir > 2); // dir=3,4: UP
-		  		  move[1] = ((dir % 2)==0); // dir=2,4: LEFT
-		  		  //printf("move0: %d; move1: %d\n", move[0], move[1]);
-		  		  result = mvmt(move, pos_qb);
-		  		  //printf("next cube:%d\n", result);
-		  		  //printf("//	Result of %dth test: %d\n", i, result);
-		  		  painted = 1<<(result-1);
-		  		  next_qbert = painted;
-		  		  elems = elems | painted;
-		  		  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 40, next_qbert); // next position qbert
-		  		  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 28, elems); // case à colorier
-		  		  IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 36, dir);
-		  }
-	  }
-	  //printf("avant l'accelerometre\n");
-	  if(spi_acc==40) IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 60, write);
-	  else if (spi_acc==41) IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 60, !write);
-	  else if(spi_acc > 32) IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 100, spi_acc-32);
-	  //printf("avant le if\n");
-	  count_q = count_q+1;
-	  if (count_q>100000) {
-		  count_q = 0;
-		  state_qb = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 72);
-		  printf("Etat du qbert: %d\n", state_qb);
-		  printf("game: %d;\t jump: %d;\t accelerometer: %d\n", spi_game_status, spi_jump, spi_acc);
-		  //printf("jump: %d\n", spi_jump);
-		  //printf("accelerometer: %d\n", spi_acc);
-		  printf("Next cube: %d\n", next_qbert);
-	  }
+	if((up_jump != old_jump) && pos_qb){
+		old_jump = !old_jump;
+		if (up_jump) dir = spi_jump - 16;
+		else dir = spi_jump;
+		if (dir>0 && dir<5) {
+			move[0] = (dir > 2); // dir=3,4: UP
+		  	move[1] = ((dir % 2)==0); // dir=2,4: LEFT
+		  	//printf("move0: %d; move1: %d\n", move[0], move[1]);
+		  	result = mvmt(move, pos_qb);
+		  	//printf("next cube:%d\n", result);
+		  	//printf("//	Result of %dth test: %d\n", i, result);
+		  	painted = 1<<(result-1);
+		  	next_qbert = painted;
+		  	elems = elems | painted;
+		  	IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 40, next_qbert); // next position qbert
+		  	IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 28, elems); // case à colorier
+		  	IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 36, dir);
+		}
+	}
+	  
+	if(up_acc != old_acc){
+		old_jump = !old_jump;
+		if (up_acc) spi_acc = spi_acc - 32;
+		if(spi_acc==4) IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 60, write);
+		else if (spi_acc==5) IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 60, !write);
+		else IOWR_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 100, spi_acc);
+	}
+	//printf("avant le if\n");
+	count_q = count_q+1;
+	if (count_q>100000) {
+		count_q = 0;
+		state_qb = IORD_32DIRECT(NIOS_MTL_CONTROLLER_0_BASE, 72);
+		printf("Etat du qbert: %d\n", state_qb);
+		printf("game: %d;\t jump: %d;\t accelerometer: %d\n", spi_game_status, spi_jump, spi_acc);
+		printf("Next cube: %d\n", next_qbert);
+	}
   }
 
 

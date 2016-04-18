@@ -97,10 +97,9 @@ extern BYTE             TxData;
 fifo_t * fifo_buf;
 int acks[32];
 int MIWI_Counter;
-int done;
-int acquis;
-int limit;
-int lim_max;
+int done, acquis;
+int limit, lim_max;
+int old_gs, old_jump, old_acc;
 int OldID;
 
 unsigned int FirstTime;

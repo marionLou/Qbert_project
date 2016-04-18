@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="caca9180f49417b910f3"/>
+    <hash md5_digest_80b="225f321051039b6f947e"/>
   </project>
   <file_info>
     <file device="EP4CE22F17C6" path="DE0_Nano_time_limited.sof" usercode="0xFFFFFFFF"/>
@@ -100,7 +100,7 @@
     </sld_info>
     <sld_info hpath="DE0_LT24_SOPC:DE0_LT24_SOPC_inst" name="DE0_LT24_SOPC_inst">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DE0_LT24_SOPC HAS_SOPCINFO 1 GENERATION_ID 1460676420"/>
+        <assignment_value text="QSYS_NAME DE0_LT24_SOPC HAS_SOPCINFO 1 GENERATION_ID 1460886337"/>
       </assignment_values>
       <parameters/>
     </sld_info>

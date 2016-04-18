@@ -15,6 +15,7 @@ module Qbert_Map_Color(
 	input e_start_qb, // NIOS
 	input e_pause_qb, // NIOS
 	input logic e_resume_qb,
+	input logic e_win_qb,
 	input logic [31:0] e_speed_qb,
 	input logic [2:0] e_jump_qb, // NIOS
 	input logic [20:0] e_XY0_qb, // NIOS
@@ -450,6 +451,7 @@ qbert_layer #(28) Beta (
 	.e_bad_jump,
 	.e_start_qb,
 	.e_resume_qb,
+	.e_win_qb,
 	.e_speed_qb,
 	.e_pause_qb,
 	.e_next_qb,

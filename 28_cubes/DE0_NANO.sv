@@ -287,7 +287,7 @@ logic dly_rstn, rd_rst, dly_rst;
 // of the module at the end of this file).
 reset_delay	reset_delay_inst (		
 	.iRSTN(~PIC32_RESET),
-   .iCLK(CLOCK_50),
+    .iCLK(CLOCK_50),
 	.oRSTN(dly_rstn),
 	.oRD_RST(rd_rst),
 	.oRST(dly_rst)
@@ -504,8 +504,8 @@ logic [9:0] reg_x1, reg_x2;
 logic [8:0] reg_y1, reg_y2;
 logic [1:0] reg_touch_count;
 logic [7:0] reg_gesture;
-logic			touch_ready;	
-logic 		pulse_w, pulse_e;
+logic		touch_ready;	
+logic 		pulse_w, pulse_e, pulse_c;
 
 
 // This touch controller is given by Terasic and is encrypted.
@@ -551,6 +551,15 @@ touch_buffer	touch_buffer_east (
 	.rst (dly_rst),
 	.trigger (touch_ready && (reg_gesture == 8'h14)),
 	.pulse (pulse_e)
+);
+
+
+// Test for touching the buttons of pause menu
+touch_buffer	touch_buffer_click (
+	.clk (CLOCK_50),
+	.rst (dly_rst),
+	.trigger (touch_ready && (reg_gesture == 8'h20)),
+	.pulse (pulse_c)
 );
 
 

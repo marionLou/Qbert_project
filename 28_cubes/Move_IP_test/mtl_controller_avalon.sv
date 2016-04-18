@@ -106,6 +106,7 @@ logic [31:0] test_count;
 logic e_start_qb;
 logic e_pause_qb;
 logic e_resume_qb;
+logic e_win_qb;
 logic e_bad_jump;
 logic done_move; 
 logic [3:0] KO_qb;
@@ -140,20 +141,21 @@ typedef enum logic [5:0]
 	A_e_start_qb, // 48 
 	A_e_resume_qb, // 52
 	A_e_pause_qb, // 56
-	A_e_bad_jump, // 60
-	A_KO_qb, // 64
-	A_done_move, // 68
-	A_state_qb,	// 72
-	A_game_qb, // 76 
-	A_e_speed_qb, // 80
-	A_test_count, // 84
-	A_e_XY0_sc, // 88
-	A_state_sc, // 92
-	A_done_move_sc, // 96
-	A_qb_on_sc, // 100
-	A_e_tilt_acc, // 104
-	A_saucer_qb_state, // 108
-	A_soucoupe_xy // 112
+	A_e_win_qb, // 60
+	A_e_bad_jump, // 64
+	A_KO_qb, // 68
+	A_done_move, // 72
+	A_state_qb,	// 76
+	A_game_qb, // 80 
+	A_e_speed_qb, // 84
+	A_test_count, // 88
+	A_e_XY0_sc, // 92
+	A_state_sc, // 96
+	A_done_move_sc, // 100
+	A_qb_on_sc, // 104
+	A_e_tilt_acc, // 108
+	A_saucer_qb_state, // 112
+	A_soucoupe_xy // 116
 	} 
 A_register;
 
@@ -268,6 +270,7 @@ Qbert_Map_Color #(.N_cube(k), .N_rank(i)) Beta(
 	.e_start_qb,
 	.e_resume_qb,
 	.e_pause_qb,
+	.e_win_qb,
 	.e_jump_qb,
 	.e_speed_qb,	
 	.e_XY0_qb,
@@ -501,10 +504,6 @@ always@(posedge iCLK or negedge iRST_n) begin
 			oLCD_B <= read_blue;
 		end		
 end
-
-
-
-
 	
 						
 endmodule

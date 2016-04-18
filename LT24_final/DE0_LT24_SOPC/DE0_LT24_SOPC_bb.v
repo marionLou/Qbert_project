@@ -14,6 +14,10 @@ module DE0_LT24_SOPC (
 	background_mem_s2_byteenable,
 	clk_clk,
 	from_key_export,
+	gsensor_int_out_export,
+	gsensor_spi_out_SDIO,
+	gsensor_spi_out_SCLK,
+	gsensor_spi_out_CS_n,
 	lt24_buffer_flag_external_connection_export,
 	lt24_conduit_cs,
 	lt24_conduit_rs,
@@ -50,10 +54,7 @@ module DE0_LT24_SOPC (
 	sdram_wire_ras_n,
 	sdram_wire_we_n,
 	to_led_export,
-	gsensor_spi_out_SDIO,
-	gsensor_spi_out_SCLK,
-	gsensor_spi_out_CS_n,
-	gsensor_int_out_export);	
+	irq_tocyclo_out_export);	
 
 	input		alt_pll_areset_conduit_export;
 	output		alt_pll_c1_clk;
@@ -69,6 +70,10 @@ module DE0_LT24_SOPC (
 	input	[1:0]	background_mem_s2_byteenable;
 	input		clk_clk;
 	input		from_key_export;
+	input		gsensor_int_out_export;
+	inout		gsensor_spi_out_SDIO;
+	output		gsensor_spi_out_SCLK;
+	output		gsensor_spi_out_CS_n;
 	output		lt24_buffer_flag_external_connection_export;
 	output		lt24_conduit_cs;
 	output		lt24_conduit_rs;
@@ -105,8 +110,5 @@ module DE0_LT24_SOPC (
 	output		sdram_wire_ras_n;
 	output		sdram_wire_we_n;
 	output	[7:0]	to_led_export;
-	inout		gsensor_spi_out_SDIO;
-	output		gsensor_spi_out_SCLK;
-	output		gsensor_spi_out_CS_n;
-	input		gsensor_int_out_export;
+	input		irq_tocyclo_out_export;
 endmodule

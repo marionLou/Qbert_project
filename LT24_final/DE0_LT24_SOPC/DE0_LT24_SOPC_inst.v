@@ -13,6 +13,10 @@
 		.background_mem_s2_byteenable                (<connected-to-background_mem_s2_byteenable>),                //                                     .byteenable
 		.clk_clk                                     (<connected-to-clk_clk>),                                     //                                  clk.clk
 		.from_key_export                             (<connected-to-from_key_export>),                             //                             from_key.export
+		.gsensor_int_out_export                      (<connected-to-gsensor_int_out_export>),                      //                      gsensor_int_out.export
+		.gsensor_spi_out_SDIO                        (<connected-to-gsensor_spi_out_SDIO>),                        //                      gsensor_spi_out.SDIO
+		.gsensor_spi_out_SCLK                        (<connected-to-gsensor_spi_out_SCLK>),                        //                                     .SCLK
+		.gsensor_spi_out_CS_n                        (<connected-to-gsensor_spi_out_CS_n>),                        //                                     .CS_n
 		.lt24_buffer_flag_external_connection_export (<connected-to-lt24_buffer_flag_external_connection_export>), // lt24_buffer_flag_external_connection.export
 		.lt24_conduit_cs                             (<connected-to-lt24_conduit_cs>),                             //                         lt24_conduit.cs
 		.lt24_conduit_rs                             (<connected-to-lt24_conduit_rs>),                             //                                     .rs
@@ -49,9 +53,6 @@
 		.sdram_wire_ras_n                            (<connected-to-sdram_wire_ras_n>),                            //                                     .ras_n
 		.sdram_wire_we_n                             (<connected-to-sdram_wire_we_n>),                             //                                     .we_n
 		.to_led_export                               (<connected-to-to_led_export>),                               //                               to_led.export
-		.gsensor_spi_out_SDIO                        (<connected-to-gsensor_spi_out_SDIO>),                        //                      gsensor_spi_out.SDIO
-		.gsensor_spi_out_SCLK                        (<connected-to-gsensor_spi_out_SCLK>),                        //                                     .SCLK
-		.gsensor_spi_out_CS_n                        (<connected-to-gsensor_spi_out_CS_n>),                        //                                     .CS_n
-		.gsensor_int_out_export                      (<connected-to-gsensor_int_out_export>)                       //                      gsensor_int_out.export
+		.irq_tocyclo_out_export                      (<connected-to-irq_tocyclo_out_export>)                       //                      irq_tocyclo_out.export
 	);
 

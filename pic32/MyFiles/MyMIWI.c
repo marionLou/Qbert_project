@@ -372,9 +372,21 @@ void MyMIWI_Task(void) {
                     char *NoInt;
                     int info = strtol(starter, &NoInt, 10);
                     if (NoInt == NULL){
-                        if (starter<32) MyCyclone_Write(1, starter); //Directions command
-                        else if (starter<64) MyCyclone_Write(2,starter); // accelerometre
-                        else MyCyclone_Write(3, starter); // Status
+                        if (info<32){//Directions command
+							if (old_jump) info = info-16;
+							MyCyclone_Write(1, info);
+							old_jump = !old_jump;
+						} 
+                        else if (info<64){ // accelerometre
+							if (old_acc) info = info-32;
+							MyCyclone_Write(2, info);
+							old_acc = !old_acc;
+						} 
+                        else { // Game Status
+							if (old_gs) info = info-64;
+							MyCyclone_Write(3, info);
+							old_gs = !old_gs;
+						}
                     }
                     // We set OldID to id, so we know the instruction of
                     // the message with this ID has already been executed

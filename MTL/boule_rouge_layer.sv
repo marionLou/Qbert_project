@@ -62,7 +62,6 @@ module boule_rouge_layer(
 
 	);
 	
-parameter N_cube;
 
 logic [10:0] x0; 
 logic [9:0]  y0; 
@@ -137,11 +136,11 @@ case(game_state)
 												if(count[19]==1'b1) begin 
 													count <= 1'b0;
 													boule_rouge_state <= MOVE;
-													if (mvt_cnt = 5'd2) mvt_reg <= e_move_br[1];
-													else (mvt_cnt = 5'd3) mvt_reg <= e_move_br[2];
-													else (mvt_cnt = 5'd4) mvt_reg <= e_move_br[3];
-													else (mvt_cnt = 5'd5) mvt_reg <= e_move_br[4];
-													else (mvt_cnt = 5'd6) mvt_reg <= e_move_br[5];
+													if (mvt_cnt == 5'd2) mvt_reg <= e_move_br[1];
+													else if (mvt_cnt == 5'd3) mvt_reg <= e_move_br[2];
+													else if (mvt_cnt == 5'd4) mvt_reg <= e_move_br[3];
+													else if (mvt_cnt == 5'd5) mvt_reg <= e_move_br[4];
+													else if (mvt_cnt == 5'd6) mvt_reg <= e_move_br[5];
 												end
 												else count <= count + 1'b1;
 											end

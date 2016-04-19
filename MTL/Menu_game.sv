@@ -1,3 +1,5 @@
+// Code validé
+
 module Menu_game(
 
 	input logic clk,
@@ -8,10 +10,10 @@ module Menu_game(
 	output logic [23:0] menu_RGB
 );
 
-parameter logic [10:0] XLENGHT = 11'd100;
-parameter logic [20:0] XYDIAG_DEMI = {11'd80,10'd100};
-parameter logic [20:0] xy_offset = {11'd150,10'd110};
-parameter logic [20:0] XYC = {11'd150,10'd210};
+logic [10:0] XLENGTH = 11'd100;
+logic [20:0] XYDIAG_DEMI = {11'd80,10'd100};
+logic [20:0] xy_offset = {11'd350,10'd110};
+logic [20:0] XYC = {11'd350,10'd210};
 
 parameter logic [23:0] qbert_RGB = {8'd216,8'd95,8'd2};			
 parameter logic [23:0] num0_RGB = {8'd222,8'd222,8'd0};
@@ -21,26 +23,28 @@ parameter logic [23:0] num3_RGB = {8'd132,8'd35,8'd156};
 parameter logic [23:0] num4_RGB = {8'd170,8'd13,8'd40};
 parameter logic [23:0] left_face_RGB = {8'd86,8'd169,8'd152};
 parameter logic [23:0] right_face_RGB = {8'd49,8'd70,8'd70};
-parameter logic [23:0] background_0_RGB = {8'd0,8'd0,8'd0}; 
+parameter logic [23:0] background_0_RGB = {8'd146,8'd165,8'd216}; 
 
 
-always_ff @(posedge) begin
+always_ff @(posedge clk) begin
 	if(le_qbert) 
 		menu_RGB <= qbert_RGB;
 	else if (right_face)
 		menu_RGB <= right_face_RGB;
 	else if (left_face)
 		menu_RGB <= left_face_RGB;
-	else if (color_numero == 3'd0)
-		menu_RGB <= num0_RGB;
-	else if (color_numero == 3'd1)
-		menu_RGB <= num1_RGB;
-	else if (color_numero == 3'd2)
-		menu_RGB <= num2_RGB;
-	else if (color_numero == 3'd3)
-		menu_RGB <= num3_RGB;
-	else if (color_numero == 3'd4)
-		menu_RGB <= num4_RGB;
+	else if(top_face) begin
+		if (color_numero == 3'd0)
+			menu_RGB <= num0_RGB;
+		else if (color_numero == 3'd1)
+			menu_RGB <= num1_RGB;
+		else if (color_numero == 3'd2)
+			menu_RGB <= num2_RGB;
+		else if (color_numero == 3'd3)
+			menu_RGB <= num3_RGB;
+		else if (color_numero == 3'd4)
+			menu_RGB <= num4_RGB;
+	end
 	else
 		menu_RGB <= background_0_RGB;
 end
@@ -50,13 +54,12 @@ logic top_face;
 logic left_face;
 logic right_face; 
 
-cube_menu Beta (
+cube_menu Intro (
 	.clk,
 	.reset,
-	.reset,
-	.XLENGHT,
+	.XLENGTH,
 	.XYDIAG_DEMI,
-	.x_cnt,y_cnt,
+	.x_cnt,.y_cnt,
 	.xy_offset,
 	.jump,
 	.done_move,
@@ -87,6 +90,7 @@ qbert_menu qbert_M(
 );
 
 endmodule
+
 //-------------------------------------------
 module cube_menu(
 	input logic clk,
@@ -122,7 +126,6 @@ the position of each point
 
 
 
-	parameter N_cube;
  
 	logic [20:0] XY0;
 	logic [20:0] XY1;
@@ -292,19 +295,19 @@ always_ff @(posedge clk) begin
 					done_move_reg <= 1'b1;
 					jump_reg <= 1'b0;
 					up_jump <= 1'b1;
-					xy0 <= xy_offset - {XLENGHT+XDIAG_DEMI,10'd0};
+					xy0 <= xy_offset - {XLENGTH+XDIAG_DEMI,10'd0};
 				end
 		IDLE:	begin
 					if(count == 32'd8000000) begin
 						count <= 1'b0;
 						done_move_reg <= 1'b0;
-						jump_reg <= 1'b1,
+						jump_reg <= 1'b1;
 						qbert_state <= JUMP;
 					end
 					else count <= count + 1'b1;
 				end
 		JUMP : 	begin
-					if (count[17] == 1'b1) begin
+					if (((up_jump == 2'd2)? count[16] : count[17])== 1'b1) begin
 						count <= 1'b0;
 						if (up_jump == 2'd1) begin
 							if(XC > xy0[20:10])
@@ -316,7 +319,7 @@ always_ff @(posedge clk) begin
 								{XC,YC} <= {XC + 11'd1,YC};
 							else begin
 								jump_reg <= 1'b0;
-								done_move <= 1'b1;
+								done_move_reg <= 1'b1;
 								up_jump <= 2'd1;
 								qbert_state <= IDLE;
 							end
@@ -360,5 +363,6 @@ end
 
 assign jump = jump_reg;
 assign done_move = done_move_reg;
-assign le_qbert = is_qbert;
+assign le_qbert = (is_qbert != 6'b0);
+
 endmodule

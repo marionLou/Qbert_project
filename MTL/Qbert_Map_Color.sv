@@ -15,21 +15,32 @@ module Qbert_Map_Color(
 	input e_start_qb, // NIOS
 	input e_pause_qb, // NIOS
 	input logic e_resume_qb,
+	input logic e_menu_qb,
+	input logic e_win_qb,
+	
 	input logic [31:0] e_speed_qb,
 	input logic [2:0] e_jump_qb, // NIOS
 	input logic [20:0] e_XY0_qb, // NIOS
 	input logic [27:0] e_next_qb, // NIOS
-	input logic e_freeze_power, // NIOS
 	
 	output logic [27:0] position_qb,
 	output logic done_move_qb,
-	output logic [3:0] KO_qb,
+	output logic [3:0] LIFE_qb,
 	output logic [2:0] state_qb,
 	output logic [2:0] game_qb,
-	output logic [31:0] test_count,
 	
 	output logic [1:0] saucer_qb_state,
 	
+	output logic [6:0] coin,
+	
+// ---- Freeze definition --------//
+
+	input logic e_freeze_acc, // NIOS
+	input logic e_timer_freeze,
+// --- Arcade gameover -----------//
+
+	input logic e_piece,
+
 // ---- Soucoupe definition ------//
 	
 	input logic [20:0] e_XY0_sc,
@@ -39,6 +50,7 @@ module Qbert_Map_Color(
 	output logic done_move_sc,
 	output logic qb_on_sc,
 	output logic [20:0] soucoupe_xy,
+	
 // --- Boule rouge definition ----//
 
 	output logic [27:0] position_br [3:0],
@@ -354,9 +366,8 @@ always_ff @(posedge CLK_33) begin
 			end
 	endcase
 	
-	if(menu_screen) {R,G,B} <= menu_RGB;
-	else if (gameover_screen) 
-		{R,G,B} <= gameover_RGB;	
+	if(e_menu_qb|e_win_qb) {R,G,B} <= menu_RGB;
+	else if (gameover_qb) {R,G,B} <= gameover_RGB;	
 	else if (pause_color) begin 
 		if(hb_qb & le_qbert) 
 			{R,G,B} <= p_qbert_RGB;
@@ -385,6 +396,12 @@ always_ff @(posedge CLK_33) begin
 
 end
 
+logic KO_serpent;
+logic KO_fantome;
+logic [3:0] KO_boule_rouge;
+logic [3:0] KO_cochon;
+logic win_qb;
+logic freeze_power;
 
 qbert_layer #(28) Beta (
 // input
@@ -392,34 +409,54 @@ qbert_layer #(28) Beta (
 	.reset,
 	.x_cnt,
 	.y_cnt,
-	.e_jump_qb,
-	.e_bad_jump,
-	.e_start_qb,
-	.e_resume_qb,
-	.e_speed_qb,
-	.e_pause_qb,
-	.e_next_qb,
-	.position_qb,
 	.x_offset(e_XY0_qb[20:10]),
 	.y_offset(e_XY0_qb[9:0]),
 	.XLENGTH,
 	.XDIAG_DEMI(XYDIAG_DEMI[20:10]),
 	.YDIAG_DEMI(XYDIAG_DEMI[9:0]),
 	
+	.e_start_qb,
+	.e_resume_qb,
+	.e_pause_qb,
+	.e_menu_qb,
+	
+	.e_jump_qb,
+	.e_speed_qb,
+	.e_bad_jump,	
+	.e_next_qb,
+	
+	.position_qb,
+	.win_qb,
+	
+	.e_freeze_acc,
+	.e_timer_freeze,
+	
 	.soucoupe_xy,
 	.qb_on_sc,
 	.done_move_sc,
 	.e_tilt_acc,
+	
+	.e_piece,
+	
+	.KO_serpent,
+	.KO_boule_rouge,
+	.KO_cochon,
+	.KO_fantome,
 // output
+
 	.qbert_hitbox(hb_qb),
-	.KO_qb,
+	.LIFE_qb,
+	
 	.state_qb, 
 	.game_qb,
+	
+	.freeze_power,
+	
 	.done_move,
-	.saucer_qb_state,
-	.mode_saucer,
+	.saucer_qb_state, // test pour determiner le state
+	.mode_saucer, // indique aux autres modules que qbert
+					// 
 	.le_qbert,
-	.test_count,
 	.qbert_xy
 );
 
@@ -496,7 +533,7 @@ module hitbox_top_generator (
 	input logic e_color_bit,
 	input logic [27:0] position_qb,
 	input logic [27:0] e_next_qb,
-	
+	input logic done_move_qb,
 	output logic top_color,
 	output logic hitbox_top
 );
@@ -516,12 +553,13 @@ always_ff @(posedge CLK_33) begin
 					top_color_reg <= color_state_reg;
 					if (position_qb != e_next_qb) color_bit <= UPDATE;
 				end	
-	UPDATE : if (done_move) begin
+	UPDATE : if (done_move_qb) begin
 					color_state_reg <= e_color_bit;
 					top_color_reg <= color_state_reg & hb_top;
 					color_bit <= IDLE;
 				end
 				else top_color_reg <= color_state_reg;
+	endcase
 end
 
 assign top_color = top_color_reg; 

@@ -1,3 +1,4 @@
+// Code validé;
 module  Gameover_game (
 	input logic clk,
 	input logic reset,
@@ -16,8 +17,18 @@ logic zone_piece_1, zone_piece_2, zone_piece_3;
 logic [31:0] count = 32'd0;
 logic add_piece = 1'd0;
 
+logic [10:0] rayon1 = 11'd70;
+logic [10:0] rayon2 = 11'd50;
+
+logic [10:0] xc = 11'd400;
+logic [9:0] yc = 10'd250;
 always_ff @(posedge clk) begin
 
+//zone_piece_1 <= {(x_cnt-xc)*(x_cnt-xc)+(y_cnt-yc)*(y_cnt-yc) <= rayon1*rayon1};
+//zone_piece_2 <= {(x_cnt-xc)*(x_cnt-xc)+(y_cnt-yc)*(y_cnt-yc) <= rayon2*rayon2};
+//zone_piece_3 <= {(x_cnt >= 11'd350 && x_cnt <= 11'd450)
+//				&& (y_cnt >= 10'd230 && y_cnt <= 10'd270)};
+				
 zone_piece_1 <= {(x_cnt >= 11'd200 && x_cnt <= 11'd600)
 				&&(y_cnt >= 10'd150 && y_cnt <= 10'd350)};
 				
@@ -30,7 +41,7 @@ zone_piece_3 <= {(x_cnt >= 11'd350 && x_cnt <= 11'd450)
 	if(e_piece) add_piece <= 1'd1;
 	
 	if(add_piece) begin
-		if(count == 32'd8000000) begin
+		if(count == 32'd15000000) begin
 			count <= 1'b0;
 			add_piece <= 1'd0;
 		end
@@ -48,4 +59,5 @@ zone_piece_3 <= {(x_cnt >= 11'd350 && x_cnt <= 11'd450)
 	end
 	else gameover_RGB <= background_RGB;
 end
+
 endmodule

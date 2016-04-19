@@ -78,9 +78,7 @@ module Qbert_Map_Color(
 	
 	input logic [10:0] x_cnt, 
 	input logic [9:0] y_cnt,
-	output logic [7:0] R,
-	output logic [7:0] G,
-	output logic [7:0] B
+	output logic [23:0] Qbert_RGB
 	);
 
 	parameter N_cube = 3; 
@@ -108,7 +106,6 @@ module Qbert_Map_Color(
 	
 	// hitbox top cube
 	logic [27:0] hb_top;
-	
 
 	
 // -- Qbert and co ---------------------------------------------//
@@ -118,6 +115,7 @@ module Qbert_Map_Color(
 	// hitbox qbert
 	logic hb_qb;
 	logic mode_saucer;
+	logic gameover_qb;
 
 	logic la_soucoupe;
 	logic hb_sc;
@@ -325,21 +323,7 @@ module Qbert_Map_Color(
 
 
 
-parameter logic [23:0] top_0_RGB = {8'd222,8'd222,8'd0};
-parameter logic [23:0] top_1_RGB = {8'd86,8'd70,8'd239};
-parameter logic [23:0] soucoupe_RGB = {8'd237,8'd28,8'd36};
-parameter logic [23:0] qbert_RGB = {8'd216,8'd95,8'd2};
-parameter logic [23:0] boule_rouge_RGB = {8'd220,8'd0,8'd0};
-parameter logic [23:0] serpent_RGB = {8'd228,8'd0,8'd186};
-parameter logic [23:0] background_0_RGB = {8'd0,8'd0,8'd0};
 
-parameter logic [23:0] p_top_0_RGB = {8'd255,8'd255,8'd50};
-parameter logic [23:0] p_top_1_RGB = {8'd136,8'd120,8'd255};
-parameter logic [23:0] p_soucoupe_RGB = {8'd255,8'd78,8'd86};
-parameter logic [23:0] p_qbert_RGB = {8'd255,8'd145,8'd52};
-parameter logic [23:0] p_boule_rouge_RGB = {8'd255,8'd50,8'd50};
-parameter logic [23:0] p_serpent_RGB = {8'd255,8'd50,8'd236};
-parameter logic [23:0] p_background_0_RGB = {8'd50,8'd50,8'd50};
 
 logic game_state_fsm;
 logic pause_color;
@@ -347,60 +331,36 @@ logic pause_state;
 logic resume,pause,restart;
 logic menu_screen;
 logic gameover_screen;
-logic win_qb;
 
-logic [23:0] gameover_RGB;
-logic [23:0] menu_RGB;
  	
-always_ff @(posedge CLK_33) begin
 
-	
-	case (pause_state)
-	1'b0 : 	if(e_pause_qb) begin 
-				pause_color <= 1'b1;
-				pause_state <= 1'b1;
-			end
-	1'b1 : 	if(e_resume_qb|e_start_qb) begin
-				pause_color <= 1'b0;
-				pause_state <= 1'b0;
-			end
-	endcase
-	
-	if(e_menu_qb|e_win_qb) {R,G,B} <= menu_RGB;
-	else if (gameover_qb) {R,G,B} <= gameover_RGB;	
-	else if (pause_color) begin 
-		if(hb_qb & le_qbert) 
-			{R,G,B} <= p_qbert_RGB;
-		else if (hb_sc & la_soucoupe) 
-			{R,G,B} <= p_soucoupe_RGB;
-		else if(hb_top !=0) begin				
-			if ( top_color != 0) 
-				{R,G,B} <= p_top_1_RGB;
-			else 
-				{R,G,B} <= p_top_0_RGB;
-		end 
-		else {R,G,B} <= p_background_0_RGB;		
-	end
-	else begin
-		if(hb_qb & le_qbert) 
-			{R,G,B} <= qbert_RGB;
-		else if (hb_sc & la_soucoupe) 
-			{R,G,B} <= soucoupe_RGB;
-		else if(hb_top !=0) begin				
-			if ( top_color != 0) 
-				{R,G,B} <= top_1_RGB;
-			else {R,G,B} <= top_0_RGB;
-		end 
-		else {R,G,B} <= background_0_RGB;		
-	end
 
+logic [23:0] in_game_RGB;
+logic [23:0] menu_RGB;
+logic [1:0] RGB_state;
+always_ff @(posedge CLK_33) begin	
+	case (RGB_state)
+	2'd0: begin
+				Qbert_RGB <= menu_RGB;
+				if(e_resume_qb|e_pause_qb) RGB_state <= 2'd1; 			
+			end
+	2'd1: begin	
+				Qbert_RGB <= in_game_RGB;
+				if(e_menu_qb) RGB_state <= 2'd0;
+				else if(gameover_qb) RGB_state <= 2'd2; 
+			end
+	2'd2:	begin
+				Qbert_RGB <= {8'd0,8'd50,8'd100};
+				if(e_menu_qb) RGB_state <= 2'd0;
+				else (e_start_qb) RGB_state <= 2'd2; 
+			end
+	endcase	
 end
 
 logic KO_serpent;
 logic KO_fantome;
 logic [3:0] KO_boule_rouge;
 logic [3:0] KO_cochon;
-logic win_qb;
 logic freeze_power;
 
 qbert_layer #(28) Beta (
@@ -426,7 +386,7 @@ qbert_layer #(28) Beta (
 	.e_next_qb,
 	
 	.position_qb,
-	.win_qb,
+	.e_win_qb,
 	
 	.e_freeze_acc,
 	.e_timer_freeze,
@@ -452,14 +412,14 @@ qbert_layer #(28) Beta (
 	
 	.freeze_power,
 	
-	.done_move,
+	.done_move_qb,
 	.saucer_qb_state, // test pour determiner le state
 	.mode_saucer, // indique aux autres modules que qbert
 					// 
 	.le_qbert,
 	.qbert_xy
 );
-
+/*
 soucoup_layer Flying_Saucer(
 // input
 	.clk(CLK_33),
@@ -489,9 +449,9 @@ soucoup_layer Flying_Saucer(
 	.state_sc, // etat de la soucoupe
 	.la_soucoupe
 	);
-	
+*/	
 Menu_game intro(
-	.clk,
+	.clk(CLK_33),
 	.reset,
 	.x_cnt,
 	.y_cnt,	
@@ -501,6 +461,80 @@ Menu_game intro(
 endmodule
 
 //-----------------------------------------------
+module in_game_RGB(
+	input logic clk,
+	input logic reset,
+	input logic [10:0] x_cnt,
+	input logic [9:0] y_cnt,
+	
+	input logic e_pause_qb,
+	input logic e_start_qb,
+	input logic e_resume_qb, 
+	input logic le_qbert,
+	input logic la_boule_rouge,
+	input logic [27:0] hb_top,
+	input logic [27:0] top_color,
+	
+	output logic [23:0] in_game_RGB
+); 
+
+parameter logic [23:0] top_0_RGB = {8'd222,8'd222,8'd0};
+parameter logic [23:0] top_1_RGB = {8'd86,8'd70,8'd239};
+parameter logic [23:0] soucoupe_RGB = {8'd237,8'd28,8'd36};
+parameter logic [23:0] qbert_RGB = {8'd216,8'd95,8'd2};
+parameter logic [23:0] boule_rouge_RGB = {8'd220,8'd0,8'd0};
+parameter logic [23:0] serpent_RGB = {8'd228,8'd0,8'd186};
+parameter logic [23:0] background_0_RGB = {8'd0,8'd0,8'd0};
+
+parameter logic [23:0] p_top_0_RGB = {8'd255,8'd255,8'd50};
+parameter logic [23:0] p_top_1_RGB = {8'd136,8'd120,8'd255};
+parameter logic [23:0] p_soucoupe_RGB = {8'd255,8'd78,8'd86};
+parameter logic [23:0] p_qbert_RGB = {8'd255,8'd145,8'd52};
+parameter logic [23:0] p_boule_rouge_RGB = {8'd255,8'd50,8'd50};
+parameter logic [23:0] p_serpent_RGB = {8'd255,8'd50,8'd236};
+parameter logic [23:0] p_background_0_RGB = {8'd50,8'd50,8'd50};
+
+logic pause_play;
+always_ff @(posedge clk) begin
+
+case(pause_play) 
+
+1'b0:	if(e_resume_qb|e_start_qb) pause_play <= 1'b1; 
+		else begin 
+			if(le_qbert) 
+				in_game_RGB <= p_qbert_RGB;
+			else if(la_boule_rouge != 0)
+				in_game_RGB <= p_boule_rouge_RGB;
+			else if(hb_top !=0) begin				
+				if ( (top_color & hb_top )!= 0) 
+					in_game_RGB <= p_top_1_RGB;
+				else in_game_RGB <= p_top_0_RGB;
+			end 
+			else 
+				in_game_RGB <= p_background_0_RGB;
+		end
+		
+1'b1:	if(e_pause_qb) pause_play <= 1'b0;
+		else begin 
+			if(le_qbert) 
+				in_game_RGB <= qbert_RGB;
+			else if(la_boule_rouge != 0)
+				in_game_RGB <= boule_rouge_RGB;
+			else if(hb_top !=0) begin				
+				if ( (top_color & hb_top )!= 0) 
+					in_game_RGB <= top_1_RGB;
+				else in_game_RGB <= top_0_RGB;
+			end 
+			else 
+				in_game_RGB <= background_0_RGB;
+		end
+	endcase
+end
+	
+endmodule
+
+//-----------------------------------------------
+
 module rank_offset_generator (
 	input logic [10:0] XLENGTH,
 	input logic [20:0] RANK1_XY_OFFSET,
@@ -530,35 +564,31 @@ module hitbox_top_generator (
 	input logic [9:0] y_cnt,
 	input logic [20:0] top_offset,
 	input logic [20:0] XYDIAG_DEMI,
-	input logic e_color_bit,
-	input logic [27:0] position_qb,
-	input logic [27:0] e_next_qb,
 	input logic done_move_qb,
+	input logic e_color_bit,
+	input logic [27:0] e_next_qb,
+	input logic [27:0] position_qb,
+	
 	output logic top_color,
 	output logic hitbox_top
 );
 
 typedef enum logic {IDLE, UPDATE} state_t;
-	state_t color_bit;
+	state_t color_state;
 	
 reg top_color_reg;	
-reg color_state_reg;
 
 always_ff @(posedge CLK_33) begin
 	hitbox_top <= {(x_cnt <= top_offset[20:10] + XYDIAG_DEMI[20:10] && x_cnt >= top_offset[20:10] - XYDIAG_DEMI[20:10]) 
 				&& (y_cnt <= top_offset[9:0] + 10'd2*XYDIAG_DEMI[9:0] && y_cnt >= top_offset[9:0] )};
 				
-	case(color_bit)
-	IDLE : 	begin
-					top_color_reg <= color_state_reg;
-					if (position_qb != e_next_qb) color_bit <= UPDATE;
-				end	
+	case(color_state)
+	IDLE : if (position_qb != e_next_qb) color_state <= UPDATE;
+	
 	UPDATE : if (done_move_qb) begin
-					color_state_reg <= e_color_bit;
-					top_color_reg <= color_state_reg & hb_top;
-					color_bit <= IDLE;
+					top_color_reg <= e_color_bit;
+					color_state <= IDLE;
 				end
-				else top_color_reg <= color_state_reg;
 	endcase
 end
 

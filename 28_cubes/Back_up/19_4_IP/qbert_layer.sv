@@ -104,10 +104,7 @@ logic [10:0] start_x = 11'd0;
 
 reg [1:0] saucer_anim;
 
-//typedef enum logic [3:0] {INIT, START, JUMP, IDLE, SAUCER, FREEZE, END} qstate_t;
-//qstate_t qbert_state;
-
-typedef enum logic [3:0] {INIT, START, JUMP, IDLE, SAUCER, END} qstate_t;
+typedef enum logic [3:0] {INIT, START, JUMP, IDLE, SAUCER, FREEZE, END} qstate_t;
 qstate_t qbert_state;
 
 typedef enum logic [2:0] {MENU, RESUME, PAUSE, RESTART, GAMEOVER} state_t;
@@ -115,7 +112,7 @@ state_t game_state;
 
 logic [2:0] jump_reg;
 logic [1:0] tilt_acc_reg;
-logic freeze_reg = 1'b0;
+logic freeze_reg;
 logic gameover_reg;
 
 always_ff @(posedge clk) begin
@@ -251,19 +248,19 @@ case(game_state)
 													mode_saucer <= 1'b1;
 													if((position_qb & `Lside)) qbert_state <= SAUCER;
 												end
-											//	else if (e_freeze_acc) begin
-											//		freeze_reg <= 1'b1;
-											//		qbert_state <= FREEZE;
-											//	end
+												else if (e_freeze_acc) begin
+													freeze_reg <= 1'b1;
+													qbert_state <= FREEZE;
+												end
 										end
-					/*			FREEZE : 	begin 	// L'état freeze empêche le joueur d'avancer quand il active le pouvoir 
+								FREEZE : 	begin 	// L'état freeze empêche le joueur d'avancer quand il active le pouvoir 
 													// freeze (juste le temp de la manip avec l'acceleromètre)
 												if(count[20] == 1'b1) begin
 													count <= 1'b0;
 													qbert_state <= IDLE;
 												end
 												else count <= count + 1'b1;
-											end */
+											end 
 								SAUCER :	begin
 													case(saucer_anim)
 													2'b00 : if( count == speed ) begin
@@ -347,7 +344,6 @@ case(game_state)
 	
 end	
 //---- Timer pour l'action freeze --------//
-/*
 logic [31:0] freeze_count = 32'd0;
 
 always_ff @(posedge clk) begin 
@@ -359,7 +355,7 @@ always_ff @(posedge clk) begin
 		else freeze_count <= freeze_count + 1'b1; 
 	end
 end
-*/
+
 //---------Affichage du Qbert------------------------//
 
 logic pied_gauche;

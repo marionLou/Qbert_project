@@ -377,11 +377,12 @@ set_global_assignment -name EDA_DESIGN_INSTANCE_NAME dut -section_id testbench1
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "100 us" -section_id testbench1
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME lineCUBE_testbench -section_id testbench1
 set_global_assignment -name EDA_TEST_BENCH_FILE lineCUBE_testbench.sv -section_id testbench1
-set_global_assignment -name SYSTEMVERILOG_FILE Move_IP_test/Qbert_Map_Color.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Move_IP_test/qbert_layer.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Move_IP_test/mtl_controller_avalon.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Move_IP_test/Draw_Line.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Move_IP_test/cube_generator.sv
+set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/Qbert_Map_Color.sv
+set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/qbert_layer.sv
+set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/mtl_controller_avalon.sv
+set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/Menu_game.sv
+set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/Draw_Line.sv
+set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/cube_generator.sv
 set_global_assignment -name QIP_FILE nios_mtl/synthesis/nios_mtl.qip
 set_global_assignment -name SYSTEMVERILOG_FILE LT_SPI.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../MySPI.sv
@@ -401,6 +402,4 @@ set_global_assignment -name SDC_FILE DE0_NANO.SDC
 set_global_assignment -name QIP_FILE MTL_PLL.qip
 set_global_assignment -name QIP_FILE RAM_PLL.qip
 set_global_assignment -name QIP_FILE Loading_ROM.qip
-set_global_assignment -name SYSTEMVERILOG_FILE Move_IP_test/soucoupe_layer.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Move_IP_test/cube_v2.sv
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

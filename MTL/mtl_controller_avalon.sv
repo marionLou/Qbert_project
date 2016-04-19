@@ -23,12 +23,6 @@ module mtl_controller_avalon(
 	input	wire	[7:0] iSPI_game_status,
 	input	wire	[7:0]	iSPI_jump,
 	input	wire	[7:0]	iSPI_acc,
-	// Touch Side
-	input 	wire	[9:0]		x_touch,
-	input 	wire	[8:0]		y_touch,
-	input 	wire				pulse_touch,
-	// Button Side
-	input wire 			iButton,
 	// Host Side
 	input wire		  iCLK, 				// Input LCD control clock
 	input wire        iRST_n, 				// Input system reset
@@ -90,16 +84,15 @@ logic [7:0] QG_blue;
 reg [31:0] reg_readdata;
 
 logic enable;
-//---- Touch ----------//
-logic p_impulse;
-assign p_impulse = (x_touch>250 & x_touch<530 & y_touch>110 & y_touch<310) ? pulse_touch : 1'b0;
+
+
 // ---- Cube definition ------------//
 parameter k = 28; // nombre de cubes
 parameter i = 7; // nombre de rangées
 
-//logic [10:0] XLENGTH;
-//logic [20:0] XYDIAG_DEMI;
-//logic [20:0] RANK1_XY_OFFSET;
+logic [10:0] XLENGTH;
+logic [20:0] XYDIAG_DEMI;
+logic [20:0] RANK1_XY_OFFSET;
 logic [27:0]  e_color_state;
 
 // ---- Qbert definition -----------//
@@ -147,9 +140,9 @@ typedef enum logic [5:0]
 	A_iSPI_game_status, // 4 
 	A_iSPI_jump, // 8
 	A_iSPI_acc, // 12 
-//	A_XLENGTH, // 16
-//	A_XYDIAG_DEMI, // 20
-//	A_RANK1_XY_OFFSET, // 24
+	A_XLENGTH, // 16
+	A_XYDIAG_DEMI, // 20
+	A_RANK1_XY_OFFSET, // 24
 	A_e_color_state, // 28
 	A_e_XY0_qb, // 32
 	A_e_jump_qb, // 36
@@ -190,9 +183,9 @@ begin
 	if (Avalon_reset) begin
 		enable <= 1'd0;
 		
-//		XLENGTH <= 11'd0;
-//		XYDIAG_DEMI <= 21'd0;
-//		RANK1_XY_OFFSET <= 21'd0;
+		XLENGTH <= 11'd0;
+		XYDIAG_DEMI <= 21'd0;
+		RANK1_XY_OFFSET <= 21'd0;
 		e_color_state <= 6'd0;
 		
 		e_XY0_qb <= 21'd0;
@@ -214,9 +207,9 @@ begin
 			case(Avalon_address)
 				A_enable : enable <= Avalon_writedata[0];
 				
-//				A_XLENGTH : XLENGTH <= Avalon_writedata[10:0];
-//				A_XYDIAG_DEMI : XYDIAG_DEMI <= Avalon_writedata[20:0];
-//				A_RANK1_XY_OFFSET : RANK1_XY_OFFSET <= Avalon_writedata[20:0];
+				A_XLENGTH : XLENGTH <= Avalon_writedata[10:0];
+				A_XYDIAG_DEMI : XYDIAG_DEMI <= Avalon_writedata[20:0];
+				A_RANK1_XY_OFFSET : RANK1_XY_OFFSET <= Avalon_writedata[20:0];
 				A_e_color_state : e_color_state <= Avalon_writedata[27:0];
 				
 				A_e_XY0_qb : e_XY0_qb <= Avalon_writedata[20:0];
@@ -258,9 +251,9 @@ begin
 				A_qb_on_sc : reg_readdata <= qb_on_sc;
 				A_soucoupe_xy : reg_readdata <= soucoupe_xy;
 				
-//				A_XLENGTH : reg_readdata <= XLENGTH;
-//				A_XYDIAG_DEMI : reg_readdata <= XYDIAG_DEMI;
-//				A_RANK1_XY_OFFSET : reg_readdata <= RANK1_XY_OFFSET;
+				A_XLENGTH : reg_readdata <= XLENGTH;
+				A_XYDIAG_DEMI : reg_readdata <= XYDIAG_DEMI;
+				A_RANK1_XY_OFFSET : reg_readdata <= RANK1_XY_OFFSET;
 				A_e_color_state : reg_readdata <= e_color_state;
 				
 				A_e_XY0_qb : reg_readdata <= e_XY0_qb;
@@ -331,12 +324,11 @@ Qbert_Map_Color #(.N_cube(k), .N_rank(i)) Beta(
 	.e_piece,
 // --- Map parameters ------------//
 
-//	.XLENGTH,
-//	.XYDIAG_DEMI,
-//	.RANK1_XY_OFFSET,
+	.XLENGTH,
+	.XYDIAG_DEMI,
+	.RANK1_XY_OFFSET,
 	.e_color_state,
-// --- Touch definition-----------//	
-	.p_impulse,
+	
 // --- MTL parameters ------------//
 	
 	.x_cnt, 

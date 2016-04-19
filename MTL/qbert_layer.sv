@@ -1,11 +1,4 @@
-/*
-	couleur orange R = 216
-						G = 95
-						B = 2
-						version : 01/04/16 21:16
-	
-*/
-// position des cases se trouvant sur les bords droites et gauches
+// Code validé
 `define TOP 32'h00000001
 
 `define R02 32'h00000002
@@ -111,6 +104,7 @@ state_t game_state;
 logic [2:0] jump_reg;
 logic [1:0] tilt_acc_reg;
 logic freeze_reg;
+logic gameover_reg;
 
 always_ff @(posedge clk) begin
 
@@ -138,7 +132,7 @@ case(game_state)
 											{XC,YC} <= {x_offset - (XLENGTH) + start_x, y_offset + YDIAG_DEMI};
 											start_x <= 11'd0;
 											shade_x <= 11'd0;
-											LIFE_qb <= 4'b3;
+											LIFE_qb <= 4'd3;
 											mode_saucer <= 1'b0;
 											saucer_anim <= 2'b0;
 											gameover_reg <= 1'b0;
@@ -312,10 +306,11 @@ case(game_state)
 																start_x <= 1'b0;
 																qbert_state <= START;
 															end
-															else if (LIFE_qb == 1'b0)
-																gameover_reg <= 1'b1
+															else if (LIFE_qb == 1'b0) begin
+																gameover_reg <= 1'b1;
 																gameover_piece <= 1'b1;
 																game_state <= GAMEOVER;
+															end
 															else
 																qbert_state <= IDLE;
 														end
@@ -337,7 +332,7 @@ case(game_state)
 	GAMEOVER :	begin
 					if (mode_arcade) begin
 						gameover_piece <= 1'b0;
-						if (coin > 1'b0 & e_restart_qb)
+						if (coin > 1'b0 & e_start_qb)
 							game_state <= RESTART;
 						else if (e_menu_qb)
 							game_state <= MENU;
@@ -350,12 +345,13 @@ case(game_state)
 	
 end	
 //---- Timer pour l'action freeze --------//
+logic [31:0] freeze_count = 32'd0;
 
 always_ff @(posedge clk) begin 
 	if(freeze_reg) begin 
 		if(freeze_count == e_timer_freeze) begin
-			freezz_count <= 1'b0;
-			freeze <= 1'b0;
+			freeze_count <= 1'b0;
+			freeze_reg <= 1'b0;
 		end	
 		else freeze_count <= freeze_count + 1'b1; 
 	end
@@ -433,7 +429,7 @@ assign qbert_xy = {XC,YC};
 assign state_qb = qbert_state;
 assign game_qb = game_state;
 assign gameover_qb = gameover_reg;
-assign coin = coin_reg,
+assign coin = coin_reg;
 
 //-------Gestion des piece --------------
 // Petit module pour le fun qui compte
@@ -473,7 +469,7 @@ logic signed up;
 
 always_ff @(posedge clk) begin
 
-if(mode_arcade)
+if(mode_arcade) begin
 	case(coin_state)
 	INIT : 	begin 
 				coin <= 1'b0;
@@ -487,7 +483,7 @@ if(mode_arcade)
 				end
 				else if (gameover_piece) begin
 					up <= -1'd1;
-					coin_statue <= UPDATE;
+					coin_state <= UPDATE;
 				end
 			end
 	UPDATE:	begin
@@ -497,5 +493,7 @@ if(mode_arcade)
 	endcase
 end
 else coin <= 1'd0;
+
+end
 
 endmodule

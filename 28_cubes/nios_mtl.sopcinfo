@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nios_mtl" kind="nios_mtl" version="1.0" fabric="QSYS">
  <!-- Format version 15.0 145 (Future versions may contain additional information.) -->
- <!-- 2016.04.19.17:15:05 -->
+ <!-- 2016.04.20.00:01:37 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1461078904</value>
+  <value>1461103296</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -7321,6 +7321,30 @@ parameters are a RESULT of the module parameters. -->
     <width>8</width>
     <role>acc</role>
    </port>
+   <port>
+    <name>iButton</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>button</role>
+   </port>
+   <port>
+    <name>pulse_touch</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>ptouch</role>
+   </port>
+   <port>
+    <name>y_touch</name>
+    <direction>Input</direction>
+    <width>9</width>
+    <role>ytouch</role>
+   </port>
+   <port>
+    <name>x_touch</name>
+    <direction>Input</direction>
+    <width>10</width>
+    <role>xtouch</role>
+   </port>
   </interface>
   <interface name="clk" kind="clock_sink" version="15.0">
    <!-- The connection points exposed by a module instance for the
@@ -8238,7 +8262,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1461078904</value>
+   <value>1461103296</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -8258,7 +8282,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1461078904</value>
+   <value>1461103296</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -8274,7 +8298,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1461078904</value>
+   <value>1461103296</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>

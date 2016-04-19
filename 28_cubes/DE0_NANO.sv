@@ -476,7 +476,10 @@ end
 		.nios_mtl_controller_0_mtl_controller_lcd_b         (MTL_B),          //                                     .lcd_b
 		.nios_mtl_controller_0_mtl_controller_jump          (IO_Data_Jump),          //                                     .jump
 		.nios_mtl_controller_0_mtl_controller_acc           (IO_Data_Acc),           //                                   
-		.nios_mtl_controller_0_mtl_controller_game_status   (IO_Data_GS)   //                                     .game_status
+		.nios_mtl_controller_0_mtl_controller_game_status   (IO_Data_GS),   //                                     .game_status
+		.nios_mtl_controller_0_mtl_controller_xtouch(reg_x1),
+		.nios_mtl_controller_0_mtl_controller_ytouch(reg_y1),
+		.nios_mtl_controller_0_mtl_controller_ptouch(pulse_n)
 	);
 	
 assign MTL_DCLK = iCLOCK_33;
@@ -510,12 +513,13 @@ end
 
 //--- Touch controller -------------------------
 
-logic [9:0] reg_x1, reg_x2;
-logic [8:0] reg_y1, reg_y2;
-logic [1:0] reg_touch_count;
-logic [7:0] reg_gesture;
-logic			touch_ready;	
-logic 		pulse_w, pulse_e, pulse_c;
+logic [9:0]  reg_x1, reg_x2;
+logic [8:0]  reg_y1, reg_y2;
+logic [1:0]  reg_touch_count;
+logic [7:0]  reg_gesture;
+logic			 touch_ready, old_touch;
+logic [31:0] count_t;	
+logic 		 pulse_w, pulse_e, pulse_n;
 
 
 // This touch controller is given by Terasic and is encrypted.
@@ -526,7 +530,7 @@ logic 		pulse_w, pulse_e, pulse_c;
 // For details about the inputs and outputs, you can refer to
 // section 3.3 of the MTL datasheet available in the project
 // file folder.
-/*
+
 i2c_touch_config  i2c_touch_config_inst (
 	.iCLK(CLOCK_50),
 	.iRSTN(~dly_rst),
@@ -541,7 +545,7 @@ i2c_touch_config  i2c_touch_config_inst (
 	.I2C_SCLK(MTL_TOUCH_I2C_SCL),
 	.I2C_SDAT(MTL_TOUCH_I2C_SDA)
 );
-*/
+
 
 // These two modules are small buffers for the touch
 // controller outputs.
@@ -565,13 +569,20 @@ touch_buffer	touch_buffer_east (
 
 
 // Test for touching the buttons of pause menu
-/*touch_buffer	touch_buffer_click (
-	.clk (CLOCK_50),
-	.rst (dly_rst),
-	.trigger (touch_ready && (reg_gesture == 8'h20)),
-	.pulse (pulse_c)
-);*/
-
+always_ff @ (posedge CLOCK_50) begin
+	if (dly_rst) begin
+		pulse_n <= 1'b0;
+		count_t <= 32'b0;
+	end else begin
+		old_touch <= reg_touch_count;
+		if(!old_touch & reg_touch_count) pulse_n <= 1'b1;
+		else if (count_t < 32'd15000000) count_t <= count_t + 32'b1;
+		else begin
+			count_t <= 32'b0;
+			pulse_n <= 1'b0;
+		end
+	end
+end
 
 endmodule
 

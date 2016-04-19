@@ -22,6 +22,10 @@ module nios_mtl (
 		input  wire [7:0]  nios_mtl_controller_0_mtl_controller_game_status,   //                                     .game_status
 		input  wire [7:0]  nios_mtl_controller_0_mtl_controller_jump,          //                                     .jump
 		input  wire [7:0]  nios_mtl_controller_0_mtl_controller_acc,           //                                     .acc
+		input  wire        nios_mtl_controller_0_mtl_controller_button,        //                                     .button
+		input  wire        nios_mtl_controller_0_mtl_controller_ptouch,        //                                     .ptouch
+		input  wire [8:0]  nios_mtl_controller_0_mtl_controller_ytouch,        //                                     .ytouch
+		input  wire [9:0]  nios_mtl_controller_0_mtl_controller_xtouch,        //                                     .xtouch
 		input  wire        reset_reset_n,                                      //                                reset.reset_n
 		input  wire [3:0]  switch_external_connection_export                   //           switch_external_connection.export
 	);
@@ -186,6 +190,10 @@ module nios_mtl (
 		.iSPI_game_status (nios_mtl_controller_0_mtl_controller_game_status),         //               .game_status
 		.iSPI_jump        (nios_mtl_controller_0_mtl_controller_jump),                //               .jump
 		.iSPI_acc         (nios_mtl_controller_0_mtl_controller_acc),                 //               .acc
+		.iButton          (nios_mtl_controller_0_mtl_controller_button),              //               .button
+		.pulse_touch      (nios_mtl_controller_0_mtl_controller_ptouch),              //               .ptouch
+		.y_touch          (nios_mtl_controller_0_mtl_controller_ytouch),              //               .ytouch
+		.x_touch          (nios_mtl_controller_0_mtl_controller_xtouch),              //               .xtouch
 		.Avalon_CLK_50    (clk_clk),                                                  //            clk.clk
 		.Avalon_reset     (rst_controller_reset_out_reset)                            //          reset.reset
 	);

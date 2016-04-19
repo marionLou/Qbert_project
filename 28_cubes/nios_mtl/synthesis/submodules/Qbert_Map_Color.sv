@@ -15,6 +15,7 @@ module Qbert_Map_Color(
 	input e_start_qb, // NIOS
 	input e_pause_qb, // NIOS
 	input logic e_resume_qb,
+	input logic e_win_qb,
 	input logic [31:0] e_speed_qb,
 	input logic [2:0] e_jump_qb, // NIOS
 	input logic [20:0] e_XY0_qb, // NIOS
@@ -42,9 +43,9 @@ module Qbert_Map_Color(
 
 // --- Map parameters ------------//
 
-	input logic [10:0] XLENGTH,
-	input logic [20:0] XYDIAG_DEMI,
-	input logic [20:0] RANK1_XY_OFFSET,
+//	input logic [10:0] XLENGTH,
+//	input logic [20:0] XYDIAG_DEMI,
+//	input logic [20:0] RANK1_XY_OFFSET,
 	input logic [27:0] e_color_state,
 
 
@@ -60,22 +61,37 @@ module Qbert_Map_Color(
 	parameter N_cube = 3; 
 	parameter N_rank = 2; 
 	
+	logic [10:0] XLENGTH = 11'd22;
+	logic [20:0] XYDIAG_DEMI = {11'd15, 10'd22};
+	logic [20:0] XYDIAG = {11'd30, 10'd44};
+	logic [10:0] R1_X_OFFSET = 11'd250;
+	logic [9:0] R1_Y_OFFSET = 10'd190;
+	logic [20:0] R1_XY_OFFSET = {11'd250, 10'd190};
+
+	
 	// Génération des offsets pour chaque rangée
-	logic [20:0] RANK2_XY_OFFSET;
 	logic [20:0] RANK_XY_OFFSET [6:0];
+	
+	
 				
-	logic [9:0] shift [6:0] = '{10'd6, 10'd5, 10'd4, 10'd3, 10'd2, 10'd1, 10'd0};
+//	logic [9:0] shift [6:0] = '{10'd6, 10'd5, 10'd4, 10'd3, 10'd2, 10'd1, 10'd0};
 //	logic [6:0] unplus = {1'b1,1'b1,1'b1,1'b1,1'b1,1'b1,1'b1};
 //'{10'd6, 10'd5, 10'd4, 10'd3, 10'd2, 10'd1, 10'd0}							
-    rank_offset_generator ROG [6:0](
+/*    rank_offset_generator ROG [6:0](
 						.XLENGTH,
 						.RANK1_XY_OFFSET,
 						.XYDIAG_DEMI,
 						.shift(shift),
 						.rank_xy_offset( RANK_XY_OFFSET )
-						);
-	// couleur
-//	logic [7:0] decolor;
+						);*/
+						
+	// couleur de pause
+	logic [7:0] col_pause = 8'd0;
+	logic [7:0]	col_pause_16 = 8'd0;
+	logic [7:0]	col_pause_18 = 8'd0;
+	logic [7:0]	col_pause_33 = 8'd0;
+	logic [7:0]	col_pause_39 = 8'd0;
+	
 	// curseur pour tracer les cubes
 	logic [20:0] xy_offset [6:0];
 	
@@ -106,10 +122,10 @@ module Qbert_Map_Color(
 
 always_ff @(posedge CLK_33) begin
 	
-	xy_offset [0][20:0] <= RANK1_XY_OFFSET;
+	xy_offset [0][20:0] <= R1_XY_OFFSET;
 	
-	hb_top[0] <= {(x_cnt <= RANK1_XY_OFFSET[20:10] + XYDIAG_DEMI[20:10] && x_cnt >= RANK1_XY_OFFSET[20:10] - XYDIAG_DEMI[20:10]) 
-				&& (y_cnt <= RANK1_XY_OFFSET[9:0] + 10'd2*XYDIAG_DEMI[9:0] && y_cnt >= RANK1_XY_OFFSET[9:0] )};
+	hb_top[0] <= {(x_cnt <= R1_XY_OFFSET[20:10] + XYDIAG_DEMI[20:10] && x_cnt >= R1_XY_OFFSET[20:10] - XYDIAG_DEMI[20:10]) 
+				&& (y_cnt <= R1_XY_OFFSET[9:0] + XYDIAG[9:0] && y_cnt >= R1_XY_OFFSET[9:0] )};
 	
 end
 
@@ -117,7 +133,7 @@ end
 					.CLK_33,
 					.reset,
 					.qbert_xy,
-					.xy(RANK1_XY_OFFSET),
+					.xy(R1_XY_OFFSET),
 					.XYDIAG_DEMI, 
 					.box(position_qb[0]) 
 	);
@@ -125,15 +141,15 @@ end
  
 // --- Rank 2 --------------------------------------------------//
 	
-	logic [20:0] R2_xy_point_n [1:0];
+	logic [20:0] R2_xy_point_n [1:0] = '{{11'd287, 10'd212},{11'd287, 10'd168}};
 	
-	rank_n_generator RNG_rank2 [1:0] (
+/*	rank_n_generator RNG_rank2 [1:0] (
 		.rank_offset(RANK_XY_OFFSET[1][20:0]),
 		.shift(shift[1:0]), 
 //		.shift('{10'd1, 10'd0}),
 		.ydiag(10'd2*XYDIAG_DEMI[9:0]),
 		.point_n(R2_xy_point_n)
-	);
+	);*/
 
 	hitbox_top_generator HTG_rank2 [1:0] (
 		.*,
@@ -152,15 +168,15 @@ end
 	
 // --- Rank 3 --------------------------------------------------//
 	
-	logic [20:0] R3_xy_point_n [2:0];
+	logic [20:0] R3_xy_point_n [2:0] =  '{{11'd324, 10'd234}, {11'd324, 10'd190}, {11'd324, 10'd146}};
 	
-	rank_n_generator RNG_rank3 [2:0] (
+/*	rank_n_generator RNG_rank3 [2:0] (
 		.rank_offset(RANK_XY_OFFSET[2][20:0]),
 		.shift(shift[2:0]),
 //		.shift('{10'd2, 10'd1, 10'd0}),
 		.ydiag(10'd2*XYDIAG_DEMI[9:0]),
 		.point_n(R3_xy_point_n)
-	);
+	);*/
 
 	hitbox_top_generator HTG_rank3 [2:0] (
 		.*,
@@ -179,15 +195,16 @@ end
 	
 // --- Rank 4 --------------------------------------------------//
 	
-	logic [20:0] R4_xy_point_n [3:0];
+	logic [20:0] R4_xy_point_n [3:0] =  '{{11'd361, 10'd256}, {11'd361, 10'd212},
+													  {11'd361, 10'd168}, {11'd361, 10'd124}};
 	
-	rank_n_generator RNG_rank4 [3:0] (
+/*	rank_n_generator RNG_rank4 [3:0] (
 		.rank_offset(RANK_XY_OFFSET[3][20:0]),
 		.shift(shift[3:0]),
 //		.shift('{10'd3, 10'd2, 10'd1, 10'd0}),
 		.ydiag(10'd2*XYDIAG_DEMI[9:0]),
 		.point_n(R4_xy_point_n)
-	);
+	);*/
 
 	hitbox_top_generator HTG_rank4 [3:0] (
 		.*,
@@ -206,15 +223,16 @@ end
 	
 // --- Rank 5 --------------------------------------------------//
 	
-	logic [20:0] R5_xy_point_n [4:0];
+	logic [20:0] R5_xy_point_n [4:0] = '{{11'd398, 10'd278}, {11'd398, 10'd234}, {11'd398, 10'd190},
+													 {11'd398, 10'd146}, {11'd398, 10'd102}};
 	
-	rank_n_generator RNG_rank5 [4:0] (
+/*	rank_n_generator RNG_rank5 [4:0] (
 		.rank_offset(RANK_XY_OFFSET[4][20:0]),
 		.shift(shift[4:0]), 
 //		.shift('{10'd4, 10'd3, 10'd2, 10'd1, 10'd0}),
 		.ydiag(10'd2*XYDIAG_DEMI[9:0]),
 		.point_n(R5_xy_point_n)
-	);
+	);*/
 
 	hitbox_top_generator HTG_rank5 [4:0] (
 		.*,
@@ -235,15 +253,16 @@ end
 
 // --- Rank 6 --------------------------------------------------//
 	
-	logic [20:0] R6_xy_point_n [5:0];
+	logic [20:0] R6_xy_point_n [5:0] = '{{11'd435, 10'd300}, {11'd435, 10'd256}, {11'd435, 10'd212},
+													 {11'd435, 10'd168}, {11'd435, 10'd124}, {11'd435, 10'd80}};
 	
-	rank_n_generator RNG_rank6 [5:0] (
+	/*rank_n_generator RNG_rank6 [5:0] (
 		.rank_offset(RANK_XY_OFFSET[5][20:0]),
 		.shift(shift[5:0]),
 //		.shift('{10'd5, 10'd4, 10'd3, 10'd2, 10'd1, 10'd0}),
 		.ydiag(10'd2*XYDIAG_DEMI[9:0]),
 		.point_n(R6_xy_point_n)
-	);
+	);*/
 
 	hitbox_top_generator HTG_rank6 [5:0] (
 		.*,
@@ -262,15 +281,17 @@ end
 	
 // --- Rank 7 --------------------------------------------------//
 	
-	logic [20:0] R7_xy_point_n [6:0];
+	logic [20:0] R7_xy_point_n [6:0] = '{{11'd472, 10'd322}, {11'd472, 10'd278}, {11'd472, 10'd234},
+													 {11'd472, 10'd190}, {11'd472, 10'd146},
+													 {11'd472, 10'd102}, {11'd472, 10'd58}};
 	
-	rank_n_generator RNG_rank7 [6:0] (
+/*	rank_n_generator RNG_rank7 [6:0] (
 		.rank_offset(RANK_XY_OFFSET[6][20:0]),
 		.shift(shift),
 //		.shift('{10'd6,10'd5, 10'd4, 10'd3, 10'd2, 10'd1, 10'd0}), 
 		.ydiag(10'd2*XYDIAG_DEMI[9:0]),
 		.point_n(R7_xy_point_n)
-	);
+	);*/
 
 	hitbox_top_generator HTG_rank7 [6:0] (
 		.*,
@@ -333,89 +354,57 @@ always_ff @(posedge CLK_33) begin
 	R7_xy_point_n[6]-{11'd1,10'd1} : xy_offset[6] <= R7_xy_point_n[6];
 	
 	endcase
-
-
-// Donne les couleurs
-//		if(e_pause_qb) decolor <= 8'd50;
-//		else decolor <= 8'd0;
-if(e_pause_qb) begin 
-		if(hb_qb & le_qbert) begin
-				red <= 8'd255;
-				green <= 8'd145;
-				blue <= 8'd52;
-		end
-		else if (hb_sc & la_soucoupe) begin
-				red <= 8'd255;
-				green <= 8'd78;
-				blue <= 8'd86;	
-		end
-		else if(left_face !=0) begin
-			red 	<= 8'd136;
-			green <= 8'd219;
-			blue 	<= 8'd202;
-		end
-		else if(right_face != 0) begin
-			red <= 8'd99;
-			green <= 8'd120;
-			blue <= 8'd120;
-		end 
-		else if( top_face != 0) begin
-			if ( top_color != 0) begin
-				red <= 8'd136; 
-				green <= 8'd120;
-				blue <= 8'd255;
-			end
-			else begin
-				red <= 8'd255;
-				green <= 8'd255;
-				blue <= 8'd50;
-			end
-		end
-		else begin
-		red 	<= 8'd50;
-		green <= 8'd50;
-		blue 	<= 8'd50;
-		end
-end
-else begin		
-		if(hb_qb & le_qbert) begin
-				red <= 8'd216;
-				green <= 8'd95;
-				blue <= 8'd2;
-		end
-		else if (hb_sc & la_soucoupe) begin
-				red <= 8'd237;
-				green <= 8'd28;
-				blue <= 8'd36;	
-		end	
-		else if(left_face !=0) begin
-			red 	<= 8'd86;
-			green <= 8'd169;
-			blue 	<= 8'd152;
-		end
-		else if(right_face != 0) begin
-			red <= 8'd49;
-			green <= 8'd70;
-			blue <= 8'd70;
-		end 
-		else if( top_face != 0) begin
-			if ( top_color != 0) begin
-				red <= 8'd86; 
-				green <= 8'd70;
-				blue <= 8'd239;
-			end
-			else begin 
-				red <= 8'd222;
-				green <= 8'd222;
-				blue <= 8'd0;
-			end
-		end 
-		else begin
-		red 	<= 8'd0;
-		green <= 8'd0;
-		blue 	<= 8'd0;
-		end
+	
+	// Pour ne pas tout repeter deux fois, je pense que
+	// c'est un peu ca que tu voulais faire au debut
+	if(e_pause_qb) begin
+		col_pause <= 8'd50;
+		col_pause_16 <= 8'd16; col_pause_18 <= 8'd18;
+		col_pause_33 <= 8'd33; col_pause_39 <= 8'd39;
+	end else begin
+		col_pause <= 8'd0;
+		col_pause_16 <= 8'd0; col_pause_18 <= 8'd0;
+		col_pause_33 <= 8'd0; col_pause_39 <= 8'd0;
 	end
+	
+	if(hb_qb & le_qbert) begin
+		red <= 8'd216 + col_pause_39;
+		green <= 8'd95 + col_pause;
+		blue <= 8'd2 + col_pause;
+	end
+	else if (hb_sc & la_soucoupe) begin
+		red <= 8'd237 + col_pause_18;
+		green <= 8'd28 + col_pause;
+		blue <= 8'd36 + col_pause;	
+	end	
+	else if(left_face !=0) begin
+		red 	<= 8'd86 + col_pause;
+		green <= 8'd169 + col_pause;
+		blue 	<= 8'd152 + col_pause;
+	end
+	else if(right_face != 0) begin
+		red <= 8'd49 + col_pause;
+		green <= 8'd70 + col_pause;
+		blue <= 8'd70 + col_pause;
+	end 
+	else if( top_face != 0) begin
+		if ( top_color != 0) begin
+			red <= 8'd86 + col_pause;
+			green <= 8'd70 + col_pause;
+			blue <= 8'd239 + col_pause_16;
+		end
+		else begin 
+			red <= 8'd222 + col_pause_33;
+			green <= 8'd222 + col_pause_33;
+			blue <= 8'd0 + col_pause;
+		end
+	end 
+	else begin
+	red 	<= 8'd0 + col_pause;
+	green <= 8'd0 + col_pause;
+	blue 	<= 8'd0 + col_pause;
+	end
+	// Je ne vois pas a quoi sert ce end
 end
 
 //assign hitbox_top = hb_top;
@@ -430,6 +419,7 @@ qbert_layer #(28) Beta (
 	.e_bad_jump,
 	.e_start_qb,
 	.e_resume_qb,
+	.e_win_qb,
 	.e_speed_qb,
 	.e_pause_qb,
 	.e_next_qb,
@@ -513,7 +503,7 @@ cube_generator #(28) rank [6:0](
 endmodule
 
 //-----------------------------------------------
-module rank_offset_generator (
+/*module rank_offset_generator (
 	input logic [10:0] XLENGTH,
 	input logic [20:0] RANK1_XY_OFFSET,
 	input logic [20:0] XYDIAG_DEMI,
@@ -522,17 +512,17 @@ module rank_offset_generator (
 	);
 assign rank_xy_offset = {RANK1_XY_OFFSET[20:10] + shift*(XYDIAG_DEMI[20:10]+XLENGTH),
 						RANK1_XY_OFFSET[9:0] - shift*(XYDIAG_DEMI[9:0])};	
-endmodule
+endmodule*/
 
 //-----------------------------------------------
-module rank_n_generator (
+/*module rank_n_generator (
 	input logic [20:0] rank_offset,
 	input logic [9:0] shift,
 	input logic [9:0] ydiag,
 	output logic [20:0] point_n
 	);
 assign point_n = {rank_offset[20:10], rank_offset[9:0] + shift*(ydiag)};
-endmodule
+endmodule*/
 
 //-----------------------------------------------
 module hitbox_top_generator (

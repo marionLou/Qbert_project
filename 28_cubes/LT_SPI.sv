@@ -1,25 +1,40 @@
-/* 
-	Modification : - IO_A, IO_B,IO_C,IO_D -> IO_A, IO_B				  
-*/
 //=======================================================
-`timescale 1 ps / 1 ps
+
 module LT_SPI (
 	input  logic		 theClock, theReset,
-	input  logic       MySPI_clk, MySPI_cs, MySPI_sdi,
+	input  logic       	 MySPI_clk, MySPI_cs, MySPI_sdi,
 	output logic  		 MySPI_sdo,
-	input  logic [7:0] Data_ToPic,
+	output logic [7:0] Config,
+	input  logic [7:0] Status,
+	input  logic [7:0] Time,
+	input  logic [7:0] Left_steps,
+	input  logic [7:0] Qb_color,
+	output logic [7:0] Led70,
+	output logic [7:0] Red,
+	output logic [7:0] Green,
+	output logic [7:0] Blue,
+	output logic [7:0] ImgNum,
+	output logic		 Trigger,
 	output logic [7:0] Data_Jump,
 	output logic [7:0] Data_Acc,
-	output logic [7:0] Data_Status
-	
+	output logic [7:0] Data_GS
 );
 
 //--- Registers Address ---------------------------------
 
-parameter A_ToPic  			= 2'd0;
-parameter A_Jump  			= 2'd1;
-parameter A_Acc   			= 2'd2;
-parameter A_Status   		= 2'd3;
+parameter A_Config     			= 7'h00;
+parameter A_Led70      			= 7'h01;
+parameter A_Status     			= 7'h02;
+parameter A_Time 					= 7'h03;
+parameter A_Left_steps 			= 7'h04;
+parameter A_Qb_color 			= 7'h05;
+parameter A_Red					= 7'h06;
+parameter A_Green					= 7'h07;
+parameter A_Blue					= 7'h08;
+parameter A_ImgNum				= 7'h09;
+parameter A_Data_Jump			= 7'h0a;
+parameter A_Data_Acc				= 7'h0b;
+parameter A_Data_GS				= 7'h0c;
 
 //--- FSM States ----------------------------------------
 
@@ -63,7 +78,7 @@ begin
 	SPI_nextstate = SPI_state;
 	case (SPI_state)
 		S_Wait	 : if (SPI_CS) SPI_nextstate = S_Wait;
-						else SPI_nextstate = S_Addr;
+							else SPI_nextstate = S_Addr;
 		S_Addr	 : SPI_nextstate = S_Addr_00;
 		S_Addr_00 : if (SPI_CLK) SPI_nextstate = S_Addr_01;
 		S_Addr_01 : SPI_nextstate = S_Addr_11;
@@ -94,26 +109,41 @@ always_ff @ (posedge theClock)
 begin
 	
 	if (SPI_counter_reset) SPI_counter <= 3'b000;
-		else if (SPI_counter_inc) SPI_counter <= SPI_counter + 1;
+		else if (SPI_counter_inc) SPI_counter <= SPI_counter + 3'b1;
 		
 	if (SPI_address_shift) SPI_address <= { SPI_address[6:0], MySPI_sdi };
 	
 	if (SPI_data_shift) SPI_data <= { SPI_data[6:0], MySPI_sdi };
 		else if (SPI_data_load)
 			case (SPI_address[6:0])
-				A_ToPic   : SPI_data <= Data_ToPic;
+				A_Config    		: SPI_data <= Config;
+				A_Status    		: SPI_data <= Status;
+				A_Time    			: SPI_data <= Time;
+				A_Left_steps		: SPI_data <= Left_steps;
+				A_Qb_color 			: SPI_data <= Qb_color;
+				A_Led70     		: SPI_data <= Led70;
 			endcase
 		
-
 	if (theReset) begin
-		Data_Jump <= 8'h00;
-		Data_Acc <= 8'h00;
-		Data_Status <= 8'h00;
+		Config <= 8'h00;
+		Led70 <= 8'h00;
+		ImgNum <= 8'h00;
+		Red  <= 8'h00; Green <= 8'h00; Blue <= 8'h00;
+		Data_Jump <= 8'h00; Data_Acc <= 8'h00; Data_GS <= 8'h00;
+	end else if ((SPI_data_update) & (SPI_address[6:0] == A_Blue)) begin
+		Blue <= SPI_data;
+		Trigger <= 1'b1;
+	end else begin
+		Trigger <= 1'b0;
+		if ((SPI_data_update) & (SPI_address[6:0] == A_Config)) Config <= SPI_data; 
+		else if ((SPI_data_update) & (SPI_address[6:0] == A_Led70))  Led70 <= SPI_data; 
+		else if ((SPI_data_update) & (SPI_address[6:0] == A_Red)) Red <= SPI_data;
+		else if ((SPI_data_update) & (SPI_address[6:0] == A_Green)) Green <= SPI_data;
+		else if ((SPI_data_update) & (SPI_address[6:0] == A_ImgNum)) ImgNum <= SPI_data;
+		else if ((SPI_data_update) & (SPI_address[6:0] == A_Data_Jump)) Data_Jump <= SPI_data;
+		else if ((SPI_data_update) & (SPI_address[6:0] == A_Data_Acc)) Data_Acc <= SPI_data;
+		else if ((SPI_data_update) & (SPI_address[6:0] == A_Data_GS)) Data_GS <= SPI_data;
 	end
-	else if ((SPI_data_update) & (SPI_address[6:0] == A_Jump)) Data_Jump <= SPI_data;
-	else if ((SPI_data_update) & (SPI_address[6:0] == A_Acc)) Data_Acc <= SPI_data;
-	else if ((SPI_data_update) & (SPI_address[6:0] == A_Status)) Data_Status <= SPI_data;
-		
 	
 end
 

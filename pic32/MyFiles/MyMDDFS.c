@@ -129,20 +129,26 @@ void MyMDDFS_loadSlideshow(char* theCmd) {
 }
 
 void MyMDDFS_loadStartShow(void) {
-
-    char base_name[16] = "BGMENU.bmp";
-    int start = 1;
+    
+    char curr_img_name[21];
+    char base_name[16] = "BGMENU";
+    int num_img = 2;
+    int i;
 
     //Sends to the FPGA the number of images that will be loaded.
-    MyCyclone_Write(CYCLONE_IMGNUM, start);
+    MyCyclone_Write(CYCLONE_IMGNUM, num_img);
     
     MyConsole_SendMsg(base_name);
-
-    if (MyMDDFS_ReadImg(base_name)) {
-        MyConsole_SendMsg("An error occurred while opening a file.\n\t");
-        MyConsole_SendMsg("Verify the SD card and your inputs, then try again!\n\t");
+    
+    for (i=0; i<num_img; i++) {
+        sprintf(curr_img_name, "%s%d.bmp", base_name, i+1);
+        if (MyMDDFS_ReadImg(curr_img_name)) {
+            MyConsole_SendMsg("An error occurred while opening a file.\n\t");
+            MyConsole_SendMsg("Verify the SD card and your inputs, then try again!\n\t");
+            break;
+        }
     }
-    else MyConsole_SendMsg("The background has been loaded");
+    
 
     MyConsole_SendMsg("\n\r>");
     return;

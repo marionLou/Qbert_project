@@ -41,12 +41,18 @@
 #define MyCYCLONE_H_
 
 #define CYCLONE_CONFIG          0x00
-#define CYCLONE_STATUS          0x01
-#define CYCLONE_LED70           0x02
-#define CYCLONE_RED             0x03
-#define CYCLONE_GREEN           0x04
-#define CYCLONE_BLUE            0x05
-#define CYCLONE_IMGNUM          0x06
+#define CYCLONE_LED70           0x01
+#define CYCLONE_STATUS           0x02
+#define CYCLONE_TIME            0x03
+#define CYCLONE_STEPS           0x04
+#define CYCLONE_QB_COLOR        0x05
+#define CYCLONE_RED             0x06
+#define CYCLONE_GREEN           0x07
+#define CYCLONE_BLUE            0x08
+#define CYCLONE_IMGNUM          0x09
+#define CYCLONE_DATA_JUMP       0x0a
+#define CYCLONE_DATA_ACC        0x0b
+#define CYCLONE_DATA_GS         0x0c
 
 #define CYCLONE_ENABLE_INT_KEY0 0x01
 #define CYCLONE_ENABLE_INT_KEY1 0x02

@@ -1,24 +1,59 @@
 ~inc:header.inc~
 <div id="content">
 
-<h1>Progress so far!</h1>
+<h1>Game progress!</h1>
 
-<table style="padding-left: 10px;">
-<tr><td><b>Stack Version:</b></td><td>&nbsp;</td><td>~version~</td></tr>
-<tr><td><b>Build Date:</b></td><td>&nbsp;</td><td>~builddate~</td></tr>
-</table>
 
-<p>We will illustrate what we managed to do up to now with our two DE0-nanos.</p>
+<div id="boxes">
+<w1>
+	Time left:<br/>
+	<h1 id="Time_left"> </h1>
+</w1>
 
-<p>Connection to the MTL</p>
-<p>
-<img src="images/MTL.PNG" align="right">
-One DE0-nano will be connected to the MTL screen and have all the pictures
-necessary stored on a micro SD card. The other DE0-nano will send MIWI messages
-to the DE0-nano to tell it which pictures it must show on the screen.
-</p>
-<p>Conclusion for decoration</p>
+<w2>
+	Cases left to color:<br/>
+	<h1 id="Case_nbr"> </h1>
+</w2>
+
+<w2>
+	Qbert color:<br/>
+	<h1 id="Qb_color"> </h1>
+</w2>
+</div>
 
 </div>
+
+<script type="text/javascript">
+<!--
+// Parses the xmlResponse from status.xml and updates the status box
+function updateStatus(xmlData) {
+/*	var mainstat = document.getElementById('display').style.display;
+	var loadstat = document.getElementById('loading').style.display;
+
+	// Check if a timeout occurred
+	if(!xmlData)
+	{
+		mainstat = 'none';
+		loadstat = 'inline';
+		return;
+	}
+
+	// Make sure we're displaying the status display
+	mainstat = 'inline';
+	loadstat = 'none';*/
+
+	// Update the Cases left value
+	document.getElementById('Case_nbr').innerHTML = getXMLValue(xmlData, 'Case_nbr');
+
+	// Update Time left
+	document.getElementById('Time_left').innerHTML = getXMLValue(xmlData, 'Time_left');
+	
+	// Update Qbert color
+	document.getElementById('Qb_color').innerHTML = getXMLValue(xmlData, 'Qb_color');
+}
+setTimeout("newAJAXCommand('game_info.xml', updateStatus, true)",500);
+//-->
+</script>
+
 
 ~inc:footer.inc~

@@ -4,9 +4,9 @@
 //=======================================================
 `timescale 1 ps / 1 ps
 module MySPI (
-	input  logic		 theClock, theReset,
+	input  logic	   theClock, theReset,
 	input  logic       MySPI_clk, MySPI_cs, MySPI_sdi,
-	output logic  		 MySPI_sdo,
+	output logic 	   MySPI_sdo,
 	input  logic [7:0] Data_ToPic,
 	output logic [7:0] Data_ToCyclo
 );

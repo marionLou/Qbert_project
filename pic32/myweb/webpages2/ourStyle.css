@@ -44,19 +44,34 @@ body {
 	height: 150px;
 }
 
-#title .right {
-	float: right;
+#title .left {
+	float: left;
 	width: 300px;
-	text-align: right;
+	text-align: left;
+}
+
+#section {
+	padding: 15px;
+	font-weight: bold;
+	font-style: italic;
+	color: #000;
+	height: 15px;
+}
+
+#section .left {
+	float: left;
+	width: 300px;
+	text-align: left;
 }
 
 #menu {
 	display: table;
 	margin: 0 auto;
+	margin-bottom: 10px;
 }
 
 #menu a {
-	width: 160px;
+	width: 120px;
 	text-align: center;
 	display: inline-block;
 	background: #000;
@@ -70,6 +85,40 @@ body {
 
 #menu a:hover {
 	background: #d33;
+}
+
+#boxes {
+  font: 14px/24px "Source Code Pro", Inconsolata, "Lucida Console", Terminal, "Courier New", Courier;
+  display: table;
+  margin: 0 auto;
+}
+#boxes w1 {
+  background: #ff7711;
+  color: #666;
+  height: 100px;
+  text-align: center;
+  border: 6px double #ff2211;
+  list-style-type: none;
+  display: inline-block;
+  width: 95%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+#boxes w2 {
+  background: #ff7711;
+  color: #666;
+  height: 100px;
+  text-align: center;
+  border: 6px double #ff2211;
+  list-style-type: none;
+  display: inline-block;
+  width: 45%;
+  padding: 2px;
+  margin-bottom: 10px;
+}
+#boxes w3 {
+  display: inline-block;
+  width: 30%;
 }
 
 #content {
@@ -106,6 +155,23 @@ body {
 	padding-top: 20px;
 	border-top: 1px dotted #666;
 }
+
+#splitPR {
+	padding: 10px;
+	margin: 10px;
+	height: 200px;
+	float: right;
+	width: 200px;
+}
+
+#splitPL{
+	padding: 10px;
+	margin: 10px;
+	height: 200px;
+	float: left;
+	width: 200px;
+}
+
 
 #status {
 	width: 175px;

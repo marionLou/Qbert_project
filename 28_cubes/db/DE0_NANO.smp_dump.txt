@@ -26,10 +26,11 @@ qbert_state.SAUCER 1 0 0 1 0
 qbert_state.KO 0 0 0 1 1 
 
 State Machine - |DE0_NANO|nios_mtl:u0|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|qbert_layer:Beta|game_state
-Name game_state.RESUME game_state.RESTART game_state.PAUSE 
-game_state.RESUME 0 0 0 
-game_state.PAUSE 1 0 1 
-game_state.RESTART 1 1 0 
+Name game_state.WIN game_state.RESTART game_state.PAUSE game_state.RESUME 
+game_state.RESUME 0 0 0 0 
+game_state.PAUSE 0 0 1 1 
+game_state.RESTART 0 1 0 1 
+game_state.WIN 1 0 0 1 
 
 State Machine - |DE0_NANO|nios_mtl:u0|nios_mtl_cpu:cpu|nios_mtl_cpu_cpu:cpu|nios_mtl_cpu_cpu_nios2_oci:the_nios_mtl_cpu_cpu_nios2_oci|nios_mtl_cpu_cpu_debug_slave_wrapper:the_nios_mtl_cpu_cpu_debug_slave_wrapper|nios_mtl_cpu_cpu_debug_slave_tck:the_nios_mtl_cpu_cpu_debug_slave_tck|DRsize
 Name DRsize.101 DRsize.100 DRsize.011 DRsize.010 DRsize.001 DRsize.000 

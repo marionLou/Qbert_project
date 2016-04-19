@@ -51,6 +51,9 @@ void HTTPPrint_snmp_en(void);
 void HTTPPrint_MyLevel(void);
 void HTTPPrint_Record(WORD);
 void HTTPPrint_stg(WORD);
+void HTTPPrint_Time_left(void);
+void HTTPPrint_Case_nbr(void);
+void HTTPPrint_Qb_color(void);
 
 void HTTPPrint(DWORD callbackID)
 {
@@ -226,6 +229,15 @@ void HTTPPrint(DWORD callbackID)
 			break;
         case 0x00000067:
 			HTTPPrint_stg(3);
+			break;
+        case 0x00000068:
+			HTTPPrint_Time_left();
+			break;
+        case 0x00000069:
+			HTTPPrint_Case_nbr();
+			break;
+        case 0x0000006a:
+			HTTPPrint_Qb_color();
 			break;
 		default:
 			// Output notification for undefined values

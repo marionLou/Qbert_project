@@ -105,10 +105,10 @@ anim_t move_anim;
 reg ko_anim, start_anim;
 reg [1:0] saucer_anim;
 
-typedef enum logic [2:0] {START=3'b000, JUMP=3'b001, IDLE=3'b010, SAUCER=3'b011, KO=3'b100} qstate_t;
+typedef enum logic [2:0] {START=3'd0, JUMP=3'd1, IDLE=3'd2, SAUCER=3'd3, KO=3'd4} qstate_t;
 qstate_t qbert_state;
 
-typedef enum logic [1:0] {RESUME, PAUSE, RESTART} state_t;
+typedef enum logic [2:0] {INTRO, RESUME, PAUSE, RESTART, WIN} state_t;
 state_t game_state;
 
 
@@ -122,6 +122,9 @@ speed <= (e_speed_qb != 1'b0) ? e_speed_qb : df_speed; // use default if (e_spee
 					 100 : UP_LEFT
 */
 case(game_state)
+	INTRO :	begin
+					
+				end
 	RESUME :	begin 
 					if(e_pause_qb)	game_state <= PAUSE;
 					else begin
@@ -145,68 +148,59 @@ case(game_state)
 											1'b1 : if(start_count[16] == 1'b0) start_anim <= 1'b0;
 										endcase 												
 									end
-							JUMP :  begin 
-										move_count <= move_count + 32'd1;
-										case(move_anim)
-											PLUS :  if( move_count == speed ) begin
-														if (e_jump_qb == 3'b001) begin
-															if (YC > y0)
-																{XC,YC} <= {XC , YC - 10'd1}; 
-															else if (XC < x0 + XDIAG_DEMI + XLENGTH)
-																{XC,YC} <= {XC + 11'd1, YC};
-															else begin
-																done_move_reg <= 1'b1;
-																if (e_win_qb) game_state <= WIN;
-																else if (!e_bad_jump) qbert_state <= IDLE;
-																else  qbert_state <= KO;								
-															end
-														end
-														else if (e_jump_qb == 3'b010) begin
-															if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
-																{XC,YC} <= {XC , YC + 10'd1}; 
-															else if (XC < x0 + XDIAG_DEMI + XLENGTH) 
-																{XC,YC} <= {XC + 11'd1, YC}; 
-															else begin
-																done_move_reg <= 1'b1;
-																if (e_win_qb) game_state <= WIN;
-																else if (!e_bad_jump) qbert_state <= IDLE;
-																else qbert_state <= KO;								
-															end
-														end
-														else if (e_jump_qb == 3'b011) begin
-															if (XC > x0 - XDIAG_DEMI - XLENGTH) 
-																{XC,YC} <= {XC - 11'd1, YC }; 
-															else if (YC > y0) 
-																{XC,YC} <= {XC , YC - 10'd1} ; 
-															else begin
-																done_move_reg <= 1'b1;
-																if (e_win_qb) game_state <= WIN;
-																else if (!e_bad_jump) qbert_state <= IDLE;
-																else qbert_state <= KO;								
-															end
-														end
-														else if (e_jump_qb == 3'b100) begin
-															if (XC > x0 - XDIAG_DEMI - XLENGTH) 
-																{XC,YC} <= {XC - 11'd1, YC }; 
-															else if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
-																{XC,YC} <= {XC , YC + 10'd1} ; 
-															else begin
-																done_move_reg <= 1'b1;
-																if (e_win_qb) game_state <= WIN;
-																else if (!e_bad_jump) qbert_state <= IDLE;
-																else qbert_state <= KO;								
-															end
-														end
-														move_count <= 1'b0;
-														move_anim <= ZERO;
-													end 
-											ZERO : begin 
-														done_move_reg <= 1'b0;
-														move_anim <= PLUS; 
-														//	if(move_count[16] == 1'b0) move_anim <= PLUS; 
+							JUMP :   begin 
+											if( move_count == speed ) begin
+												if (e_jump_qb == 3'b001) begin
+													if (YC > y0)
+														{XC,YC} <= {XC , YC - 10'd1}; 
+													else if (XC < x0 + XDIAG_DEMI + XLENGTH)
+														{XC,YC} <= {XC + 11'd1, YC};
+													else begin
+														done_move_reg <= 1'b1;
+														if (e_win_qb) game_state <= WIN;
+														else if (!e_bad_jump) qbert_state <= IDLE;
+														else  qbert_state <= KO;								
 													end
-											endcase
-									end
+												end
+												else if (e_jump_qb == 3'b010) begin
+													if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
+														{XC,YC} <= {XC , YC + 10'd1}; 
+													else if (XC < x0 + XDIAG_DEMI + XLENGTH) 
+														{XC,YC} <= {XC + 11'd1, YC}; 
+													else begin
+														done_move_reg <= 1'b1;
+														if (e_win_qb) game_state <= WIN;
+														else if (!e_bad_jump) qbert_state <= IDLE;
+														else qbert_state <= KO;								
+													end
+												end
+												else if (e_jump_qb == 3'b011) begin
+													if (XC > x0 - XDIAG_DEMI - XLENGTH) 
+														{XC,YC} <= {XC - 11'd1, YC }; 
+													else if (YC > y0) 
+														{XC,YC} <= {XC , YC - 10'd1} ; 
+													else begin
+														done_move_reg <= 1'b1;
+														if (e_win_qb) game_state <= WIN;
+														else if (!e_bad_jump) qbert_state <= IDLE;
+														else qbert_state <= KO;								
+													end
+												end
+												else if (e_jump_qb == 3'b100) begin
+													if (XC > x0 - XDIAG_DEMI - XLENGTH) 
+														{XC,YC} <= {XC - 11'd1, YC }; 
+													else if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
+														{XC,YC} <= {XC , YC + 10'd1} ; 
+													else begin
+														done_move_reg <= 1'b1;
+														if (e_win_qb) game_state <= WIN;
+														else if (!e_bad_jump) qbert_state <= IDLE;
+														else qbert_state <= KO;								
+													end
+												end
+												move_count <= 1'b0;
+											end else move_count <= move_count + 32'd1;	
+										end
 							IDLE :  begin 
 										{x0,y0} <= {XC, YC - YDIAG_DEMI};
 										if(e_jump_qb !=0 && position_qb != e_next_qb && e_tilt_acc == 2'b0) begin
@@ -217,14 +211,14 @@ case(game_state)
 											mode_saucer <= 1'b1;
 											// je pense qu'on peut ramener ca en une ligne comme ca
 											// (Rside, est defini au dessus, et pareil pour Lside bien sur)
-											// if ((position_qb & 'Rside) != 0) qbert_state <= SAUCER;
-											if(position_qb == `TOP) qbert_state <= SAUCER;
+											if ((position_qb & `Rside) != 0) qbert_state <= SAUCER;
+											/*if(position_qb == `TOP) qbert_state <= SAUCER;
 											else if(position_qb == `R02) qbert_state <= SAUCER;
 											else if(position_qb == `R04) qbert_state <= SAUCER;
 											else if(position_qb == `R07) qbert_state <= SAUCER;
 											else if(position_qb == `R11) qbert_state <= SAUCER;
 											else if(position_qb == `R16) qbert_state <= SAUCER;
-											else if(position_qb == `R22) qbert_state <= SAUCER;
+											else if(position_qb == `R22) qbert_state <= SAUCER;*/
 										end
 										else if(e_tilt_acc == 2'd2) begin
 											mode_saucer <= 1'b1;
@@ -263,8 +257,6 @@ case(game_state)
 																else saucer_anim <= 2'b10;
 															end
 															sc_count <= 1'b0;
-															// on sera tjs en saucer_anim 2'b01
-															saucer_anim <= 2'b01;
 														end
 													end
 											2'b01 : begin // put done_move_reg to 0 only once is enough 
@@ -295,8 +287,8 @@ case(game_state)
 															shade_x <= 11'd0;
 															// pq cette condition?
 															// si on est ici, c'est qu'on fait le bad jump non?
-															if(!e_bad_jump) qbert_state <= IDLE;
-															else qbert_state <= START;
+															//if(!position_qb) qbert_state <= IDLE;
+															qbert_state <= START;
 														end
 														ko_anim <= 1'b1;
 													end

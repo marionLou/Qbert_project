@@ -18,7 +18,8 @@
 
 <div id="menu">
 	<a href="/index.htm">Overview</a>
+	<a href="/show.htm">Real-time</a>
+	<a href="/instructions.htm">Instructions</a>
 	<a href="/records.htm">Records list</a>
 	<a href="/codes.htm">Cheating codes</a>
-	<a href="/show.htm">Presentation</a>
 </div>

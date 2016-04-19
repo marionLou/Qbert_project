@@ -127,6 +127,10 @@ MyAPP_EXT  int      Stg1 MyAPP_INIT;
 MyAPP_EXT  int      Stg2 MyAPP_INIT;
 MyAPP_EXT  int      Stg3 MyAPP_INIT;
 
+MyAPP_EXT  int      MyTime MyAPP_INIT;
+MyAPP_EXT  int      MySteps MyAPP_INIT;
+MyAPP_EXT  int      MyQb_color MyAPP_INIT;
+
 
 
 /*******************************************************************************

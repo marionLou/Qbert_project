@@ -1,0 +1,5 @@
+-> number of cases yet to color
+
+-> color of your qbert
+
+-> Time remaining

@@ -179,9 +179,9 @@ HTTP_IO_RESULT HTTPExecuteGet(void)
 		// Seek out each of the four LED strings, and if it exists set the LED states
 		ptr = HTTPGetROMArg(curHTTP.data, (ROM BYTE *)"Level_select");
 		if(ptr) {
-            if (*ptr == '1') MyDif_Level="Easy";
-            else if (*ptr == '2') MyDif_Level="Medium";
-            else if (*ptr == '3') MyDif_Level="Hard";
+            if (*ptr == '1') MyDif_Level=1;
+            else if (*ptr == '2') MyDif_Level=2;
+            else if (*ptr == '3') MyDif_Level=3;
             else MyConsole_SendMsg("Wrong level, try again\n>");
         }
         
@@ -1872,7 +1872,12 @@ void HTTPPrint_status_fail(void)
 void HTTPPrint_MyLevel(void)
 {
     BYTE theStr[44];
-    sprintf(theStr, "%s", MyDif_Level);
+    if (MyDif_Level==NULL) sprintf(theStr, "No Level defined");
+    else if (MyDif_Level==1) sprintf(theStr, "Easy");
+    else if (MyDif_Level==2) sprintf(theStr, "Medium");
+    else if (MyDif_Level==3) sprintf(theStr, "Hard");
+    else sprintf(theStr, "WTF");
+    sprintf(theStr, "%s", theStr);
     TCPPutString(sktHTTP,theStr);
 }
 
@@ -1881,7 +1886,7 @@ void HTTPPrint_Record(WORD num)
     BYTE recDef[44];
     
     if (MyDif_Level==NULL) sprintf(recDef, "No Level defined");
-    else if (strcmp(MyDif_Level, "Easy")==0)
+    else if (MyDif_Level==1)
     {
         switch(num)
         {
@@ -1903,7 +1908,7 @@ void HTTPPrint_Record(WORD num)
             default:
                 sprintf(recDef, "Easy: The odds were not in your favor");
         }
-    } else if (strcmp(MyDif_Level, "Medium")==0)
+    } else if (MyDif_Level==2)
     {
         switch(num)
         {
@@ -1971,4 +1976,31 @@ void HTTPPrint_stg(WORD num)
             break;
     }
     TCPPutString(sktHTTP,stgDis);
+}
+
+void HTTPPrint_Time_left(void)
+{
+    BYTE theStr[20];
+    if (MyTime==NULL) sprintf(theStr, "inf");
+    else sprintf(theStr, "%d sec", MyTime);
+    TCPPutString(sktHTTP,theStr);
+}
+
+void HTTPPrint_Case_nbr(void)
+{
+    BYTE theStr[20];
+    if (MySteps==NULL) sprintf(theStr, "inf");
+    else sprintf(theStr, "%d cases", MySteps);
+    TCPPutString(sktHTTP,theStr);
+}
+
+void HTTPPrint_Qb_color(void)
+{
+    BYTE theStr[20];
+    if (MyQb_color==NULL) sprintf(theStr, "rainbow");
+    else if (MyQb_color==1) sprintf(theStr, "orange");
+    else if (MyQb_color==2) sprintf(theStr, "purple");
+    else if (MyQb_color==3) sprintf(theStr, "green");
+    else sprintf(theStr, "WTF_col");
+    TCPPutString(sktHTTP,theStr);
 }

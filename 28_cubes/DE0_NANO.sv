@@ -164,22 +164,23 @@ output			  [7:0]		MTL_B;
 //=======================================================
 
 //--- Declarations --------------------------------------
-
 logic	PIC32_SDO1A, PIC32_SDI1A, PIC32_SCK1A, PIC32_CS_FPGA;
 logic	PIC32_INT1, PIC32_INT2;
 logic	PIC32_RESET;
 
 logic [7:0] Config;
-logic [7:0] Status;
 logic [7:0] Led70;
+logic [7:0] Status;
 logic [7:0] Red;
 logic [7:0] Green;
 logic [7:0] Blue;
 logic [7:0] ImgNum;
 logic			Trigger; 
 
-logic [7:0] IO_Data_ToPic;
-logic [7:0] IO_Data_Jump, IO_Data_Acc, IO_Data_Status;
+logic [7:0] oldTime;
+
+logic [7:0] IO_Time, IO_Left_steps, IO_Qb_color;
+logic [7:0] IO_Data_Jump, IO_Data_Acc, IO_Data_GS;
 
 //---- Assign GPIO_2 Header (connected to PIC32) -------
 
@@ -198,13 +199,21 @@ assign PIC32_RESET	= GPIO_2[10];
 
 //--- Assign Status, INT, Led70 -------------------------
 
-//assign LED[7:0] = Led70[7:0];
+assign LED[7:0] = reg_gesture;
 
-assign PIC32_INT1 = Config[0] ? KEY[0] : 1'b1;
-assign PIC32_INT2 = Config[1] ? KEY[1] : 1'b1;
+assign PIC32_INT1 =  1'b1;
+//assign PIC32_INT2 =  1'b1;
 
-always @ (posedge CLOCK_50)
-	Status = {SW, 2'b00, KEY};
+always @ (posedge CLOCK_50) begin
+	Status <= {SW, 2'b00, KEY};
+	oldTime <= IO_Time;
+	if (IO_Time != oldTime) PIC32_INT2 = 1'b1;
+	else PIC32_INT2 = 1'b0;
+end
+
+// Img id
+
+logic [4:0] bg_img = 5'b1;
 
 //---- 8-bit SPI Interface ------------------------------
 
@@ -222,12 +231,13 @@ always @ (posedge CLOCK_50)
 LT_SPI Surf (
 	.theClock(CLOCK_50),
 	.theReset(PIC32_RESET),
+	.Status(Status),
 	.MySPI_clk(PIC32_SCK1A), .MySPI_cs(PIC32_CS_FPGA),
 	.MySPI_sdi(PIC32_SDO1A), .MySPI_sdo(PIC32_SDI1A),
-	.Data_ToPic(IO_Data_ToPic),
-	.Data_Jump(IO_Data_Jump),
-	.Data_Acc(IO_Data_Acc),
-	.Data_Status(IO_Data_Status)
+	.Time(IO_Time), .Left_steps(IO_Left_steps), .Qb_color(IO_Qb_color),
+	.Data_Jump(IO_Data_Jump), .Data_Acc(IO_Data_Acc), .Data_GS(IO_Data_GS),
+	.Red(Red), .Green(Green), .Blue(Blue),
+	.ImgNum(ImgNum), .Trigger(Trigger)
 );
 
 
@@ -449,7 +459,7 @@ end
 	nios_mtl u0 (
 		.button_external_connection_export                  (KEY[1]),                  //           button_external_connection.export
 		.clk_clk                                            (CLOCK_50),                                            //                                  clk.clk
-		.leds_external_connection_export                    (LED),                    //             leds_external_connection.export
+		.leds_external_connection_export                    (),                    //             leds_external_connection.export
 		.reset_reset_n                                      (KEY[0]),                                      //                                reset.reset_n
 		.switch_external_connection_export                  (SW),                  //           switch_external_connection.export
 		.nios_mtl_controller_0_mtl_controller_clk           (CLOCK_33),           //                                     .clk
@@ -466,7 +476,7 @@ end
 		.nios_mtl_controller_0_mtl_controller_lcd_b         (MTL_B),          //                                     .lcd_b
 		.nios_mtl_controller_0_mtl_controller_jump          (IO_Data_Jump),          //                                     .jump
 		.nios_mtl_controller_0_mtl_controller_acc           (IO_Data_Acc),           //                                   
-		.nios_mtl_controller_0_mtl_controller_game_status   (IO_Data_Status)   //                                     .game_status
+		.nios_mtl_controller_0_mtl_controller_game_status   (IO_Data_GS)   //                                     .game_status
 	);
 	
 assign MTL_DCLK = iCLOCK_33;
@@ -504,7 +514,7 @@ logic [9:0] reg_x1, reg_x2;
 logic [8:0] reg_y1, reg_y2;
 logic [1:0] reg_touch_count;
 logic [7:0] reg_gesture;
-logic		touch_ready;	
+logic			touch_ready;	
 logic 		pulse_w, pulse_e, pulse_c;
 
 
@@ -555,12 +565,12 @@ touch_buffer	touch_buffer_east (
 
 
 // Test for touching the buttons of pause menu
-touch_buffer	touch_buffer_click (
+/*touch_buffer	touch_buffer_click (
 	.clk (CLOCK_50),
 	.rst (dly_rst),
 	.trigger (touch_ready && (reg_gesture == 8'h20)),
 	.pulse (pulse_c)
-);
+);*/
 
 
 endmodule

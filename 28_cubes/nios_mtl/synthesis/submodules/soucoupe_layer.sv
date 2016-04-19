@@ -75,67 +75,67 @@ case(game_state)
 					if(e_pause_qb)	game_state <= PAUSE;
 					else begin
 						case(souc_state)
-								BEGIN : begin
-												enable <= 1'b1;
-												{XC,YC} <= {e_XY0_sc[20:10], e_XY0_sc[9:0] + YDIAG_DEMI};
-												if(mode_saucer && is_qb_on_sc) begin // 2'b11 == SAUCER
-													done_move_reg <= 1'b0;
-													souc_state <= MOVE;
-												end
-											end
-								END : begin 
-												if (enable) begin 
-													count <= count + 1'b1;
-													case(end_anim)
-														1'b0 : if( count[17] == 1'b1 ) begin
-																	if (shade_x < d_hb_x)
-																		shade_x <= shade_x + 11'd1;
-																	else begin
-																				count <= 32'b0;
-																				shade_x <= 11'd0;
-																				enable <= 1'b0;
-																			end
-																	end_anim <= 1'b1;
-																 end
-														1'b1 : if(count[17] == 1'b0) end_anim <= 1'b0;
-													endcase
-												end
-											end
-								MOVE : begin 
-												count <= count + 32'd1;
-												case(move_anim)
-													PLUS : if( count == speed ) begin
-																if (dy >= 0) begin
-																	if (XC > x_end) 
-																		{XC,YC} <= {XC - 10'd1, YC}; 
-																	else if (YC > y_end) 
-																		{XC,YC} <= {XC, YC - 10'd1};
-																	else begin
-																		done_move_reg <= 1'b1;
-																		souc_state <= END;								
-																	end
-																	count <= 1'b0;
-																	move_anim <= ZERO;
-																end
-																else begin
-																	if (XC > x_end) 
-																		{XC,YC} <= {XC - 10'd1, YC}; 
-																	else if (YC < y_end) 
-																		{XC,YC} <= {XC, YC + 10'd1};
-																	else begin
-																		done_move_reg <= 1'b1;
-																		souc_state <= END;								
-																	end
-																	count <= 1'b0;
-																	move_anim <= ZERO;
-																end
-															end 
-													ZERO : begin 
-																done_move_reg <= 1'b0;
-																move_anim <= PLUS;  
-															end
-												endcase
+							BEGIN : begin
+										enable <= 1'b1;
+										{XC,YC} <= {e_XY0_sc[20:10], e_XY0_sc[9:0] + YDIAG_DEMI};
+										if(mode_saucer && is_qb_on_sc) begin // 2'b11 == SAUCER
+											done_move_reg <= 1'b0;
+											souc_state <= MOVE;
 										end
+									end
+							END :   begin 
+										if (enable) begin 
+											count <= count + 1'b1;
+											case(end_anim)
+												1'b0 :  if( count[17] == 1'b1 ) begin
+															if (shade_x < d_hb_x)
+																shade_x <= shade_x + 11'd1;
+															else begin
+																count <= 32'b0;
+																shade_x <= 11'd0;
+																enable <= 1'b0;
+															end
+															end_anim <= 1'b1;
+														end
+												1'b1 : if(count[17] == 1'b0) end_anim <= 1'b0;
+											endcase
+										end
+									end
+							MOVE :  begin 
+										count <= count + 32'd1;
+										case(move_anim)
+											PLUS :  if( count == speed ) begin
+														if (dy >= 0) begin
+															if (XC > x_end) 
+																{XC,YC} <= {XC - 10'd1, YC}; 
+															else if (YC > y_end) 
+																{XC,YC} <= {XC, YC - 10'd1};
+															else begin
+																done_move_reg <= 1'b1;
+																souc_state <= END;								
+															end
+															count <= 1'b0;
+															move_anim <= ZERO;
+														end
+														else begin
+															if (XC > x_end) 
+																{XC,YC} <= {XC - 10'd1, YC}; 
+															else if (YC < y_end) 
+																{XC,YC} <= {XC, YC + 10'd1};
+															else begin
+																done_move_reg <= 1'b1;
+																souc_state <= END;								
+															end
+															count <= 1'b0;
+															move_anim <= ZERO;
+														end
+													end 
+											ZERO :  begin 
+														done_move_reg <= 1'b0;
+														move_anim <= PLUS;  
+													end
+										endcase
+									end
 						endcase
 					end	
 				end
@@ -143,14 +143,14 @@ case(game_state)
 					if(e_resume_qb) game_state <= RESUME;
 					else if (e_start_qb) game_state <= RESTART;
 				end
-	RESTART : begin
-						souc_state <= BEGIN;
-						shade_x <= 11'd0;
-						{XC,YC} <= 21'b0;
-						done_move_reg <= 1'b0;
-						game_state <= RESUME;
-				 end
-	endcase
+	RESTART :   begin
+					souc_state <= BEGIN;
+					shade_x <= 11'd0;
+					{XC,YC} <= 21'b0;
+					done_move_reg <= 1'b0;
+					game_state <= RESUME;
+				end
+endcase
 end
 
 // --- AFFICHAGE de la soucoupe ---------- //

@@ -106,6 +106,7 @@ logic [31:0] test_count;
 logic e_start_qb;
 logic e_pause_qb;
 logic e_resume_qb;
+logic e_win_qb;
 logic e_bad_jump;
 logic done_move; 
 logic [3:0] KO_qb;
@@ -127,33 +128,34 @@ logic [20:0] soucoupe_xy;
 typedef enum logic [5:0] 
 {	A_enable,  // 0
 	A_iSPI_game_status, // 4 
-	A_iSPI_jump, // 4
-	A_iSPI_acc, // 4 
-	A_XLENGTH, // 8
-	A_XYDIAG_DEMI, // 12
-	A_RANK1_XY_OFFSET, // 16
-	A_e_color_state, // 20
-	A_e_XY0_qb, // 24
-	A_e_jump_qb, // 28
-	A_e_next_qb, // 32
-	A_position_qb, // 36
-	A_e_start_qb, // 40 
-	A_e_resume_qb, // 44
-	A_e_pause_qb, // 48
-	A_e_bad_jump, // 52
-	A_KO_qb, // 60
-	A_done_move, // 64
-	A_state_qb,	// 68
-	A_game_qb, // 72 
-	A_e_speed_qb, // 76
-	A_test_count, // 80
-	A_e_XY0_sc, // 84
-	A_state_sc, // 88
-	A_done_move_sc, // 92
-	A_qb_on_sc, // 96
-	A_e_tilt_acc, // 100
-	A_saucer_qb_state, // 104
-	A_soucoupe_xy // 108
+	A_iSPI_jump, // 8
+	A_iSPI_acc, // 12 
+	A_XLENGTH, // 16
+	A_XYDIAG_DEMI, // 20
+	A_RANK1_XY_OFFSET, // 24
+	A_e_color_state, // 28
+	A_e_XY0_qb, // 32
+	A_e_jump_qb, // 36
+	A_e_next_qb, // 40
+	A_position_qb, // 44
+	A_e_start_qb, // 48 
+	A_e_resume_qb, // 52
+	A_e_pause_qb, // 56
+	A_e_win_qb, // 60
+	A_e_bad_jump, // 64
+	A_KO_qb, // 68
+	A_done_move, // 72
+	A_state_qb,	// 76
+	A_game_qb, // 80 
+	A_e_speed_qb, // 84
+	A_test_count, // 88
+	A_e_XY0_sc, // 92
+	A_state_sc, // 96
+	A_done_move_sc, // 100
+	A_qb_on_sc, // 104
+	A_e_tilt_acc, // 108
+	A_saucer_qb_state, // 112
+	A_soucoupe_xy // 116
 	} 
 A_register;
 
@@ -200,6 +202,7 @@ begin
 				A_e_start_qb : e_start_qb <= Avalon_writedata[0];
 				A_e_resume_qb : e_resume_qb <= Avalon_writedata[0];
 				A_e_pause_qb : e_pause_qb <= Avalon_writedata[0];
+				A_e_win_qb : e_win_qb <= Avalon_writedata[0];
 				A_e_bad_jump : e_bad_jump <= Avalon_writedata[0];
 				A_e_speed_qb : e_speed_qb <= Avalon_writedata;
 				
@@ -228,6 +231,24 @@ begin
 				A_done_move_sc : reg_readdata <= done_move_sc;
 				A_qb_on_sc : reg_readdata <= qb_on_sc;
 				A_soucoupe_xy : reg_readdata <= soucoupe_xy;
+				
+				A_XLENGTH : reg_readdata <= XLENGTH;
+				A_XYDIAG_DEMI : reg_readdata <= XYDIAG_DEMI;
+				A_RANK1_XY_OFFSET : reg_readdata <= RANK1_XY_OFFSET;
+				A_e_color_state : reg_readdata <= e_color_state;
+				
+				A_e_XY0_qb : reg_readdata <= e_XY0_qb;
+				A_e_jump_qb : reg_readdata <= e_jump_qb;
+				A_e_next_qb : reg_readdata <= e_next_qb;
+				A_e_start_qb : reg_readdata <= e_start_qb;
+				A_e_resume_qb : reg_readdata <= e_resume_qb;
+				A_e_pause_qb : reg_readdata <= e_pause_qb;
+				A_e_win_qb : reg_readdata <= e_win_qb;
+				A_e_bad_jump : reg_readdata <= e_bad_jump ;
+				A_e_speed_qb : reg_readdata <= e_speed_qb;
+				
+				A_e_XY0_sc : reg_readdata <= e_XY0_sc;
+				A_e_tilt_acc : reg_readdata <= e_tilt_acc;
 				default;
 			endcase
 		end				 
@@ -251,6 +272,7 @@ Qbert_Map_Color #(.N_cube(k), .N_rank(i)) Beta(
 	.e_start_qb,
 	.e_resume_qb,
 	.e_pause_qb,
+	.e_win_qb,
 	.e_jump_qb,
 	.e_speed_qb,	
 	.e_XY0_qb,
@@ -274,9 +296,9 @@ Qbert_Map_Color #(.N_cube(k), .N_rank(i)) Beta(
 
 // --- Map parameters ------------//
 
-	.XLENGTH,
-	.XYDIAG_DEMI,
-	.RANK1_XY_OFFSET,
+//	.XLENGTH,
+//	.XYDIAG_DEMI,
+//	.RANK1_XY_OFFSET,
 	.e_color_state,
 	
 // --- MTL parameters ------------//
@@ -484,10 +506,6 @@ always@(posedge iCLK or negedge iRST_n) begin
 			oLCD_B <= read_blue;
 		end		
 end
-
-
-
-
 	
 						
 endmodule

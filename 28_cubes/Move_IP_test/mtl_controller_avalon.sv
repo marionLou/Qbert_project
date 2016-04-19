@@ -202,6 +202,7 @@ begin
 				A_e_start_qb : e_start_qb <= Avalon_writedata[0];
 				A_e_resume_qb : e_resume_qb <= Avalon_writedata[0];
 				A_e_pause_qb : e_pause_qb <= Avalon_writedata[0];
+				A_e_win_qb : e_win_qb <= Avalon_writedata[0];
 				A_e_bad_jump : e_bad_jump <= Avalon_writedata[0];
 				A_e_speed_qb : e_speed_qb <= Avalon_writedata;
 				
@@ -242,6 +243,7 @@ begin
 				A_e_start_qb : reg_readdata <= e_start_qb;
 				A_e_resume_qb : reg_readdata <= e_resume_qb;
 				A_e_pause_qb : reg_readdata <= e_pause_qb;
+				A_e_win_qb : reg_readdata <= e_win_qb;
 				A_e_bad_jump : reg_readdata <= e_bad_jump ;
 				A_e_speed_qb : reg_readdata <= e_speed_qb;
 				
@@ -294,9 +296,9 @@ Qbert_Map_Color #(.N_cube(k), .N_rank(i)) Beta(
 
 // --- Map parameters ------------//
 
-	.XLENGTH,
-	.XYDIAG_DEMI,
-	.RANK1_XY_OFFSET,
+//	.XLENGTH,
+//	.XYDIAG_DEMI,
+//	.RANK1_XY_OFFSET,
 	.e_color_state,
 	
 // --- MTL parameters ------------//

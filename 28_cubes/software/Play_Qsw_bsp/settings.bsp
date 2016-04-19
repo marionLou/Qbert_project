@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Apr 15, 2016 1:53:49 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1460721229906</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>19-avr.-2016 17:21:57</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1461079317804</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\UCL\Qbert_project\28_cubes\software\Play_Qsw_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\nios_mtl.sopcinfo</SopcDesignFile>

@@ -4,8 +4,9 @@ module Menu_game(
 
 	input logic clk,
 	input logic reset,
+	input logic JPulse,
 	input logic [10:0] x_cnt,
-	input logic [9:0] y_cnt,	
+	input logic [9:0] y_cnt,
 	
 	output logic [23:0] menu_RGB
 );
@@ -77,6 +78,7 @@ qbert_menu qbert_M(
 	.XLENGTH,
 	.XDIAG_DEMI(XYDIAG_DEMI[20:10]),
 	.YDIAG_DEMI(XYDIAG_DEMI[9:0]),
+	.pulse_jump(JPulse),
 	
 	.jump,
 	.done_move,
@@ -254,6 +256,7 @@ module qbert_menu (
 	input logic [10:0] XLENGTH,
 	input logic [10:0] XDIAG_DEMI,
 	input logic [9:0] YDIAG_DEMI,
+	input logic pulse_jump,
 	
 	output logic jump,
 	output logic done_move,
@@ -283,7 +286,7 @@ always_ff @(posedge clk) begin
 					xy0 <= xy_offset - {XLENGTH+XDIAG_DEMI,10'd0};
 				end
 		IDLE:	begin
-					if(count == 32'd8000000) begin
+					if(pulse_jump) begin
 						count <= 1'b0;
 						done_move_reg <= 1'b0;
 						jump_reg <= 1'b1;

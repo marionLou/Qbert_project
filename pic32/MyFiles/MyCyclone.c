@@ -56,12 +56,8 @@ void __ISR(_EXTERNAL_2_VECTOR, My_INT_EXTERNAL_2_IPL) _External2InterruptHandler
 {
     // Clear the interrupt flags
     INTClearFlag(INT_INT2);
-    int rd_time, rd_steps, rd_qb_color;
-	char data_txt[32];
-    MyTime = MyCyclone_Read(CYCLONE_TIME);
-	MySteps = MyCyclone_Read(CYCLONE_STEPS);
-	MyQb_color = MyCyclone_Read(CYCLONE_QB_COLOR);
-	if (rd_data)
+    int rd_data; char data_txt[32];
+    rd_data = MyCyclone_Read(1);
     sprintf(data_txt, "%d", rd_data);
     MyMIWI_InsertMsg(data_txt);
     MyConsole_SendMsg(data_txt); MyConsole_SendMsg("\n");

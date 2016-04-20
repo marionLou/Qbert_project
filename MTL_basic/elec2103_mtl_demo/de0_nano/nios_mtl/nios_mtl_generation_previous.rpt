@@ -1,0 +1,144 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\UCL\MTL_basic\elec2103_mtl_demo\de0_nano\nios_mtl.qsys --block-symbol-file --output-directory=C:\UCL\MTL_basic\elec2103_mtl_demo\de0_nano\nios_mtl --family="Cyclone IV E" --part=EP4CE22F17C6
+Progress: Loading de0_nano/nios_mtl.qsys
+Progress: Reading input file
+Progress: Adding Button [altera_avalon_pio 15.0]
+Progress: Parameterizing module Button
+Progress: Adding LEDS [altera_avalon_pio 15.0]
+Progress: Parameterizing module LEDS
+Progress: Adding Switch [altera_avalon_pio 15.0]
+Progress: Parameterizing module Switch
+Progress: Adding clk_0 [clock_source 15.0]
+Progress: Parameterizing module clk_0
+Progress: Adding cpu [altera_nios2_gen2 15.0]
+Progress: Parameterizing module cpu
+Progress: Adding jtag_uart_0 [altera_avalon_jtag_uart 15.0]
+Progress: Parameterizing module jtag_uart_0
+Progress: Adding nios_mtl_controller_0 [nios_mtl_controller 1.0]
+Progress: Parameterizing module nios_mtl_controller_0
+Progress: Adding onchip_mem [altera_avalon_onchip_memory2 15.0]
+Progress: Parameterizing module onchip_mem
+Progress: Adding sysid_qsys_0 [altera_avalon_sysid_qsys 15.0]
+Progress: Parameterizing module sysid_qsys_0
+Progress: Adding timer_timestamp [altera_avalon_timer 15.0]
+Progress: Parameterizing module timer_timestamp
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: nios_mtl.Button: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: nios_mtl.Switch: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: nios_mtl.sysid_qsys_0: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: nios_mtl.sysid_qsys_0: Time stamp will be automatically updated when this component is generated.
+Info: ip-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\UCL\MTL_basic\elec2103_mtl_demo\de0_nano\nios_mtl.qsys --synthesis=VERILOG --output-directory=C:\UCL\MTL_basic\elec2103_mtl_demo\de0_nano\nios_mtl\synthesis --family="Cyclone IV E" --part=EP4CE22F17C6
+Progress: Loading de0_nano/nios_mtl.qsys
+Progress: Reading input file
+Progress: Adding Button [altera_avalon_pio 15.0]
+Progress: Parameterizing module Button
+Progress: Adding LEDS [altera_avalon_pio 15.0]
+Progress: Parameterizing module LEDS
+Progress: Adding Switch [altera_avalon_pio 15.0]
+Progress: Parameterizing module Switch
+Progress: Adding clk_0 [clock_source 15.0]
+Progress: Parameterizing module clk_0
+Progress: Adding cpu [altera_nios2_gen2 15.0]
+Progress: Parameterizing module cpu
+Progress: Adding jtag_uart_0 [altera_avalon_jtag_uart 15.0]
+Progress: Parameterizing module jtag_uart_0
+Progress: Adding nios_mtl_controller_0 [nios_mtl_controller 1.0]
+Progress: Parameterizing module nios_mtl_controller_0
+Progress: Adding onchip_mem [altera_avalon_onchip_memory2 15.0]
+Progress: Parameterizing module onchip_mem
+Progress: Adding sysid_qsys_0 [altera_avalon_sysid_qsys 15.0]
+Progress: Parameterizing module sysid_qsys_0
+Progress: Adding timer_timestamp [altera_avalon_timer 15.0]
+Progress: Parameterizing module timer_timestamp
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: nios_mtl.Button: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: nios_mtl.Switch: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: nios_mtl.sysid_qsys_0: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: nios_mtl.sysid_qsys_0: Time stamp will be automatically updated when this component is generated.
+Info: nios_mtl: Generating nios_mtl "nios_mtl" for QUARTUS_SYNTH
+Info: Button: Starting RTL generation for module 'nios_mtl_Button'
+Info: Button:   Generation command is [exec C:/altera/15.0/quartus/bin64/perl/bin/perl.exe -I C:/altera/15.0/quartus/bin64/perl/lib -I C:/altera/15.0/quartus/sopc_builder/bin/europa -I C:/altera/15.0/quartus/sopc_builder/bin/perl_lib -I C:/altera/15.0/quartus/sopc_builder/bin -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=nios_mtl_Button --dir=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0142_Button_gen/ --quartus_dir=C:/altera/15.0/quartus --verilog --config=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0142_Button_gen//nios_mtl_Button_component_configuration.pl  --do_build_sim=0  ]
+Info: Button: Done RTL generation for module 'nios_mtl_Button'
+Info: Button: "nios_mtl" instantiated altera_avalon_pio "Button"
+Info: LEDS: Starting RTL generation for module 'nios_mtl_LEDS'
+Info: LEDS:   Generation command is [exec C:/altera/15.0/quartus/bin64/perl/bin/perl.exe -I C:/altera/15.0/quartus/bin64/perl/lib -I C:/altera/15.0/quartus/sopc_builder/bin/europa -I C:/altera/15.0/quartus/sopc_builder/bin/perl_lib -I C:/altera/15.0/quartus/sopc_builder/bin -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=nios_mtl_LEDS --dir=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0143_LEDS_gen/ --quartus_dir=C:/altera/15.0/quartus --verilog --config=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0143_LEDS_gen//nios_mtl_LEDS_component_configuration.pl  --do_build_sim=0  ]
+Info: LEDS: Done RTL generation for module 'nios_mtl_LEDS'
+Info: LEDS: "nios_mtl" instantiated altera_avalon_pio "LEDS"
+Info: Switch: Starting RTL generation for module 'nios_mtl_Switch'
+Info: Switch:   Generation command is [exec C:/altera/15.0/quartus/bin64/perl/bin/perl.exe -I C:/altera/15.0/quartus/bin64/perl/lib -I C:/altera/15.0/quartus/sopc_builder/bin/europa -I C:/altera/15.0/quartus/sopc_builder/bin/perl_lib -I C:/altera/15.0/quartus/sopc_builder/bin -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=nios_mtl_Switch --dir=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0144_Switch_gen/ --quartus_dir=C:/altera/15.0/quartus --verilog --config=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0144_Switch_gen//nios_mtl_Switch_component_configuration.pl  --do_build_sim=0  ]
+Info: Switch: Done RTL generation for module 'nios_mtl_Switch'
+Info: Switch: "nios_mtl" instantiated altera_avalon_pio "Switch"
+Info: cpu: "nios_mtl" instantiated altera_nios2_gen2 "cpu"
+Info: jtag_uart_0: Starting RTL generation for module 'nios_mtl_jtag_uart_0'
+Info: jtag_uart_0:   Generation command is [exec C:/altera/15.0/quartus/bin64/perl/bin/perl.exe -I C:/altera/15.0/quartus/bin64/perl/lib -I C:/altera/15.0/quartus/sopc_builder/bin/europa -I C:/altera/15.0/quartus/sopc_builder/bin/perl_lib -I C:/altera/15.0/quartus/sopc_builder/bin -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=nios_mtl_jtag_uart_0 --dir=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0145_jtag_uart_0_gen/ --quartus_dir=C:/altera/15.0/quartus --verilog --config=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0145_jtag_uart_0_gen//nios_mtl_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart_0: Done RTL generation for module 'nios_mtl_jtag_uart_0'
+Info: jtag_uart_0: "nios_mtl" instantiated altera_avalon_jtag_uart "jtag_uart_0"
+Info: nios_mtl_controller_0: "nios_mtl" instantiated nios_mtl_controller "nios_mtl_controller_0"
+Info: onchip_mem: Starting RTL generation for module 'nios_mtl_onchip_mem'
+Info: onchip_mem:   Generation command is [exec C:/altera/15.0/quartus/bin64/perl/bin/perl.exe -I C:/altera/15.0/quartus/bin64/perl/lib -I C:/altera/15.0/quartus/sopc_builder/bin/europa -I C:/altera/15.0/quartus/sopc_builder/bin/perl_lib -I C:/altera/15.0/quartus/sopc_builder/bin -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=nios_mtl_onchip_mem --dir=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0147_onchip_mem_gen/ --quartus_dir=C:/altera/15.0/quartus --verilog --config=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0147_onchip_mem_gen//nios_mtl_onchip_mem_component_configuration.pl  --do_build_sim=0  ]
+Info: onchip_mem: Done RTL generation for module 'nios_mtl_onchip_mem'
+Info: onchip_mem: "nios_mtl" instantiated altera_avalon_onchip_memory2 "onchip_mem"
+Info: sysid_qsys_0: "nios_mtl" instantiated altera_avalon_sysid_qsys "sysid_qsys_0"
+Info: timer_timestamp: Starting RTL generation for module 'nios_mtl_timer_timestamp'
+Info: timer_timestamp:   Generation command is [exec C:/altera/15.0/quartus/bin64//perl/bin/perl.exe -I C:/altera/15.0/quartus/bin64//perl/lib -I C:/altera/15.0/quartus/sopc_builder/bin/europa -I C:/altera/15.0/quartus/sopc_builder/bin/perl_lib -I C:/altera/15.0/quartus/sopc_builder/bin -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- C:/altera/15.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=nios_mtl_timer_timestamp --dir=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0149_timer_timestamp_gen/ --quartus_dir=C:/altera/15.0/quartus --verilog --config=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0149_timer_timestamp_gen//nios_mtl_timer_timestamp_component_configuration.pl  --do_build_sim=0  ]
+Info: timer_timestamp: Done RTL generation for module 'nios_mtl_timer_timestamp'
+Info: timer_timestamp: "nios_mtl" instantiated altera_avalon_timer "timer_timestamp"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_007: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_008: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "nios_mtl" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: irq_mapper: "nios_mtl" instantiated altera_irq_mapper "irq_mapper"
+Info: rst_controller: "nios_mtl" instantiated altera_reset_controller "rst_controller"
+Info: cpu: Starting RTL generation for module 'nios_mtl_cpu_cpu'
+Info: cpu:   Generation command is [exec C:/altera/15.0/quartus/bin64/eperlcmd.exe -I C:/altera/15.0/quartus/bin64/perl/lib -I C:/altera/15.0/quartus/sopc_builder/bin/europa -I C:/altera/15.0/quartus/sopc_builder/bin/perl_lib -I C:/altera/15.0/quartus/sopc_builder/bin -I C:/altera/15.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/altera/15.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/altera/15.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/altera/15.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/altera/15.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=nios_mtl_cpu_cpu --dir=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0152_cpu_gen/ --quartus_bindir=C:/altera/15.0/quartus/bin64 --verilog --config=C:/Users/LOUISM~1/AppData/Local/Temp/alt6910_4664487705677331302.dir/0152_cpu_gen//nios_mtl_cpu_cpu_processor_configuration.pl  --do_build_sim=0  ]
+Info: cpu: # 2016.04.20 02:27:31 (*) Starting Nios II generation
+Info: cpu: # 2016.04.20 02:27:31 (*)   Checking for plaintext license.
+Info: cpu: # 2016.04.20 02:27:33 (*)   Plaintext license not found.
+Info: cpu: # 2016.04.20 02:27:33 (*)   No license required to generate encrypted Nios II/e.
+Info: cpu: # 2016.04.20 02:27:33 (*)   Elaborating CPU configuration settings
+Info: cpu: # 2016.04.20 02:27:33 (*)   Creating all objects for CPU
+Info: cpu: # 2016.04.20 02:27:35 (*)   Generating RTL from CPU objects
+Info: cpu: # 2016.04.20 02:27:35 (*)   Creating plain-text RTL
+Info: cpu: # 2016.04.20 02:27:37 (*) Done Nios II generation
+Info: cpu: Done RTL generation for module 'nios_mtl_cpu_cpu'
+Info: cpu: "cpu" instantiated altera_nios2_gen2_unit "cpu"
+Info: cpu_data_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "cpu_data_master_translator"
+Info: nios_mtl_controller_0_avalon_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "nios_mtl_controller_0_avalon_translator"
+Info: cpu_data_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "cpu_data_master_agent"
+Info: nios_mtl_controller_0_avalon_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "nios_mtl_controller_0_avalon_agent"
+Info: nios_mtl_controller_0_avalon_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "nios_mtl_controller_0_avalon_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
+Info: router_005: "mm_interconnect_0" instantiated altera_merlin_router "router_005"
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_001"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: cmd_mux_003: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_003"
+Info: Reusing file C:/UCL/MTL_basic/elec2103_mtl_demo/de0_nano/nios_mtl/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file C:/UCL/MTL_basic/elec2103_mtl_demo/de0_nano/nios_mtl/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_001"
+Info: Reusing file C:/UCL/MTL_basic/elec2103_mtl_demo/de0_nano/nios_mtl/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: nios_mtl: Done "nios_mtl" with 32 modules, 51 files
+Info: ip-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

@@ -89,14 +89,6 @@
          type = "String";
       }
    }
-   element IRQ_ToCyclo
-   {
-      datum _sortIndex
-      {
-         value = "19";
-         type = "int";
-      }
-   }
    element JTAG_UART
    {
       datum _sortIndex
@@ -383,11 +375,6 @@
    type="conduit"
    dir="end" />
  <interface
-   name="irq_tocyclo_out"
-   internal="IRQ_ToCyclo.external_connection"
-   type="conduit"
-   dir="end" />
- <interface
    name="lt24_buffer_flag_external_connection"
    internal="LT24_buffer_flag.external_connection"
    type="conduit"
@@ -613,7 +600,7 @@
   <parameter name="cpuReset" value="false" />
   <parameter name="customInstSlavesSystemInfo" value="&lt;info/&gt;" />
   <parameter name="dataAddrWidth" value="27" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='IRQ_ToCyclo.s1' start='0x0' end='0x10' /><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='background_mem.s1' start='0x4000000' end='0x4002580' /><slave name='pic_mem.s1' start='0x4004000' end='0x4006000' /><slave name='CPU.jtag_debug_module' start='0x4006800' end='0x4007000' /><slave name='LED_CTRL.avalon_slave_0' start='0x4007000' end='0x4007400' /><slave name='LT_Avalon.avalon_slave' start='0x4007400' end='0x4007800' /><slave name='Gsensor_SPI.slave' start='0x4007800' end='0x4007840' /><slave name='LT24_TOUCH_SPI.spi_control_port' start='0x4007840' end='0x4007860' /><slave name='TIMER.s1' start='0x4007860' end='0x4007880' /><slave name='Gsensor_int.s1' start='0x4007880' end='0x4007890' /><slave name='LT24_buffer_flag.s1' start='0x4007890' end='0x40078A0' /><slave name='LT24_TOUCH_BUSY.s1' start='0x40078A0' end='0x40078B0' /><slave name='LT24_TOUCH_PENIRQ_N.s1' start='0x40078B0' end='0x40078C0' /><slave name='LT24_LCD_RSTN.s1' start='0x40078C0' end='0x40078D0' /><slave name='KEY.s1' start='0x40078D0' end='0x40078E0' /><slave name='ALT_PLL.pll_slave' start='0x40078E0' end='0x40078F0' /><slave name='LT24_CTRL.avalon_slave_0' start='0x40078F0' end='0x40078F8' /><slave name='JTAG_UART.avalon_jtag_slave' start='0x40078F8' end='0x4007900' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='background_mem.s1' start='0x4000000' end='0x4002580' /><slave name='pic_mem.s1' start='0x4004000' end='0x4006000' /><slave name='CPU.jtag_debug_module' start='0x4006800' end='0x4007000' /><slave name='LED_CTRL.avalon_slave_0' start='0x4007000' end='0x4007400' /><slave name='LT_Avalon.avalon_slave' start='0x4007400' end='0x4007800' /><slave name='Gsensor_SPI.slave' start='0x4007800' end='0x4007840' /><slave name='LT24_TOUCH_SPI.spi_control_port' start='0x4007840' end='0x4007860' /><slave name='TIMER.s1' start='0x4007860' end='0x4007880' /><slave name='Gsensor_int.s1' start='0x4007880' end='0x4007890' /><slave name='LT24_buffer_flag.s1' start='0x4007890' end='0x40078A0' /><slave name='LT24_TOUCH_BUSY.s1' start='0x40078A0' end='0x40078B0' /><slave name='LT24_TOUCH_PENIRQ_N.s1' start='0x40078B0' end='0x40078C0' /><slave name='LT24_LCD_RSTN.s1' start='0x40078C0' end='0x40078D0' /><slave name='KEY.s1' start='0x40078D0' end='0x40078E0' /><slave name='ALT_PLL.pll_slave' start='0x40078E0' end='0x40078F0' /><slave name='LT24_CTRL.avalon_slave_0' start='0x40078F0' end='0x40078F8' /><slave name='JTAG_UART.avalon_jtag_slave' start='0x40078F8' end='0x4007900' /></address-map>]]></parameter>
   <parameter name="dcache_bursts" value="false" />
   <parameter name="dcache_lineSize" value="32" />
   <parameter name="dcache_numTCDM" value="0" />
@@ -641,7 +628,7 @@
   <parameter name="impl" value="Fast" />
   <parameter name="instAddrWidth" value="27" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='SDRAM.s1' start='0x2000000' end='0x4000000' /><slave name='CPU.jtag_debug_module' start='0x4006800' end='0x4007000' /></address-map>]]></parameter>
-  <parameter name="internalIrqMaskSystemInfo" value="127" />
+  <parameter name="internalIrqMaskSystemInfo" value="63" />
   <parameter name="manuallyAssignCpuID" value="true" />
   <parameter name="mmu_TLBMissExcOffset" value="0" />
   <parameter name="mmu_TLBMissExcSlave" value="None" />
@@ -744,24 +731,6 @@
   <parameter name="edgeType" value="RISING" />
   <parameter name="generateIRQ" value="true" />
   <parameter name="irqType" value="LEVEL" />
-  <parameter name="resetValue" value="0" />
-  <parameter name="simDoTestBenchWiring" value="false" />
-  <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="1" />
- </module>
- <module
-   name="IRQ_ToCyclo"
-   kind="altera_avalon_pio"
-   version="15.0"
-   enabled="1">
-  <parameter name="bitClearingEdgeCapReg" value="true" />
-  <parameter name="bitModifyingOutReg" value="false" />
-  <parameter name="captureEdge" value="true" />
-  <parameter name="clockRate" value="50000000" />
-  <parameter name="direction" value="Input" />
-  <parameter name="edgeType" value="RISING" />
-  <parameter name="generateIRQ" value="true" />
-  <parameter name="irqType" value="EDGE" />
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
@@ -1131,15 +1100,6 @@
    kind="avalon"
    version="15.0"
    start="CPU.data_master"
-   end="IRQ_ToCyclo.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="15.0"
-   start="CPU.data_master"
    end="Gsensor_SPI.slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x04007800" />
@@ -1205,7 +1165,6 @@
    start="CLK_50.clk"
    end="LT24_buffer_flag.clk" />
  <connection kind="clock" version="15.0" start="CLK_50.clk" end="Gsensor_int.clk" />
- <connection kind="clock" version="15.0" start="CLK_50.clk" end="IRQ_ToCyclo.clk" />
  <connection kind="clock" version="15.0" start="CLK_50.clk" end="pic_mem.clk1" />
  <connection
    kind="clock"
@@ -1262,13 +1221,6 @@
    start="CPU.d_irq"
    end="Gsensor_int.irq">
   <parameter name="irqNumber" value="5" />
- </connection>
- <connection
-   kind="interrupt"
-   version="15.0"
-   start="CPU.d_irq"
-   end="IRQ_ToCyclo.irq">
-  <parameter name="irqNumber" value="6" />
  </connection>
  <connection
    kind="reset"
@@ -1336,11 +1288,6 @@
    version="15.0"
    start="CLK_50.clk_reset"
    end="Gsensor_int.reset" />
- <connection
-   kind="reset"
-   version="15.0"
-   start="CLK_50.clk_reset"
-   end="IRQ_ToCyclo.reset" />
  <connection
    kind="reset"
    version="15.0"

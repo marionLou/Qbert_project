@@ -377,6 +377,7 @@ set_global_assignment -name EDA_DESIGN_INSTANCE_NAME dut -section_id testbench1
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "100 us" -section_id testbench1
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME lineCUBE_testbench -section_id testbench1
 set_global_assignment -name EDA_TEST_BENCH_FILE lineCUBE_testbench.sv -section_id testbench1
+set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/soucoupe_layer.sv
 set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/Qbert_Map_Color.sv
 set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/qbert_layer.sv
 set_global_assignment -name SYSTEMVERILOG_FILE 19_4_IP/mtl_controller_avalon.sv

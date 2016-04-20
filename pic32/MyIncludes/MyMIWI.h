@@ -99,7 +99,7 @@ int acks[32];
 int MIWI_Counter;
 int done, acquis;
 int limit, lim_max;
-int old_stuff;
+int old_gs, old_jump, old_acc;
 int OldID;
 
 unsigned int FirstTime;

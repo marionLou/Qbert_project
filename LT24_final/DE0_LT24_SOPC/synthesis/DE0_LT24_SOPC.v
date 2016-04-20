@@ -22,7 +22,6 @@ module DE0_LT24_SOPC (
 		inout  wire        gsensor_spi_out_SDIO,                        //                      gsensor_spi_out.SDIO
 		output wire        gsensor_spi_out_SCLK,                        //                                     .SCLK
 		output wire        gsensor_spi_out_CS_n,                        //                                     .CS_n
-		input  wire        irq_tocyclo_out_export,                      //                      irq_tocyclo_out.export
 		output wire        lt24_buffer_flag_external_connection_export, // lt24_buffer_flag_external_connection.export
 		output wire        lt24_conduit_cs,                             //                         lt24_conduit.cs
 		output wire        lt24_conduit_rs,                             //                                     .rs
@@ -61,7 +60,7 @@ module DE0_LT24_SOPC (
 		output wire [7:0]  to_led_export                                //                               to_led.export
 	);
 
-	wire         alt_pll_c0_clk;                                               // ALT_PLL:c0 -> [CPU:clk, JTAG_UART:clk, LT24_CTRL:clk, LT24_LCD_RSTN:clk, LT24_TOUCH_BUSY:clk, LT24_TOUCH_PENIRQ_N:clk, LT24_TOUCH_SPI:clk, SDRAM:clk, irq_mapper:clk, irq_synchronizer:sender_clk, irq_synchronizer_001:sender_clk, irq_synchronizer_002:sender_clk, irq_synchronizer_003:sender_clk, mm_interconnect_0:ALT_PLL_c0_clk, rst_controller_001:clk]
+	wire         alt_pll_c0_clk;                                               // ALT_PLL:c0 -> [CPU:clk, JTAG_UART:clk, LT24_CTRL:clk, LT24_LCD_RSTN:clk, LT24_TOUCH_BUSY:clk, LT24_TOUCH_PENIRQ_N:clk, LT24_TOUCH_SPI:clk, SDRAM:clk, irq_mapper:clk, irq_synchronizer:sender_clk, irq_synchronizer_001:sender_clk, irq_synchronizer_002:sender_clk, mm_interconnect_0:ALT_PLL_c0_clk, rst_controller_001:clk]
 	wire         alt_pll_c2_clk;                                               // ALT_PLL:c2 -> [KEY:clk, LED_CTRL:CLK, TIMER:clk, irq_synchronizer_001:receiver_clk, mm_interconnect_0:ALT_PLL_c2_clk, rst_controller_003:clk]
 	wire  [31:0] cpu_data_master_readdata;                                     // mm_interconnect_0:CPU_data_master_readdata -> CPU:d_readdata
 	wire         cpu_data_master_waitrequest;                                  // mm_interconnect_0:CPU_data_master_waitrequest -> CPU:d_waitrequest
@@ -163,11 +162,6 @@ module DE0_LT24_SOPC (
 	wire   [1:0] mm_interconnect_0_gsensor_int_s1_address;                     // mm_interconnect_0:Gsensor_int_s1_address -> Gsensor_int:address
 	wire         mm_interconnect_0_gsensor_int_s1_write;                       // mm_interconnect_0:Gsensor_int_s1_write -> Gsensor_int:write_n
 	wire  [31:0] mm_interconnect_0_gsensor_int_s1_writedata;                   // mm_interconnect_0:Gsensor_int_s1_writedata -> Gsensor_int:writedata
-	wire         mm_interconnect_0_irq_tocyclo_s1_chipselect;                  // mm_interconnect_0:IRQ_ToCyclo_s1_chipselect -> IRQ_ToCyclo:chipselect
-	wire  [31:0] mm_interconnect_0_irq_tocyclo_s1_readdata;                    // IRQ_ToCyclo:readdata -> mm_interconnect_0:IRQ_ToCyclo_s1_readdata
-	wire   [1:0] mm_interconnect_0_irq_tocyclo_s1_address;                     // mm_interconnect_0:IRQ_ToCyclo_s1_address -> IRQ_ToCyclo:address
-	wire         mm_interconnect_0_irq_tocyclo_s1_write;                       // mm_interconnect_0:IRQ_ToCyclo_s1_write -> IRQ_ToCyclo:write_n
-	wire  [31:0] mm_interconnect_0_irq_tocyclo_s1_writedata;                   // mm_interconnect_0:IRQ_ToCyclo_s1_writedata -> IRQ_ToCyclo:writedata
 	wire         mm_interconnect_0_gsensor_spi_slave_chipselect;               // mm_interconnect_0:Gsensor_SPI_slave_chipselect -> Gsensor_SPI:s_chipselect
 	wire   [7:0] mm_interconnect_0_gsensor_spi_slave_readdata;                 // Gsensor_SPI:s_readdata -> mm_interconnect_0:Gsensor_SPI_slave_readdata
 	wire   [3:0] mm_interconnect_0_gsensor_spi_slave_address;                  // mm_interconnect_0:Gsensor_SPI_slave_address -> Gsensor_SPI:s_address
@@ -190,14 +184,12 @@ module DE0_LT24_SOPC (
 	wire   [0:0] irq_synchronizer_001_receiver_irq;                            // TIMER:irq -> irq_synchronizer_001:receiver_irq
 	wire         irq_mapper_receiver5_irq;                                     // irq_synchronizer_002:sender_irq -> irq_mapper:receiver5_irq
 	wire   [0:0] irq_synchronizer_002_receiver_irq;                            // Gsensor_int:irq -> irq_synchronizer_002:receiver_irq
-	wire         irq_mapper_receiver6_irq;                                     // irq_synchronizer_003:sender_irq -> irq_mapper:receiver6_irq
-	wire   [0:0] irq_synchronizer_003_receiver_irq;                            // IRQ_ToCyclo:irq -> irq_synchronizer_003:receiver_irq
 	wire         rst_controller_reset_out_reset;                               // rst_controller:reset_out -> [ALT_PLL:reset, background_mem:reset, background_mem:reset2, mm_interconnect_0:ALT_PLL_inclk_interface_reset_reset_bridge_in_reset_reset, pic_mem:reset, pic_mem:reset2]
 	wire         rst_controller_reset_out_reset_req;                           // rst_controller:reset_req -> [background_mem:reset_req, background_mem:reset_req2, pic_mem:reset_req, pic_mem:reset_req2, rst_translator:reset_req_in]
 	wire         cpu_jtag_debug_module_reset_reset;                            // CPU:jtag_debug_module_resetrequest -> [rst_controller:reset_in1, rst_controller_001:reset_in1, rst_controller_003:reset_in1]
-	wire         rst_controller_001_reset_out_reset;                           // rst_controller_001:reset_out -> [CPU:reset_n, JTAG_UART:rst_n, LT24_CTRL:reset_n, LT24_LCD_RSTN:reset_n, LT24_TOUCH_BUSY:reset_n, LT24_TOUCH_PENIRQ_N:reset_n, LT24_TOUCH_SPI:reset_n, SDRAM:reset_n, irq_mapper:reset, irq_synchronizer:sender_reset, irq_synchronizer_001:sender_reset, irq_synchronizer_002:sender_reset, irq_synchronizer_003:sender_reset, mm_interconnect_0:CPU_reset_n_reset_bridge_in_reset_reset, rst_translator_001:in_reset]
+	wire         rst_controller_001_reset_out_reset;                           // rst_controller_001:reset_out -> [CPU:reset_n, JTAG_UART:rst_n, LT24_CTRL:reset_n, LT24_LCD_RSTN:reset_n, LT24_TOUCH_BUSY:reset_n, LT24_TOUCH_PENIRQ_N:reset_n, LT24_TOUCH_SPI:reset_n, SDRAM:reset_n, irq_mapper:reset, irq_synchronizer:sender_reset, irq_synchronizer_001:sender_reset, irq_synchronizer_002:sender_reset, mm_interconnect_0:CPU_reset_n_reset_bridge_in_reset_reset, rst_translator_001:in_reset]
 	wire         rst_controller_001_reset_out_reset_req;                       // rst_controller_001:reset_req -> [CPU:reset_req, rst_translator_001:reset_req_in]
-	wire         rst_controller_002_reset_out_reset;                           // rst_controller_002:reset_out -> [Gsensor_SPI:reset_n, Gsensor_int:reset_n, IRQ_ToCyclo:reset_n, LT24_buffer_flag:reset_n, LT_Avalon:reset, irq_synchronizer:receiver_reset, irq_synchronizer_002:receiver_reset, irq_synchronizer_003:receiver_reset, mm_interconnect_0:LT_Avalon_reset_reset_bridge_in_reset_reset]
+	wire         rst_controller_002_reset_out_reset;                           // rst_controller_002:reset_out -> [Gsensor_SPI:reset_n, Gsensor_int:reset_n, LT24_buffer_flag:reset_n, LT_Avalon:reset, irq_synchronizer:receiver_reset, irq_synchronizer_002:receiver_reset, mm_interconnect_0:LT_Avalon_reset_reset_bridge_in_reset_reset]
 	wire         rst_controller_003_reset_out_reset;                           // rst_controller_003:reset_out -> [KEY:reset_n, LED_CTRL:RST, TIMER:reset_n, irq_synchronizer_001:receiver_reset, mm_interconnect_0:LED_CTRL_reset_sink_reset_bridge_in_reset_reset]
 
 	DE0_LT24_SOPC_ALT_PLL alt_pll (
@@ -273,18 +265,6 @@ module DE0_LT24_SOPC (
 		.readdata   (mm_interconnect_0_gsensor_int_s1_readdata),   //                    .readdata
 		.in_port    (gsensor_int_out_export),                      // external_connection.export
 		.irq        (irq_synchronizer_002_receiver_irq)            //                 irq.irq
-	);
-
-	DE0_LT24_SOPC_IRQ_ToCyclo irq_tocyclo (
-		.clk        (clk_clk),                                     //                 clk.clk
-		.reset_n    (~rst_controller_002_reset_out_reset),         //               reset.reset_n
-		.address    (mm_interconnect_0_irq_tocyclo_s1_address),    //                  s1.address
-		.write_n    (~mm_interconnect_0_irq_tocyclo_s1_write),     //                    .write_n
-		.writedata  (mm_interconnect_0_irq_tocyclo_s1_writedata),  //                    .writedata
-		.chipselect (mm_interconnect_0_irq_tocyclo_s1_chipselect), //                    .chipselect
-		.readdata   (mm_interconnect_0_irq_tocyclo_s1_readdata),   //                    .readdata
-		.in_port    (irq_tocyclo_out_export),                      // external_connection.export
-		.irq        (irq_synchronizer_003_receiver_irq)            //                 irq.irq
 	);
 
 	DE0_LT24_SOPC_JTAG_UART jtag_uart (
@@ -545,11 +525,6 @@ module DE0_LT24_SOPC (
 		.Gsensor_SPI_slave_readdata                                (mm_interconnect_0_gsensor_spi_slave_readdata),                 //                                                    .readdata
 		.Gsensor_SPI_slave_writedata                               (mm_interconnect_0_gsensor_spi_slave_writedata),                //                                                    .writedata
 		.Gsensor_SPI_slave_chipselect                              (mm_interconnect_0_gsensor_spi_slave_chipselect),               //                                                    .chipselect
-		.IRQ_ToCyclo_s1_address                                    (mm_interconnect_0_irq_tocyclo_s1_address),                     //                                      IRQ_ToCyclo_s1.address
-		.IRQ_ToCyclo_s1_write                                      (mm_interconnect_0_irq_tocyclo_s1_write),                       //                                                    .write
-		.IRQ_ToCyclo_s1_readdata                                   (mm_interconnect_0_irq_tocyclo_s1_readdata),                    //                                                    .readdata
-		.IRQ_ToCyclo_s1_writedata                                  (mm_interconnect_0_irq_tocyclo_s1_writedata),                   //                                                    .writedata
-		.IRQ_ToCyclo_s1_chipselect                                 (mm_interconnect_0_irq_tocyclo_s1_chipselect),                  //                                                    .chipselect
 		.JTAG_UART_avalon_jtag_slave_address                       (mm_interconnect_0_jtag_uart_avalon_jtag_slave_address),        //                         JTAG_UART_avalon_jtag_slave.address
 		.JTAG_UART_avalon_jtag_slave_write                         (mm_interconnect_0_jtag_uart_avalon_jtag_slave_write),          //                                                    .write
 		.JTAG_UART_avalon_jtag_slave_read                          (mm_interconnect_0_jtag_uart_avalon_jtag_slave_read),           //                                                    .read
@@ -628,7 +603,6 @@ module DE0_LT24_SOPC (
 		.receiver3_irq (irq_mapper_receiver3_irq),           // receiver3.irq
 		.receiver4_irq (irq_mapper_receiver4_irq),           // receiver4.irq
 		.receiver5_irq (irq_mapper_receiver5_irq),           // receiver5.irq
-		.receiver6_irq (irq_mapper_receiver6_irq),           // receiver6.irq
 		.sender_irq    (cpu_d_irq_irq)                       //    sender.irq
 	);
 
@@ -663,17 +637,6 @@ module DE0_LT24_SOPC (
 		.sender_reset   (rst_controller_001_reset_out_reset), //   sender_clk_reset.reset
 		.receiver_irq   (irq_synchronizer_002_receiver_irq),  //           receiver.irq
 		.sender_irq     (irq_mapper_receiver5_irq)            //             sender.irq
-	);
-
-	altera_irq_clock_crosser #(
-		.IRQ_WIDTH (1)
-	) irq_synchronizer_003 (
-		.receiver_clk   (clk_clk),                            //       receiver_clk.clk
-		.sender_clk     (alt_pll_c0_clk),                     //         sender_clk.clk
-		.receiver_reset (rst_controller_002_reset_out_reset), // receiver_clk_reset.reset
-		.sender_reset   (rst_controller_001_reset_out_reset), //   sender_clk_reset.reset
-		.receiver_irq   (irq_synchronizer_003_receiver_irq),  //           receiver.irq
-		.sender_irq     (irq_mapper_receiver6_irq)            //             sender.irq
 	);
 
 	altera_reset_controller #(

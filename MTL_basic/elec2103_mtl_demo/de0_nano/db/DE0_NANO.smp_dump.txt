@@ -1,0 +1,70 @@
+
+State Machine - |DE0_NANO|i2c_touch_config:i2c_touch_config_inst|i2c_touch_controller:u_i2c_touch_controller|i2c_state
+Name i2c_state.STOP i2c_state.DATA_R i2c_state.S_ADDR_R i2c_state.R_ADDR_W i2c_state.S_ADDR_W i2c_state.START 
+i2c_state.START 0 0 0 0 0 0 
+i2c_state.S_ADDR_W 0 0 0 0 1 1 
+i2c_state.R_ADDR_W 0 0 0 1 0 1 
+i2c_state.S_ADDR_R 0 0 1 0 0 1 
+i2c_state.DATA_R 0 1 0 0 0 1 
+i2c_state.STOP 1 0 0 0 0 1 
+
+State Machine - |DE0_NANO|nios_mtl:Qbert|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|RGB_state
+Name RGB_state.00 RGB_state.10 RGB_state.01 
+RGB_state.00 0 0 0 
+RGB_state.01 1 0 1 
+RGB_state.10 1 1 0 
+
+State Machine - |DE0_NANO|nios_mtl:Qbert|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|Menu_game:intro|qbert_menu:qbert_M|up_jump
+Name up_jump.10 
+up_jump.01 0 
+up_jump.10 1 
+
+State Machine - |DE0_NANO|nios_mtl:Qbert|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|Menu_game:intro|qbert_menu:qbert_M|qbert_state
+Name qbert_state.INIT qbert_state.JUMP qbert_state.IDLE 
+qbert_state.INIT 0 0 0 
+qbert_state.IDLE 1 0 1 
+qbert_state.JUMP 1 1 0 
+
+State Machine - |DE0_NANO|nios_mtl:Qbert|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|qbert_layer:Beta|saucer_anim
+Name saucer_anim.01 
+saucer_anim.00 0 
+saucer_anim.01 1 
+
+State Machine - |DE0_NANO|nios_mtl:Qbert|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|qbert_layer:Beta|game_state
+Name game_state.RESTART game_state.PAUSE game_state.RESUME game_state.MENU game_state.GAMEOVER 
+game_state.MENU 0 0 0 0 0 
+game_state.RESUME 0 0 1 1 0 
+game_state.PAUSE 0 1 0 1 0 
+game_state.RESTART 1 0 0 1 0 
+game_state.GAMEOVER 0 0 0 1 1 
+
+State Machine - |DE0_NANO|nios_mtl:Qbert|mtl_controller_avalon:nios_mtl_controller_0|Qbert_Map_Color:Beta|qbert_layer:Beta|qbert_state
+Name qbert_state.END qbert_state.SAUCER qbert_state.IDLE qbert_state.JUMP qbert_state.START qbert_state.INIT 
+qbert_state.INIT 0 0 0 0 0 0 
+qbert_state.START 0 0 0 0 1 1 
+qbert_state.JUMP 0 0 0 1 0 1 
+qbert_state.IDLE 0 0 1 0 0 1 
+qbert_state.SAUCER 0 1 0 0 0 1 
+qbert_state.END 1 0 0 0 0 1 
+
+State Machine - |DE0_NANO|nios_mtl:Qbert|nios_mtl_cpu:cpu|nios_mtl_cpu_cpu:cpu|nios_mtl_cpu_cpu_nios2_oci:the_nios_mtl_cpu_cpu_nios2_oci|nios_mtl_cpu_cpu_debug_slave_wrapper:the_nios_mtl_cpu_cpu_debug_slave_wrapper|nios_mtl_cpu_cpu_debug_slave_tck:the_nios_mtl_cpu_cpu_debug_slave_tck|DRsize
+Name DRsize.101 DRsize.100 DRsize.011 DRsize.010 DRsize.001 DRsize.000 
+DRsize.000 0 0 0 0 0 0 
+DRsize.001 0 0 0 0 1 1 
+DRsize.010 0 0 0 1 0 1 
+DRsize.011 0 0 1 0 0 1 
+DRsize.100 0 1 0 0 0 1 
+DRsize.101 1 0 0 0 0 1 
+
+State Machine - |DE0_NANO|MySPI:MySPI_instance|SPI_state
+Name SPI_state.S_End SPI_state.S_Data_11 SPI_state.S_Data_01 SPI_state.S_Data_00 SPI_state.S_Data SPI_state.S_Addr_11 SPI_state.S_Addr_01 SPI_state.S_Addr_00 SPI_state.S_Addr SPI_state.S_Wait 
+SPI_state.S_Wait 0 0 0 0 0 0 0 0 0 0 
+SPI_state.S_Addr 0 0 0 0 0 0 0 0 1 1 
+SPI_state.S_Addr_00 0 0 0 0 0 0 0 1 0 1 
+SPI_state.S_Addr_01 0 0 0 0 0 0 1 0 0 1 
+SPI_state.S_Addr_11 0 0 0 0 0 1 0 0 0 1 
+SPI_state.S_Data 0 0 0 0 1 0 0 0 0 1 
+SPI_state.S_Data_00 0 0 0 1 0 0 0 0 0 1 
+SPI_state.S_Data_01 0 0 1 0 0 0 0 0 0 1 
+SPI_state.S_Data_11 0 1 0 0 0 0 0 0 0 1 
+SPI_state.S_End 1 0 0 0 0 0 0 0 0 1 

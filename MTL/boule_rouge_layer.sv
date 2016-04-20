@@ -78,6 +78,7 @@ logic is_boule_rouge;
 logic [31:0] count = 32'b0;
 logic [4:0] mvt_cnt = 5'b0; // compte le nbre de déplacement
 logic mvt_reg;
+logic [5:0] move_br_reg;
 logic [31:0] df_speed = 32'd100000; 
 logic [31:0] speed;
 logic [10:0] shade_x = 11'd0;
@@ -99,6 +100,11 @@ speed <= (e_speed_qb != 1'b0) ? e_speed_qb : df_speed;
 
 
 case(game_state)
+	MENU : 	if (e_resume_qb|e_start_qb) begin
+				gameover_reg <= 1'b0;
+				boule_rouge_state <= INIT;
+				game_state <= RESTART;
+			end
 	RESUME :	begin 
 					if(e_pause_qb)	game_state <= PAUSE;
 					else begin
@@ -110,37 +116,42 @@ case(game_state)
 											if(e_enable_br) begin
 												{x0,y0} <= {e_XY0_br[20:10] - (XLENGTH) + start_x, e_XY0_br[9:0]};
 												{XC,YC} <= {e_XY0_br[20:10] - (XLENGTH) + start_x, e_XY0_br[9:0] + YDIAG_DEMI};
+												start_x <= 11'd0;
+												shade_x <= 11'd0;
 												boule_rouge_end <= 1'b0;
+												move_br_reg <= e_move_br;
 												boule_rouge_state <= START;
 											end 
 										end
 								START : begin
 											{XC,x0} <= {XC,x0} + {start_x,start_x};
-											if( count[16] == 1'b1 ) begin
+											if( count[17] == 1'b1 ) begin
 												count <= 1'b0;
 												if (start_x < XLENGTH)
 													start_x <= start_x + 11'd1;
 												else begin
 													mvt_cnt <= 4'd1;
-													mvt_reg <= e_move_br[0];
+													mvt_reg <= move_br_reg[0];
 													done_move_reg <= 1'b1;
-													start_x <= 11'd0;
 													boule_rouge_state <= IDLE;
 												end				
 											end
 											else count <= count + 1'b1;
 										end
 								IDLE : 	begin
+											{x0,y0} <= {XC,YC} - {11'd0,YDIAG_DEMI};
 											if(!freeze_power) begin
 												done_move_reg <= 1'b0;
-												if(count[19]==1'b1) begin 
+												if(count[26]==1'b1) begin 
 													count <= 1'b0;
 													boule_rouge_state <= MOVE;
-													if (mvt_cnt == 5'd2) mvt_reg <= e_move_br[1];
-													else if (mvt_cnt == 5'd3) mvt_reg <= e_move_br[2];
-													else if (mvt_cnt == 5'd4) mvt_reg <= e_move_br[3];
-													else if (mvt_cnt == 5'd5) mvt_reg <= e_move_br[4];
-													else if (mvt_cnt == 5'd6) mvt_reg <= e_move_br[5];
+													case(mvt_cnt)
+													5'd2 : mvt_reg <= move_br_reg[1];
+													5'd3 : mvt_reg <= move_br_reg[2];
+													5'd4 : mvt_reg <= move_br_reg[3];
+													5'd5 : mvt_reg <= move_br_reg[4];
+													5'd6 : mvt_reg <= move_br_reg[5];
+													endcase
 												end
 												else count <= count + 1'b1;
 											end
@@ -210,7 +221,6 @@ case(game_state)
 						boule_rouge_state <= INIT;
 						start_x <= 11'd0;
 						shade_x <= 11'd0;
-						{XC,YC} <= 21'b0;
 						game_state <= RESUME;
 				 end
 	endcase
@@ -218,13 +228,13 @@ end
 
 
 //---------LaBouleRouge------------------------//
-	
+logic [10:0] rayon_boule;		
 always_ff @(posedge clk) begin	
 	
-	is_boule_rouge <= (x_cnt - XC)*(x_cnt - XC)+(y_cnt - XC)*(y_cnt - XC) <= (YDIAG_DEMI*YDIAG_DEMI >> 2);
-	
-	boule_rouge_hitbox <= {(x_cnt <= e_XY0_br[20:10] + (YDIAG_DEMI>>2) && x_cnt >= e_XY0_br[20:10] - (YDIAG_DEMI>>2) + shade_x)
-							&& (y_cnt <= (e_XY0_br[20:10]+YDIAG_DEMI) + (YDIAG_DEMI>>2) && y_cnt >= (e_XY0_br[20:10]+YDIAG_DEMI) - (YDIAG_DEMI>>2))};
+	rayon_boule <= (XDIAG_DEMI>>1) ;
+	is_boule_rouge <= {(x_cnt-XC)(x_cnt-XC)+(y_cnt-YC)(y_cnt-YC)<= rayon_boule*rayon_boule };
+	boule_rouge_hitbox <= {(x_cnt <= XC + rayon_boule && x_cnt >= XC - rayon_boule + shade_x)
+							&& (y_cnt <= YC + rayon_boule && y_cnt >= YC - rayon_boule)};
 
 end
 

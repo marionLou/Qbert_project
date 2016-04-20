@@ -23,8 +23,8 @@ OS_EVENT *CommMbox;
 
 /* Definition of Task Priorities */
 
-#define TASK1_PRIORITY      7
-#define TASK2_PRIORITY      9
+#define TASK1_PRIORITY      5
+#define TASK2_PRIORITY      7
 #define TASK3_PRIORITY      1
 
 #define BTN_UR		0
@@ -188,14 +188,18 @@ void task2(void* pdata)
 							else oldX_val = szXYZ[0];
 							if(szXYZ[0] < -128) {
 								IOWR_8DIRECT(LT_AVALON_BASE, 0, AccVal+2); //right
-								Actual = 2; Idle = 0;
+								Actual = 2;
 							}
 							else if (szXYZ[0] < 128) Actual = 1;
 							else {
 								IOWR_8DIRECT(LT_AVALON_BASE, 0, AccVal+1); //left
-								Actual = 0;  Idle = 0;
+								Actual = 0;
 							}
 							GUI_Jump_DrawStep(&Display, Actual);
+							if (Actual!=1){
+								OSTimeDlyHMSM(0, 0, 0, 500);
+								Idle = 0;
+							}
 
 							printf("Accel en x: %d; y: %d\n", szXYZ[0], szXYZ[1]);
 							OSTimeDlyHMSM(0, 0, 0, 100);
@@ -296,11 +300,7 @@ void task3(void* pdata)
 				  PtSet(&Pt, X, Y);
 				  ButtonId = GUI_CheckGen(&DeskInfo, &Pt);
 				  printf("Actual button: %d\n",ButtonId);
-				  if (ButtonId != BTN_NONE ) {
-					  //DeskInfo.Direction_Index = ButtonId;
-					  if (ButtonId != BTN_CMD) Idle=1;
-				  }
-				  else Idle=1;
+				  if (ButtonId != BTN_CMD) Idle=1;
 			  } // if touch */
 			  else Idle=1;
 			  printf("Button pressed\n");

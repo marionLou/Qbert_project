@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>15-avr.-2016 2:03:53</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1460678633899</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>C:\UCL\Qbert_project\LT24_final\software\LT24_final_sw_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>20-avr.-2016 17:11:36</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1461165096836</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>C:\Users\Stephane\Documents\GitHub\Qbert_project\LT24_final\software\LT24_final_sw_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\DE0_LT24_SOPC.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>

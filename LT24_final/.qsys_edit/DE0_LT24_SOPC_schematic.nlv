@@ -1,51 +1,47 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst DE0_LT24_SOPC.LT24_TOUCH_BUSY -pg 1 -lvl 2 -y 1670
-preplace inst DE0_LT24_SOPC.CLK_50 -pg 1 -lvl 1 -y 1950
-preplace inst DE0_LT24_SOPC.Gsensor_int -pg 1 -lvl 2 -y 130
-preplace inst DE0_LT24_SOPC.LT_Avalon -pg 1 -lvl 2 -y 250
-preplace inst DE0_LT24_SOPC.KEY -pg 1 -lvl 2 -y 370
+preplace inst DE0_LT24_SOPC.LT_Avalon_0 -pg 1 -lvl 2 -y 530
+preplace inst DE0_LT24_SOPC.LT24_TOUCH_BUSY -pg 1 -lvl 2 -y 1330
+preplace inst DE0_LT24_SOPC.CLK_50 -pg 1 -lvl 1 -y 1610
+preplace inst DE0_LT24_SOPC.KEY -pg 1 -lvl 2 -y 30
 preplace inst DE0_LT24_SOPC -pg 1 -lvl 1 -y 40 -regy -20
-preplace inst DE0_LT24_SOPC.background_mem -pg 1 -lvl 2 -y 990
-preplace inst DE0_LT24_SOPC.TIMER -pg 1 -lvl 2 -y 570
-preplace inst DE0_LT24_SOPC.SDRAM -pg 1 -lvl 2 -y 1770
-preplace inst DE0_LT24_SOPC.LT24_buffer_flag -pg 1 -lvl 2 -y 1870
-preplace inst DE0_LT24_SOPC.LT24_LCD_RSTN -pg 1 -lvl 2 -y 1570
-preplace inst DE0_LT24_SOPC.LT24_CTRL -pg 1 -lvl 2 -y 1230
-preplace inst DE0_LT24_SOPC.pic_mem -pg 1 -lvl 2 -y 1970
-preplace inst DE0_LT24_SOPC.ALT_PLL -pg 1 -lvl 2 -y 710
-preplace inst DE0_LT24_SOPC.LT24_TOUCH_PENIRQ_N -pg 1 -lvl 2 -y 1330
-preplace inst DE0_LT24_SOPC.JTAG_UART -pg 1 -lvl 2 -y 1130
-preplace inst DE0_LT24_SOPC.CPU -pg 1 -lvl 1 -y 430
-preplace inst DE0_LT24_SOPC.LED_CTRL -pg 1 -lvl 2 -y 470
-preplace inst DE0_LT24_SOPC.Gsensor_SPI -pg 1 -lvl 2 -y 30
-preplace inst DE0_LT24_SOPC.LT24_TOUCH_SPI -pg 1 -lvl 2 -y 1450
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_TOUCH_PENIRQ_N.external_connection,(SLAVE)DE0_LT24_SOPC.lt24_touch_penirq_n) 1 0 2 NJ 1360 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt24_buffer_flag_external_connection,(SLAVE)LT24_buffer_flag.external_connection) 1 0 2 NJ 1900 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_TOUCH_SPI.external,(SLAVE)DE0_LT24_SOPC.lt24_touch_spi) 1 0 2 NJ 1480 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.from_key,(SLAVE)KEY.external_connection) 1 0 2 NJ 580 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)ALT_PLL.locked_conduit,(SLAVE)DE0_LT24_SOPC.alt_pll_locked_conduit) 1 0 2 NJ 780 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(MASTER)DE0_LT24_SOPC.alt_pll_c1,(MASTER)ALT_PLL.c1) 1 2 1 NJ
-preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(MASTER)ALT_PLL.c2,(SLAVE)TIMER.clk,(SLAVE)LED_CTRL.clock,(SLAVE)KEY.clk) 1 1 2 680 700 910
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)Gsensor_int.external_connection,(SLAVE)DE0_LT24_SOPC.gsensor_int_out) 1 0 2 NJ 160 NJ
-preplace netloc INTERCONNECT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)KEY.reset,(SLAVE)LT24_buffer_flag.reset,(SLAVE)background_mem.reset2,(MASTER)CPU.jtag_debug_module_reset,(SLAVE)JTAG_UART.reset,(MASTER)CLK_50.clk_reset,(SLAVE)ALT_PLL.inclk_interface_reset,(SLAVE)LED_CTRL.reset_sink,(SLAVE)LT24_CTRL.reset,(SLAVE)LT24_LCD_RSTN.reset,(SLAVE)LT24_TOUCH_SPI.reset,(SLAVE)Gsensor_int.reset,(SLAVE)pic_mem.reset2,(SLAVE)TIMER.reset,(SLAVE)LT24_TOUCH_PENIRQ_N.reset,(SLAVE)SDRAM.reset,(SLAVE)LT_Avalon.reset,(SLAVE)pic_mem.reset1,(SLAVE)Gsensor_SPI.clock_reset_reset,(SLAVE)LT24_TOUCH_BUSY.reset,(SLAVE)CPU.reset_n,(SLAVE)background_mem.reset1) 1 0 2 270 620 540
-preplace netloc INTERCONNECT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_LCD_RSTN.s1,(SLAVE)LT24_TOUCH_BUSY.s1,(SLAVE)LT24_buffer_flag.s1,(SLAVE)pic_mem.s1,(SLAVE)KEY.s1,(SLAVE)LT24_TOUCH_PENIRQ_N.s1,(SLAVE)Gsensor_int.s1,(SLAVE)Gsensor_SPI.slave,(SLAVE)SDRAM.s1,(SLAVE)LT_Avalon.avalon_slave,(SLAVE)ALT_PLL.pll_slave,(SLAVE)background_mem.s1,(SLAVE)LED_CTRL.avalon_slave_0,(SLAVE)LT24_CTRL.avalon_slave_0,(SLAVE)LT24_TOUCH_SPI.spi_control_port,(MASTER)CPU.instruction_master,(MASTER)CPU.data_master,(SLAVE)CPU.jtag_debug_module,(SLAVE)JTAG_UART.avalon_jtag_slave,(SLAVE)TIMER.s1) 1 0 2 250 640 580
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.sdram_wire,(SLAVE)SDRAM.wire) 1 0 2 NJ 1840 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt24_lcd_rstn,(SLAVE)LT24_LCD_RSTN.external_connection) 1 0 2 NJ 1600 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.clk,(SLAVE)CLK_50.clk_in) 1 0 1 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.background_mem_s2,(SLAVE)background_mem.s2) 1 0 2 NJ 1100 NJ
+preplace inst DE0_LT24_SOPC.background_mem -pg 1 -lvl 2 -y 650
+preplace inst DE0_LT24_SOPC.TIMER -pg 1 -lvl 2 -y 230
+preplace inst DE0_LT24_SOPC.SDRAM -pg 1 -lvl 2 -y 1430
+preplace inst DE0_LT24_SOPC.LT24_buffer_flag -pg 1 -lvl 2 -y 1530
+preplace inst DE0_LT24_SOPC.LT24_LCD_RSTN -pg 1 -lvl 2 -y 1230
+preplace inst DE0_LT24_SOPC.LT24_CTRL -pg 1 -lvl 2 -y 890
+preplace inst DE0_LT24_SOPC.pic_mem -pg 1 -lvl 2 -y 1630
+preplace inst DE0_LT24_SOPC.ALT_PLL -pg 1 -lvl 2 -y 350
+preplace inst DE0_LT24_SOPC.LT24_TOUCH_PENIRQ_N -pg 1 -lvl 2 -y 990
+preplace inst DE0_LT24_SOPC.JTAG_UART -pg 1 -lvl 2 -y 790
+preplace inst DE0_LT24_SOPC.CPU -pg 1 -lvl 1 -y 190
+preplace inst DE0_LT24_SOPC.LED_CTRL -pg 1 -lvl 2 -y 130
+preplace inst DE0_LT24_SOPC.LT24_TOUCH_SPI -pg 1 -lvl 2 -y 1110
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_TOUCH_PENIRQ_N.external_connection,(SLAVE)DE0_LT24_SOPC.lt24_touch_penirq_n) 1 0 2 NJ 1020 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt24_buffer_flag_external_connection,(SLAVE)LT24_buffer_flag.external_connection) 1 0 2 NJ 1560 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(MASTER)ALT_PLL.c1,(MASTER)DE0_LT24_SOPC.alt_pll_c1) 1 2 1 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)background_mem.s2,(SLAVE)DE0_LT24_SOPC.background_mem_s2) 1 0 2 NJ 760 NJ
+preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_TOUCH_SPI.clk,(SLAVE)LT24_CTRL.clock,(SLAVE)SDRAM.clk,(SLAVE)CPU.clk,(SLAVE)LT24_TOUCH_PENIRQ_N.clk,(SLAVE)LT24_TOUCH_BUSY.clk,(SLAVE)JTAG_UART.clk,(SLAVE)LT24_LCD_RSTN.clk,(MASTER)ALT_PLL.c0) 1 0 3 230 340 520 500 890
+preplace netloc INTERCONNECT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)ALT_PLL.pll_slave,(MASTER)CPU.instruction_master,(SLAVE)background_mem.s1,(SLAVE)LT24_TOUCH_SPI.spi_control_port,(SLAVE)CPU.jtag_debug_module,(SLAVE)LT24_TOUCH_BUSY.s1,(SLAVE)KEY.s1,(SLAVE)LED_CTRL.avalon_slave_0,(SLAVE)LT24_buffer_flag.s1,(MASTER)CPU.data_master,(SLAVE)JTAG_UART.avalon_jtag_slave,(SLAVE)pic_mem.s1,(SLAVE)LT24_CTRL.avalon_slave_0,(SLAVE)TIMER.s1,(SLAVE)LT24_LCD_RSTN.s1,(SLAVE)LT_Avalon_0.avalon_slave,(SLAVE)SDRAM.s1,(SLAVE)LT24_TOUCH_PENIRQ_N.s1) 1 0 2 250 160 580
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.sdram_wire,(SLAVE)SDRAM.wire) 1 0 2 NJ 1500 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt_avalon_out,(SLAVE)LT_Avalon_0.conduit_end) 1 0 2 NJ 580 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt24_touch_spi,(SLAVE)LT24_TOUCH_SPI.external) 1 0 2 NJ 1140 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)CLK_50.clk_in,(SLAVE)DE0_LT24_SOPC.clk) 1 0 1 NJ
+preplace netloc INTERCONNECT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_CTRL.reset,(SLAVE)LT24_buffer_flag.reset,(SLAVE)CPU.reset_n,(SLAVE)background_mem.reset2,(SLAVE)LED_CTRL.reset_sink,(MASTER)CLK_50.clk_reset,(SLAVE)TIMER.reset,(SLAVE)KEY.reset,(SLAVE)LT24_LCD_RSTN.reset,(SLAVE)SDRAM.reset,(SLAVE)pic_mem.reset2,(SLAVE)LT24_TOUCH_BUSY.reset,(SLAVE)pic_mem.reset1,(SLAVE)LT24_TOUCH_SPI.reset,(SLAVE)LT24_TOUCH_PENIRQ_N.reset,(SLAVE)LT_Avalon_0.reset,(SLAVE)JTAG_UART.reset,(SLAVE)background_mem.reset1,(MASTER)CPU.jtag_debug_module_reset,(SLAVE)ALT_PLL.inclk_interface_reset) 1 0 2 250 320 560
 preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)CLK_50.clk_in_reset,(SLAVE)DE0_LT24_SOPC.reset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)ALT_PLL.phasedone_conduit,(SLAVE)DE0_LT24_SOPC.alt_pll_phasedone_conduit) 1 0 2 NJ 800 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(MASTER)ALT_PLL.c3,(MASTER)DE0_LT24_SOPC.alt_pll_c3) 1 2 1 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)pic_mem.s2,(SLAVE)DE0_LT24_SOPC.pic_mem_s2) 1 0 2 NJ 1940 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.gsensor_spi_out,(SLAVE)Gsensor_SPI.conduit_end) 1 0 2 NJ 80 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt24_touch_busy,(SLAVE)LT24_TOUCH_BUSY.external_connection) 1 0 2 NJ 1700 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_CTRL.conduit_end,(SLAVE)DE0_LT24_SOPC.lt24_conduit) 1 0 2 NJ 1280 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt_avalon_out,(SLAVE)LT_Avalon.conduit_end) 1 0 2 NJ 560 NJ
-preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)ALT_PLL.inclk_interface,(SLAVE)background_mem.clk2,(MASTER)CLK_50.clk,(SLAVE)background_mem.clk1,(SLAVE)pic_mem.clk2,(SLAVE)Gsensor_int.clk,(SLAVE)pic_mem.clk1,(SLAVE)LT_Avalon.clock,(SLAVE)Gsensor_SPI.clock_reset,(SLAVE)LT24_buffer_flag.clk) 1 1 1 560
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.to_led,(SLAVE)LED_CTRL.conduit_end) 1 0 2 NJ 600 NJ
-preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)ALT_PLL.areset_conduit,(SLAVE)DE0_LT24_SOPC.alt_pll_areset_conduit) 1 0 2 NJ 720 NJ
-preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)Gsensor_int.irq,(SLAVE)JTAG_UART.irq,(SLAVE)TIMER.irq,(SLAVE)LT24_TOUCH_PENIRQ_N.irq,(MASTER)CPU.d_irq,(SLAVE)LT_Avalon.interrupt_sender,(SLAVE)LT24_TOUCH_SPI.irq) 1 1 1 640
-preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_TOUCH_PENIRQ_N.clk,(SLAVE)LT24_CTRL.clock,(SLAVE)LT24_TOUCH_SPI.clk,(MASTER)ALT_PLL.c0,(SLAVE)JTAG_UART.clk,(SLAVE)CPU.clk,(SLAVE)LT24_LCD_RSTN.clk,(SLAVE)LT24_TOUCH_BUSY.clk,(SLAVE)SDRAM.clk) 1 0 3 230 1120 660 680 930
-levelinfo -pg 1 0 200 1050
-levelinfo -hier DE0_LT24_SOPC 210 300 720 950
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)KEY.external_connection,(SLAVE)DE0_LT24_SOPC.from_key) 1 0 2 NJ 60 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.alt_pll_locked_conduit,(SLAVE)ALT_PLL.locked_conduit) 1 0 2 NJ 440 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.alt_pll_phasedone_conduit,(SLAVE)ALT_PLL.phasedone_conduit) 1 0 2 NJ 460 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.pic_mem_s2,(SLAVE)pic_mem.s2) 1 0 2 NJ 1600 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)DE0_LT24_SOPC.lt24_touch_busy,(SLAVE)LT24_TOUCH_BUSY.external_connection) 1 0 2 NJ 1360 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_CTRL.conduit_end,(SLAVE)DE0_LT24_SOPC.lt24_conduit) 1 0 2 NJ 940 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LED_CTRL.conduit_end,(SLAVE)DE0_LT24_SOPC.to_led) 1 0 2 NJ 180 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(MASTER)DE0_LT24_SOPC.alt_pll_c3,(MASTER)ALT_PLL.c3) 1 2 1 NJ
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)ALT_PLL.areset_conduit,(SLAVE)DE0_LT24_SOPC.alt_pll_areset_conduit) 1 0 2 NJ 360 NJ
+preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(MASTER)CPU.d_irq,(SLAVE)JTAG_UART.irq,(SLAVE)LT24_TOUCH_SPI.irq,(SLAVE)LT24_TOUCH_PENIRQ_N.irq,(SLAVE)LT_Avalon_0.interrupt_sender,(SLAVE)TIMER.irq) 1 1 1 600
+preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(MASTER)ALT_PLL.c2,(SLAVE)KEY.clk,(SLAVE)TIMER.clk,(SLAVE)LED_CTRL.clock) 1 1 2 640 520 870
+preplace netloc EXPORT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)LT24_LCD_RSTN.external_connection,(SLAVE)DE0_LT24_SOPC.lt24_lcd_rstn) 1 0 2 NJ 1260 NJ
+preplace netloc FAN_OUT<net_container>DE0_LT24_SOPC</net_container>(SLAVE)pic_mem.clk2,(SLAVE)LT24_buffer_flag.clk,(SLAVE)pic_mem.clk1,(SLAVE)LT_Avalon_0.clock,(SLAVE)background_mem.clk1,(MASTER)CLK_50.clk,(SLAVE)ALT_PLL.inclk_interface,(SLAVE)background_mem.clk2) 1 1 1 620
+levelinfo -pg 1 0 200 1010
+levelinfo -hier DE0_LT24_SOPC 210 280 680 910

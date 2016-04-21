@@ -1,5 +1,5 @@
 Analysis & Synthesis report for DE0_NANO
-Wed Apr 20 00:08:13 2016
+Wed Apr 20 00:32:08 2016
 Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
 
 
@@ -39,7 +39,7 @@ agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                    ;
 +------------------------------------+--------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Wed Apr 20 00:08:12 2016          ;
+; Analysis & Synthesis Status        ; Failed - Wed Apr 20 00:32:08 2016          ;
 ; Quartus II 64-Bit Version          ; 15.0.0 Build 145 04/22/2015 SJ Web Edition ;
 ; Revision Name                      ; DE0_NANO                                   ;
 ; Top-level Entity Name              ; DE0_NANO                                   ;
@@ -149,7 +149,7 @@ agreement for further details.
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
 ; Number detected on machine ; 4           ;
-; Maximum allowed            ; 4           ;
+; Maximum allowed            ; 2           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
 ; Maximum used               ; 1           ;
@@ -275,11 +275,14 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
-    Info: Processing started: Wed Apr 20 00:07:25 2016
+    Info: Processing started: Wed Apr 20 00:31:42 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DE0_NANO -c DE0_NANO
 Warning (125092): Tcl Script File sdram_control/Sdram_RD_RAM.qip not found
     Info (125063): set_global_assignment -name QIP_FILE sdram_control/Sdram_RD_RAM.qip
-Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (11104): Parallel Compilation has detected 4 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 2 of the 2 physical processors detected instead.
+Info (12021): Found 2 design units, including 2 entities, in source file 19_4_ip/soucoupe_layer.sv
+    Info (12023): Found entity 1: soucoup_layer
+    Info (12023): Found entity 2: soucoupe_qbert
 Info (12021): Found 4 design units, including 4 entities, in source file 19_4_ip/qbert_map_color.sv
     Info (12023): Found entity 1: Qbert_Map_Color
     Info (12023): Found entity 2: in_game_RGB
@@ -375,6 +378,9 @@ Info (12021): Found 1 design units, including 1 entities, in source file nios_mt
     Info (12023): Found entity 1: qbert_layer
 Info (12021): Found 1 design units, including 1 entities, in source file nios_mtl/synthesis/submodules/mtl_controller_avalon.sv
     Info (12023): Found entity 1: mtl_controller_avalon
+Info (12021): Found 2 design units, including 2 entities, in source file nios_mtl/synthesis/submodules/soucoupe_layer.sv
+    Info (12023): Found entity 1: soucoup_layer
+    Info (12023): Found entity 2: soucoupe_qbert
 Info (12021): Found 5 design units, including 5 entities, in source file nios_mtl/synthesis/submodules/nios_mtl_jtag_uart_0.v
     Info (12023): Found entity 1: nios_mtl_jtag_uart_0_sim_scfifo_w
     Info (12023): Found entity 2: nios_mtl_jtag_uart_0_scfifo_w
@@ -953,18 +959,18 @@ Info (12128): Elaborating entity "altera_reset_controller" for hierarchy "nios_m
 Info (12128): Elaborating entity "altera_reset_synchronizer" for hierarchy "nios_mtl:u0|altera_reset_controller:rst_controller|altera_reset_synchronizer:alt_rst_sync_uq1"
 Info (12128): Elaborating entity "altera_reset_synchronizer" for hierarchy "nios_mtl:u0|altera_reset_controller:rst_controller|altera_reset_synchronizer:alt_rst_req_sync_uq1"
 Error (292014): Can't find valid feature line for core i2c_touch (535C_0018) in current license.
-Error (10003): Can't open encrypted VHDL or Verilog HDL file "C:/Users/Stephane/Documents/GitHub/Qbert_project/28_cubes/i2c_touch_config.v" -- current license file does not contain a valid license for encrypted file
-Info (144001): Generated suppressed messages file C:/Users/Stephane/Documents/GitHub/Qbert_project/28_cubes/DE0_NANO.map.smsg
+Error (10003): Can't open encrypted VHDL or Verilog HDL file "C:/UCL/Qbert_project/28_cubes/i2c_touch_config.v" -- current license file does not contain a valid license for encrypted file
+Info (144001): Generated suppressed messages file C:/UCL/Qbert_project/28_cubes/DE0_NANO.map.smsg
 Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 2 errors, 51 warnings
-    Error: Peak virtual memory: 867 megabytes
-    Error: Processing ended: Wed Apr 20 00:08:16 2016
-    Error: Elapsed time: 00:00:51
-    Error: Total CPU time (on all processors): 00:01:34
+    Error: Peak virtual memory: 863 megabytes
+    Error: Processing ended: Wed Apr 20 00:32:10 2016
+    Error: Elapsed time: 00:00:28
+    Error: Total CPU time (on all processors): 00:00:52
 
 
 +------------------------------------------+
 ; Analysis & Synthesis Suppressed Messages ;
 +------------------------------------------+
-The suppressed messages can be found in C:/Users/Stephane/Documents/GitHub/Qbert_project/28_cubes/DE0_NANO.map.smsg.
+The suppressed messages can be found in C:/UCL/Qbert_project/28_cubes/DE0_NANO.map.smsg.
 
 

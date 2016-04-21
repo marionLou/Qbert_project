@@ -1,0 +1,52 @@
+
+module nios_mtl (
+	button_external_connection_export,
+	clk_clk,
+	leds_external_connection_export,
+	nios_mtl_controller_0_mtl_controller_clk,
+	nios_mtl_controller_0_mtl_controller_reset_n,
+	nios_mtl_controller_0_mtl_controller_loading,
+	nios_mtl_controller_0_mtl_controller_newframe,
+	nios_mtl_controller_0_mtl_controller_endframe,
+	nios_mtl_controller_0_mtl_controller_read_data,
+	nios_mtl_controller_0_mtl_controller_read_sdram_en,
+	nios_mtl_controller_0_mtl_controller_hd,
+	nios_mtl_controller_0_mtl_controller_vd,
+	nios_mtl_controller_0_mtl_controller_lcd_r,
+	nios_mtl_controller_0_mtl_controller_lcd_g,
+	nios_mtl_controller_0_mtl_controller_lcd_b,
+	nios_mtl_controller_0_mtl_controller_game_status,
+	nios_mtl_controller_0_mtl_controller_jump,
+	nios_mtl_controller_0_mtl_controller_acc,
+	nios_mtl_controller_0_mtl_controller_button,
+	nios_mtl_controller_0_mtl_controller_ptouch,
+	nios_mtl_controller_0_mtl_controller_ytouch,
+	nios_mtl_controller_0_mtl_controller_xtouch,
+	reset_reset_n,
+	switch_external_connection_export);	
+
+	input		button_external_connection_export;
+	input		clk_clk;
+	output	[7:0]	leds_external_connection_export;
+	input		nios_mtl_controller_0_mtl_controller_clk;
+	input		nios_mtl_controller_0_mtl_controller_reset_n;
+	input		nios_mtl_controller_0_mtl_controller_loading;
+	output		nios_mtl_controller_0_mtl_controller_newframe;
+	output		nios_mtl_controller_0_mtl_controller_endframe;
+	input	[31:0]	nios_mtl_controller_0_mtl_controller_read_data;
+	output		nios_mtl_controller_0_mtl_controller_read_sdram_en;
+	output		nios_mtl_controller_0_mtl_controller_hd;
+	output		nios_mtl_controller_0_mtl_controller_vd;
+	output	[7:0]	nios_mtl_controller_0_mtl_controller_lcd_r;
+	output	[7:0]	nios_mtl_controller_0_mtl_controller_lcd_g;
+	output	[7:0]	nios_mtl_controller_0_mtl_controller_lcd_b;
+	input	[7:0]	nios_mtl_controller_0_mtl_controller_game_status;
+	input	[7:0]	nios_mtl_controller_0_mtl_controller_jump;
+	input	[7:0]	nios_mtl_controller_0_mtl_controller_acc;
+	input		nios_mtl_controller_0_mtl_controller_button;
+	input		nios_mtl_controller_0_mtl_controller_ptouch;
+	input	[8:0]	nios_mtl_controller_0_mtl_controller_ytouch;
+	input	[9:0]	nios_mtl_controller_0_mtl_controller_xtouch;
+	input		reset_reset_n;
+	input	[3:0]	switch_external_connection_export;
+endmodule

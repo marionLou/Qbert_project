@@ -47,12 +47,12 @@ module DE0_LT24_SOPC_mm_interconnect_0_router_001_default_decode
      parameter DEFAULT_CHANNEL = 1,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 15 
+               DEFAULT_DESTID = 14 
    )
   (output [93 - 89 : 0] default_destination_id,
-   output [19-1 : 0] default_wr_channel,
-   output [19-1 : 0] default_rd_channel,
-   output [19-1 : 0] default_src_channel
+   output [18-1 : 0] default_wr_channel,
+   output [18-1 : 0] default_rd_channel,
+   output [18-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
@@ -63,7 +63,7 @@ module DE0_LT24_SOPC_mm_interconnect_0_router_001_default_decode
       assign default_src_channel = '0;
     end
     else begin : default_channel_assignment
-      assign default_src_channel = 19'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 18'b1 << DEFAULT_CHANNEL;
     end
   endgenerate
 
@@ -73,8 +73,8 @@ module DE0_LT24_SOPC_mm_interconnect_0_router_001_default_decode
       assign default_rd_channel = '0;
     end
     else begin : default_rw_channel_assignment
-      assign default_wr_channel = 19'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 19'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 18'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 18'b1 << DEFAULT_RD_CHANNEL;
     end
   endgenerate
 
@@ -103,7 +103,7 @@ module DE0_LT24_SOPC_mm_interconnect_0_router_001
     // -------------------
     output                          src_valid,
     output reg [107-1    : 0] src_data,
-    output reg [19-1 : 0] src_channel,
+    output reg [18-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -119,7 +119,7 @@ module DE0_LT24_SOPC_mm_interconnect_0_router_001
     localparam PKT_PROTECTION_H = 97;
     localparam PKT_PROTECTION_L = 95;
     localparam ST_DATA_W = 107;
-    localparam ST_CHANNEL_W = 19;
+    localparam ST_CHANNEL_W = 18;
     localparam DECODER_TYPE = 0;
 
     localparam PKT_TRANS_WRITE = 65;
@@ -165,7 +165,7 @@ module DE0_LT24_SOPC_mm_interconnect_0_router_001
     assign src_startofpacket = sink_startofpacket;
     assign src_endofpacket   = sink_endofpacket;
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [19-1 : 0] default_src_channel;
+    wire [18-1 : 0] default_src_channel;
 
 
 
@@ -191,13 +191,13 @@ module DE0_LT24_SOPC_mm_interconnect_0_router_001
 
     // ( 0x2000000 .. 0x4000000 )
     if ( {address[RG:PAD0],{PAD0{1'b0}}} == 27'h2000000   ) begin
-            src_channel = 19'b10;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 15;
+            src_channel = 18'b10;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 14;
     end
 
     // ( 0x4006800 .. 0x4007000 )
     if ( {address[RG:PAD1],{PAD1{1'b0}}} == 27'h4006800   ) begin
-            src_channel = 19'b01;
+            src_channel = 18'b01;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 1;
     end
 

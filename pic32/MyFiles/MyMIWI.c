@@ -75,7 +75,7 @@ void MyMIWI_Init(void) {
         acks[i] = 0;
     }
     
-    old_stuff = 0;
+    old_jump = 0; old_acc = 0; old_gs = 0;
     
 	// We wait "Delay_Message" before sending the same message again
 	// if we did not get any ack
@@ -374,9 +374,21 @@ void MyMIWI_Task(void) {
                     char *NoInt;
                     int info = strtol(starter, &NoInt, 10);
                     if (NoInt == NULL){
-						if (old_stuff) info = info-64;
-						MyCyclone_Write(1, info);
-						old_stuff = !old_stuff;
+                        if (info<32){//Directions command
+							if (old_jump) info = info-16;
+							MyCyclone_Write(1, info);
+							old_jump = !old_jump;
+						} 
+                        else if (info<64){ // accelerometre
+							if (old_acc) info = info-32;
+							MyCyclone_Write(2, info);
+							old_acc = !old_acc;
+						} 
+                        else { // Game Status
+							if (old_gs) info = info-64;
+							MyCyclone_Write(3, info);
+							old_gs = !old_gs;
+						}
                     }
                     // We set OldID to id, so we know the instruction of
                     // the message with this ID has already been executed

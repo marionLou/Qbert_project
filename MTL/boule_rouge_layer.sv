@@ -219,8 +219,6 @@ case(game_state)
 				end
 	RESTART : begin
 						boule_rouge_state <= INIT;
-						start_x <= 11'd0;
-						shade_x <= 11'd0;
 						game_state <= RESUME;
 				 end
 	endcase
@@ -232,7 +230,7 @@ logic [10:0] rayon_boule;
 always_ff @(posedge clk) begin	
 	
 	rayon_boule <= (XDIAG_DEMI>>1) ;
-	is_boule_rouge <= {(x_cnt-XC)(x_cnt-XC)+(y_cnt-YC)(y_cnt-YC)<= rayon_boule*rayon_boule };
+	is_boule_rouge <= {(x_cnt-XC)*(x_cnt-XC)+(y_cnt-YC)*(y_cnt-YC)<= rayon_boule*rayon_boule };
 	boule_rouge_hitbox <= {(x_cnt <= XC + rayon_boule && x_cnt >= XC - rayon_boule + shade_x)
 							&& (y_cnt <= YC + rayon_boule && y_cnt >= YC - rayon_boule)};
 

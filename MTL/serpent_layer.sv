@@ -77,11 +77,13 @@ reg done_move_reg;
 
 logic [3:0] is_serpent;
 logic shape_boule;
+logic serpent_end;
 
 
 logic [31:0] count = 32'b0;
 logic [4:0] mvt_cnt = 5'b0; // compte le nbre de déplacement
-logic mvt_reg;
+logic mvt_reg_1;
+logic [2:0] mvt_reg_2;
 logic [31:0] df_speed = 32'd100000; 
 logic [31:0] speed;
 logic [10:0] shade_x = 11'd0;
@@ -119,18 +121,20 @@ case(game_state)
 												shade_x <= 1'b0;
 												shape_boule <= 1'b1;
 												shape_serpent <= 1'b0;
+												mvt_cnt <= 1'b0;
+												serpent_end <= 1'b0;
 												serpent_state <= START;
 											end 
 										end
 								START : begin
-											{XC,x0} <= {XC,x0} + {start_x,start_x};
+											//{XC,x0} <= {XC,x0} + {start_x,start_x};
+											{x0,y0} <= {e_XY0_sp[20:10] - (XLENGTH) + start_x, e_XY0_sp[9:0]};
+											{XC,YC} <= {e_XY0_sp[20:10] - (XLENGTH) + start_x, e_XY0_sp[9:0] + YDIAG_DEMI};
 											if( count[16] == 1'b1 ) begin
 												count <= 1'b0;
 												if (start_x < XLENGTH)
 													start_x <= start_x + 11'd1;
 												else begin
-													mvt_cnt <= 4'd1;
-													mvt_reg_1 <= e_move_sp[0];
 													done_move_reg <= 1'b1;
 													start_x <= 11'd0;
 													serpent_state <= IDLE;
@@ -142,45 +146,59 @@ case(game_state)
 											{x0,y0} <= {XC,YC-YDIAG_DEMI};
 											if(!freeze_power) begin
 												done_move_reg <= 1'b0;
-												if(count[19]==1'b1) begin 
+												if(count[20]==1'b1) begin 
 													count <= 1'b0;
-													if(shape_boule) begin 
-													
+													if(shape_boule) begin 										
 														serpent_state <= MOVE_1;
-														if (mvt_cnt = 5'd2) mvt_reg_1 <= e_move_sp[1];
-														else (mvt_cnt = 5'd3) mvt_reg_1 <= e_move_sp[2];
-														else (mvt_cnt = 5'd4) mvt_reg_1 <= e_move_sp[3];
-														else (mvt_cnt = 5'd5) mvt_reg_1 <= e_move_sp[4];
+														case(mvt_cnt)
+														5'd0 : mvt_reg_1 <= e_move_sp[0];
+														5'd1 : mvt_reg_1 <= e_move_sp[1];
+														5'd2 : mvt_reg_1 <= e_move_sp[2];
+														5'd3 : mvt_reg_1 <= e_move_sp[3];
+														5'd4 : mvt_reg_1 <= e_move_sp[4];
+														endcase
+													end
 													else begin
 														serpent_state <= MOVE_2;
-														
-														if (XC > qbert_xy[20:10] && YC > qbert_xy[9:0]) begin
+														if(position_sp == 28'b0) begin 
+															serpent_state <= END;
+															if(qb_on_sc) sp_points <= 10'd500;
+														end
+														else if (XC < qbert_xy[20:10] && YC > qbert_xy[9:0]) begin
 															
 															mvt_reg_2 <= 3'd1;
 														end
-														else if (XC > qbert_xy[20:10] && YC < qbert_xy[9:0]) begin
+														else if (XC < qbert_xy[20:10] && YC < qbert_xy[9:0]) begin
 															
 															mvt_reg_2 <= 3'd2;
 														end
-														else if (XC < qbert_xy[20:10] && YC > qbert_xy[9:0]) begin 
+														else if (XC > qbert_xy[20:10] && YC > qbert_xy[9:0]) begin 
 															
 															mvt_reg_2 <= 3'd3;
 														end
-														else if (XC < qbert_xy[20:10] && YC < qbert_xy[9:0]) begin 
+														else if (XC > qbert_xy[20:10] && YC < qbert_xy[9:0]) begin 
 															
 															mvt_reg_2 <= 3'd4;
 														end
-														else if ((XC < qbert_xy[20:10] | XC > qbert_xy[20:10]) && 
-																(YC < qbert_xy[9:0] - 10'd10 & YC > qbert_xy[9:0] + 10'd10)) begin
+														else if ((XC < qbert_xy[20:10]) && 
+																(YC > qbert_xy[9:0] - 10'd2 & YC < qbert_xy[9:0] + 10'd2)) begin
 																
-																if (chance_cnt[0]) mvt_reg_2 <= 3'd4;
-																else mvt_reg_2 <= 3'd3;
+																mvt_reg_2 <= 3'd2;
 														end
-														else if (XC < qbert_xy[20:10] - 11'd10 & XC > qbert_xy[20:10] + 10'd10)
-																(YC < qbert_xy[9:0] | YC > qbert_xy[9:0])) begin
+														else if ((XC > qbert_xy[20:10]) && 
+																(YC > qbert_xy[9:0] - 10'd2 & YC < qbert_xy[9:0] + 10'd2)) begin
 																
-																if (chance_cnt[0]) mvt_reg_2 <= 3'd2;
-																else mvt_reg_2 <= 3'd1;
+																mvt_reg_2 <= 3'd4;
+														end
+														else if ((XC > qbert_xy[20:10] - 11'd2 & XC < qbert_xy[20:10] + 10'd2)
+																&& (YC < qbert_xy[9:0])) begin
+																
+																mvt_reg_2 <= 3'd4;
+														end
+														else if ((XC > qbert_xy[20:10] - 11'd2 & XC < qbert_xy[20:10] + 10'd2)
+																&& (YC > qbert_xy[9:0])) begin
+																
+																mvt_reg_2 <= 3'd3;
 														end
 													end
 													
@@ -198,7 +216,7 @@ case(game_state)
 															{XC,YC} <= {XC + 11'd1, YC};
 														else begin
 															done_move_reg <= 1'b1;
-															if (mvt_cnt == 5'd5) begin
+															if (mvt_cnt == 5'd4) begin
 																mvt_cnt <= 1'b0;
 																shape_serpent <= 1'b1;
 																serpent_state <= CHANGE;
@@ -216,13 +234,13 @@ case(game_state)
 															{XC,YC} <= {XC + 11'd1, YC}; 
 														else begin
 															done_move_reg <= 1'b1;
-															if (mvt_cnt == 5'd5) begin
+															if (mvt_cnt == 5'd4) begin
 																mvt_cnt <= 1'b0;
 																shape_serpent <= 1'b1;
 																serpent_state <= CHANGE;
 															end
 															else begin 
-																mvt_cnt <= mvt_cnt + 1;
+																mvt_cnt <= mvt_cnt + 1'b1;
 																serpent_state <= IDLE;
 															end
 														end
@@ -240,16 +258,8 @@ case(game_state)
 															{XC,YC} <= {XC + 11'd1, YC};
 														else begin
 															done_move_reg <= 1'b1;
-															if (position_sp == 1'd0) begin
-																mvt_cnt <= 1'b0;
-																sp_end <= 1'b1;
-																serpent_state <= END;
-																if(qb_on_sc) sp_points <= 10'd500;
-															end
-															else begin 
-																mvt_cnt <= mvt_cnt + 1;
-																serpent_state <= IDLE;
-															end																
+															mvt_cnt <= mvt_cnt + 1'b1;
+															serpent_state <= IDLE;														
 														end
 													end
 													else if (mvt_reg_2 == 3'd2) begin
@@ -259,61 +269,39 @@ case(game_state)
 															{XC,YC} <= {XC + 11'd1, YC}; 
 														else begin
 															done_move_reg <= 1'b1;
-															if (position_sp == 1'd0) begin
-																mvt_cnt <= 1'b0;
-																sp_end <= 1'b1;
-																serpent_state <= END;
-																if(qb_on_sc) sp_points <= 10'd500;
-															end
-															else begin 
-																mvt_cnt <= mvt_cnt + 1;
-																serpent_state <= IDLE;
-															end
+															mvt_cnt <= mvt_cnt + 1'b1;
+															serpent_state <= IDLE;														
 														end
 													end
 													else if (mvt_reg_2 == 3'd3) begin
-														if (YC > y0 + YDIAG_DEMI + YDIAG_DEMI) 
-															{XC,YC} <= {XC , YC - 10'd1}; 
-														else if (XC > x0 + XDIAG_DEMI + XLENGTH) 
-															{XC,YC} <= {XC - 11'd1, YC}; 
+														if (XC > x0 - XDIAG_DEMI - XLENGTH) 
+															{XC,YC} <= {XC - 11'd1, YC }; 
+														else if (YC > y0) 
+															{XC,YC} <= {XC , YC - 10'd1} ; 
 														else begin
 															done_move_reg <= 1'b1;
-															if (position_sp == 1'd0) begin
-																mvt_cnt <= 1'b0;
-																sp_end <= 1'b1;
-																serpent_state <= END;
-																if(qb_on_sc) sp_points <= 10'd500;
-															end
-															else begin 
-																mvt_cnt <= mvt_cnt + 1;
-																serpent_state <= IDLE;
-															end
+															mvt_cnt <= mvt_cnt + 1'b1;
+															serpent_state <= IDLE;														
 														end
 													end
 													else if (mvt_reg_2 == 3'd4) begin
-														if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
-															{XC,YC} <= {XC , YC + 10'd1}; 
-														else if (XC > x0 + XDIAG_DEMI + XLENGTH) 
-															{XC,YC} <= {XC - 11'd1, YC}; 
+														if (XC > x0 - XDIAG_DEMI - XLENGTH) 
+															{XC,YC} <= {XC - 11'd1, YC }; 
+														else if (YC < y0 + YDIAG_DEMI + YDIAG_DEMI) 
+															{XC,YC} <= {XC , YC + 10'd1} ; 
 														else begin
 															done_move_reg <= 1'b1;
-															if (position_sp == 1'd0) begin
-																mvt_cnt <= 1'b0;
-																sp_end <= 1'b1;
-																serpent_state <= END;
-																if(qb_on_sc) sp_points <= 10'd500;
-															end
-															else begin 
-																mvt_cnt <= mvt_cnt + 1;
-																serpent_state <= IDLE;
-															end
+															mvt_cnt <= mvt_cnt + 1'b1;
+															serpent_state <= IDLE;														
 														end
 													end
 												end
 												else count <= count + 1'b1;
 											end
 								CHANGE :	begin
-												if(count[18] == 1'b1) begin
+													shape_boule <= 1'b0;
+													serpent_state <= IDLE;
+												/*if(count[18] == 1'b1) begin
 													count <= 1'b0;
 													if(change_x < (XDIAG_DEMI+XLENGTH))
 														change_x <= change_x + 11'd1;
@@ -325,7 +313,7 @@ case(game_state)
 													// à la fin de la transformation
 													end 
 												end
-												else count <= count + 1'b1;
+												else count <= count + 1'b1;*/
 											end
 								END : 	begin
 											if( count[17] == 1'b1 ) begin
@@ -365,7 +353,6 @@ logic tete, tronc, queue_1, queue_2;
 logic boule_mauve;
 logic change_hitbox;
 logic [10:0] change_x;
-logic shape_boule;
 logic shape_serpent;
 // logic hitbox_boule;
 // logic hitbox_shape1, hitbox_shape2;
@@ -452,12 +439,12 @@ end
 	serpent_hitbox <= {(x_cnt <= XC + XDIAG_DEMI && x_cnt >= XC - XLENGTH + shade_x)
 					&&(y_cnt <= YC + XDIAG_DEMI && y_cnt >= YC + XDIAG_DEMI )};
 					
-	is_serpent <= (change_hitbox)? boule : {tete,tronc,queue_1,queue_2}; 
+	is_serpent <= (change_hitbox)? boule_mauve : {tete,tronc,queue_1,queue_2}; 
 
 end
 
 assign sp_mvt_cnt = mvt_cnt;
-assign sp_state = boule_rouge_state;
+assign sp_state = serpent_state;
 assign sp_end = serpent_end;
 assign done_move_sp = done_move_reg;	
 assign le_serpent = is_serpent;

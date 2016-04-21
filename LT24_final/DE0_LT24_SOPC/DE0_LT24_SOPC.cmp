@@ -18,7 +18,6 @@
 			gsensor_spi_out_SDIO                        : inout std_logic                     := 'X';             -- SDIO
 			gsensor_spi_out_SCLK                        : out   std_logic;                                        -- SCLK
 			gsensor_spi_out_CS_n                        : out   std_logic;                                        -- CS_n
-			irq_tocyclo_out_export                      : in    std_logic                     := 'X';             -- export
 			lt24_buffer_flag_external_connection_export : out   std_logic;                                        -- export
 			lt24_conduit_cs                             : out   std_logic;                                        -- cs
 			lt24_conduit_rs                             : out   std_logic;                                        -- rs

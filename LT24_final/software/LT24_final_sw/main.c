@@ -243,8 +243,8 @@ void task3(void* pdata)
     int ButtonId;
     int Status = 64;
     int Pause = 0;
+    int rd_stat, old_stat, up_stat;
     Idle = 1;
-
 	volatile int * button   = (int*) KEY_BASE;
 
 	INT8U  err;
@@ -309,6 +309,16 @@ void task3(void* pdata)
 	  }
 	  while (Pause)
 	  {
+		  rd_stat = IORD_8DIRECT(LT_AVALON_BASE, 4);
+		  up_stat = rd_stat>64;
+		  printf("recu et old: %d, %d", rd_stat, old_stat);
+		  if (old_stat != up_stat) {
+			  if (!up_stat) rd_stat = rd_stat + 64;
+			  old_stat = !old_stat;
+			  Pause = 0;
+			  IOWR_8DIRECT(LT_AVALON_BASE, 0, rd_stat);
+			  OSTimeDlyHMSM(0, 0, 2, 0);
+		  }
 		  OSTimeDlyHMSM(0, 0, 0, 100);
 		  if (Touch_GetXY(pTouch, &X, &Y)){
 			  //printf("x=%d, y=%d\r\n", X,Y);
@@ -321,6 +331,7 @@ void task3(void* pdata)
 		  		printf("Back from break\n");
 			  }
 			  else if (ButtonId == BTN_CMD) {
+				  Pause = 0;
 				  IOWR_8DIRECT(LT_AVALON_BASE, 0, Status+3); // restart
 				  printf("Restart signal\n");
 				  OSTimeDlyHMSM(0, 0, 2, 0);

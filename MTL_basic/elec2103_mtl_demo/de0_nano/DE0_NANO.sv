@@ -481,7 +481,7 @@ nios_mtl Qbert (
 		.nios_mtl_controller_0_mtl_controller_game_status   (IO_Data_GS),   //                                     .game_status
 		.nios_mtl_controller_0_mtl_controller_xtouch(reg_x1),
 		.nios_mtl_controller_0_mtl_controller_ytouch(reg_y1),
-		.nios_mtl_controller_0_mtl_controller_ptouch(pulse_n)
+		.nios_mtl_controller_0_mtl_controller_ptouch(pulse_n) // pulse_n est instantié mais il n'a pas de valeurs
 	);
 
 assign MTL_DCLK = iCLOCK_33;

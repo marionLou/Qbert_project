@@ -57,6 +57,14 @@
          type = "String";
       }
    }
+   element DE0_LT24_SOPC
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone IV E";
+         type = "String";
+      }
+   }
    element Gsensor_SPI
    {
       datum _sortIndex
